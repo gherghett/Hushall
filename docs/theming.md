@@ -113,12 +113,12 @@ const customThemeProperties = {
 };
 
 // Final app themes
-export const appThemeLight: CombinedTheme = deepmerge(
+export const appThemeLight: AppTheme = deepmerge(
   deepmerge(combinedDefaultTheme, customLightColors),
   customThemeProperties
 );
 
-export const appThemeDark: CombinedTheme = deepmerge(
+export const appThemeDark: AppTheme = deepmerge(
   deepmerge(combinedDarkTheme, customDarkColors),
   customThemeProperties
 );
