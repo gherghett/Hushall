@@ -8,19 +8,28 @@ This document explains how our automated code quality system works and how to re
 2. [How It Works](#how-it-works)
 3. [Components](#components)
 4. [Configuration Files](#configuration-files)
-5. [Step-by-Step Setup Guide](#step-by-step-setup-guide)
-6. [Testing the Setup](#testing-the-setup)
-7. [Customization Options](#customization-options)
-8. [Troubleshooting](#troubleshooting)
+5. [GitHub Actions Workflow](#github-actions-workflow)
+6. [Step-by-Step Setup Guide](#step-by-step-setup-guide)
+7. [Testing the Setup](#testing-the-setup)
+8. [Customization Options](#customization-options)
+9. [Troubleshooting](#troubleshooting)
 
 ## 🎯 Overview
 
-Our project uses an automated code quality system that runs every time you commit code. This system:
+Our project uses a **dual-layer** automated code quality system:
+
+### 🛡️ **Local Protection** (Pre-commit hooks)
 
 - **Formats** your code automatically with Prettier
 - **Fixes** common ESLint issues automatically
 - **Prevents** commits with unfixable linting errors
-- **Only processes** staged files (not the entire codebase)
+- **Only processes** staged files (fast & efficient)
+
+### 🌐 **CI/CD Protection** (GitHub Actions)
+
+- **Checks ALL files** on push/PR to main branches
+- **Catches issues** from contributors without hooks setup
+- **Provides clear feedback** on what needs fixing
 
 ## 🔄 How It Works
 
@@ -131,6 +140,10 @@ Files and directories Prettier should ignore.
 
 Defines what commands run for which file types.
 
+## 🚀 GitHub Actions Workflow
+
+In addition to local pre-commit hooks, we have a GitHub Actions workflow that runs on every push and pull request to main branches. This provides an additional safety net.
+
 ## 🚀 Step-by-Step Setup Guide
 
 ### 1. Install Dependencies
@@ -212,6 +225,43 @@ build/
 *.log
 *.lock
 .git/
+```
+
+### 8. Setup GitHub Actions (Optional but Recommended)
+
+Create `.github/workflows/code-quality.yml`:
+
+```yaml
+name: Code Quality Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Prettier formatting
+        run: npm run format:check
+
+      - name: Run ESLint
+        run: npm run lint
 ```
 
 ## 🧪 Testing the Setup

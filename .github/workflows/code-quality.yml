@@ -1,0 +1,43 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Check Prettier formatting
+      run: |
+        echo "🎨 Checking code formatting with Prettier..."
+        npm run format:check
+        
+    - name: Run ESLint
+      run: |
+        echo "🔍 Running ESLint checks..."
+        npm run lint
+        
+    - name: Report results
+      if: failure()
+      run: |
+        echo "❌ Code quality checks failed!"
+        echo "Please run the following commands locally to fix issues:"
+        echo "  npm run format  # Fix formatting"
+        echo "  npm run lint:fix  # Fix linting issues"
+        echo "Or let the pre-commit hooks handle it automatically."
