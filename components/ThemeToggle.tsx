@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { View } from "react-native";
 import { SegmentedButtons, Text, useTheme } from "react-native-paper";
-import { isDarkAtom, ThemeMode, themeModeAtom } from '../atoms/theme-atoms';
+import { isDarkAtom, themeModeAtom } from '../atoms/theme-atoms';
 import { AppTheme } from "../lib/theme";
 
 export function ThemeToggle() {
@@ -40,8 +40,8 @@ export function ThemeToggle() {
         Theme: {themeMode === "auto" ? `Auto (${isDark ? "Dark" : "Light"})` : themeMode as string}
       </Text>
       <SegmentedButtons
-        value={themeMode as ThemeMode}
-        onValueChange={(value) => setThemeMode(value as ThemeMode)}
+        value={themeMode}
+        onValueChange={(value) => setThemeMode(value)}
         buttons={buttons}
       />
     </View>

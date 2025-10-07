@@ -1,11 +1,27 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createJSONStorage } from 'jotai/utils';
+import { atom } from 'jotai';
 
-/**
- * Shared AsyncStorage adapter for Jotai atoms
- * Use this for any atom that needs persistence across app restarts
- */
-export const asyncStorage = createJSONStorage(() => AsyncStorage);
+export const atomWithAsyncStorage = <T>(key: string, initialValue: T) => {
+  const baseAtom = atom<T>(initialValue)
+  baseAtom.onMount = (setValue) => {
+    ;(async () => {
+      const item = await AsyncStorage.getItem(key)
+      if (item !== null) {
+        setValue(JSON.parse(item))
+      }
+    })()
+  }
+  const derivedAtom = atom(
+    (get) => get(baseAtom),
+    (get, set, update: T | ((prev: T) => T)) => {
+      const nextValue =
+        typeof update === 'function' ? (update as (prev: T) => T)(get(baseAtom)) : update
+      set(baseAtom, nextValue)
+      AsyncStorage.setItem(key, JSON.stringify(nextValue))
+    },
+  )
+  return derivedAtom
+}
 
 /**
  * Storage keys - centralized to avoid conflicts

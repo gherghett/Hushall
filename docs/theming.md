@@ -19,11 +19,6 @@ npm install @react-native-async-storage/async-storage
 npm install --save-dev @types/deepmerge
 ```
 
-For Expo projects, also install:
-```bash
-npx expo install react-native-safe-area-context react-native-screens
-```
-
 ### 2. Create Type Definitions
 
 Create `lib/theme.ts`:
@@ -135,42 +130,51 @@ Create `atoms/storage.ts`:
 
 ```typescript
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createJSONStorage } from 'jotai/utils';
 
-/**
- * Shared AsyncStorage adapter for Jotai atoms
- * Use this for any atom that needs persistence across app restarts
- */
-export const asyncStorage = createJSONStorage(() => AsyncStorage);
-
-/**
- * Storage keys - centralized to avoid conflicts
- */
 export const STORAGE_KEYS = {
   THEME_MODE: 'themeMode',
-  // Add more keys as needed:
-  // USER_PREFERENCES: 'userPreferences',
-  // APP_SETTINGS: 'appSettings',
 } as const;
+
+// Custom async storage atom factory with full TypeScript support
+export const atomWithAsyncStorage = <T>(key: string, initialValue: T) => {
+  const baseAtom = atom<T>(initialValue)
+  baseAtom.onMount = (setValue) => {
+    ;(async () => {
+      const item = await AsyncStorage.getItem(key)
+      if (item !== null) {
+        setValue(JSON.parse(item))
+      }
+    })()
+  }
+  const derivedAtom = atom(
+    (get) => get(baseAtom),
+    (get, set, update: T | ((prev: T) => T)) => {
+      const nextValue =
+        typeof update === 'function' ? (update as (prev: T) => T)(get(baseAtom)) : update
+      set(baseAtom, nextValue)
+      AsyncStorage.setItem(key, JSON.stringify(nextValue))
+    },
+  )
+  return derivedAtom
+}
 ```
 
 Create `atoms/theme-atoms.ts`:
 
 ```typescript
 import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
-import { STORAGE_KEYS } from './storage';
 import { appThemeDark, appThemeLight } from '../lib/theme';
+import { atomWithAsyncStorage, STORAGE_KEYS } from './storage';
 
 export type ThemeMode = "auto" | "light" | "dark";
 
 // Base atom for theme mode - persisted to AsyncStorage
-export const themeModeAtom = atomWithStorage<ThemeMode>(
+export const themeModeAtom = atomWithAsyncStorage<ThemeMode>(
   STORAGE_KEYS.THEME_MODE, 
   "auto"
 );
 
-// Atom for system color scheme (will be updated by components)
+// Atom for system color scheme (updated by ThemeProvider)
 export const systemSchemeAtom = atom<"light" | "dark" | null | undefined>("light");
 
 // Derived atom that calculates if dark mode should be active
