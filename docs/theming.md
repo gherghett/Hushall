@@ -331,7 +331,7 @@ export function ThemeToggle() {
 
 ### Adding Custom Colors
 
-In your `lib/theme.tsx`, extend the colors:
+In your `lib/theme.ts`, extend the colors:
 
 ```typescript
 const customLightColors = {
