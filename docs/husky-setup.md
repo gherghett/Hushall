@@ -227,43 +227,6 @@ build/
 .git/
 ```
 
-### 8. Setup GitHub Actions (Optional but Recommended)
-
-Create `.github/workflows/code-quality.yml`:
-
-```yaml
-name: Code Quality Check
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
-
-jobs:
-  code-quality:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Check Prettier formatting
-        run: npm run format:check
-
-      - name: Run ESLint
-        run: npm run lint
-```
-
 ## 🧪 Testing the Setup
 
 ### Test 1: Check Prettier
