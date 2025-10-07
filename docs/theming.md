@@ -360,7 +360,7 @@ export type AppTheme = MD3Theme & {
   };
   styles: {
     container: ViewStyle;
-    title: ViewStyle;
+    title: TextStyle;
   };
 };
 ```
