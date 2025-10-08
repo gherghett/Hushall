@@ -1,0 +1,12 @@
+node_modules/
+.expo/
+dist/
+build/
+.next/
+coverage/
+*.log
+*.lock
+package-lock.json
+yarn.lock
+.git/
+.vscode/
