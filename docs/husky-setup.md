@@ -131,6 +131,10 @@ Files and directories Prettier should ignore.
 
 Defines what commands run for which file types.
 
+## 🚀 GitHub Actions Workflow
+
+In addition to local pre-commit hooks, we have a GitHub Actions workflow that runs on every push and pull request to main branches. This provides an additional safety net.
+
 ## 🚀 Step-by-Step Setup Guide
 
 ### 1. Install Dependencies
