@@ -4,7 +4,7 @@ import {
   Theme as NavigationTheme,
 } from "@react-navigation/native";
 import deepmerge from "deepmerge";
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from "react-native";
 import {
   adaptNavigationTheme,
   MD3DarkTheme,

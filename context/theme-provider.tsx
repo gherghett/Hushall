@@ -1,9 +1,9 @@
 import { ThemeProvider as NavigationThemeProvider } from "@react-navigation/native";
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from "jotai";
 import { ReactNode, useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { PaperProvider } from "react-native-paper";
-import { currentThemeAtom, systemSchemeAtom } from '../atoms/theme-atoms';
+import { currentThemeAtom, systemSchemeAtom } from "../atoms/theme-atoms";
 
 interface ThemeProviderProps {
   children: ReactNode;
