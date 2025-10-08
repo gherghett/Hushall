@@ -7,5 +7,3 @@
 - data
 - api
 - hooks
-- lib
-    - allmänt, framework agnostisk kod, helpers
