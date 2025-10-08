@@ -2,6 +2,7 @@
 
 - app
 - assets
+- atoms
 - components
 - data
 - api
