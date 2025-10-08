@@ -5,6 +5,7 @@ This guide shows you how to create a unified theming solution for React Native p
 ## 📋 Prerequisites
 
 This solution works with:
+
 - React Native projects (Expo or bare React Native)
 - React Navigation for routing
 - React Native Paper for UI components
@@ -30,7 +31,7 @@ import {
   Theme as NavigationTheme,
 } from "@react-navigation/native";
 import deepmerge from "deepmerge";
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from "react-native";
 import {
   adaptNavigationTheme,
   MD3DarkTheme,
@@ -56,7 +57,6 @@ export type AppTheme = NavigationTheme & MD3Theme & CustomThemeProperties;
 Continue in `lib/theme.ts`:
 
 ```typescript
-
 // Adapt navigation themes to work with Paper
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -129,66 +129,68 @@ export const appThemeDark: AppTheme = deepmerge(
 Create `atoms/storage.ts`:
 
 ```typescript
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const STORAGE_KEYS = {
-  THEME_MODE: 'themeMode',
+  THEME_MODE: "themeMode",
 } as const;
 
 // Custom async storage atom factory with full TypeScript support
 export const atomWithAsyncStorage = <T>(key: string, initialValue: T) => {
-  const baseAtom = atom<T>(initialValue)
-  baseAtom.onMount = (setValue) => {
-    ;(async () => {
-      const item = await AsyncStorage.getItem(key)
+  const baseAtom = atom<T>(initialValue);
+  baseAtom.onMount = setValue => {
+    (async () => {
+      const item = await AsyncStorage.getItem(key);
       if (item !== null) {
-        setValue(JSON.parse(item))
+        setValue(JSON.parse(item));
       }
-    })()
-  }
+    })();
+  };
   const derivedAtom = atom(
-    (get) => get(baseAtom),
+    get => get(baseAtom),
     (get, set, update: T | ((prev: T) => T)) => {
       const nextValue =
-        typeof update === 'function' ? (update as (prev: T) => T)(get(baseAtom)) : update
-      set(baseAtom, nextValue)
-      AsyncStorage.setItem(key, JSON.stringify(nextValue))
-    },
-  )
-  return derivedAtom
-}
+        typeof update === "function"
+          ? (update as (prev: T) => T)(get(baseAtom))
+          : update;
+      set(baseAtom, nextValue);
+      AsyncStorage.setItem(key, JSON.stringify(nextValue));
+    }
+  );
+  return derivedAtom;
+};
 ```
 
 Create `atoms/theme-atoms.ts`:
 
 ```typescript
-import { atom } from 'jotai';
-import { appThemeDark, appThemeLight } from '../lib/theme';
-import { atomWithAsyncStorage, STORAGE_KEYS } from './storage';
+import { atom } from "jotai";
+import { appThemeDark, appThemeLight } from "../lib/theme";
+import { atomWithAsyncStorage, STORAGE_KEYS } from "./storage";
 
 export type ThemeMode = "auto" | "light" | "dark";
 
 // Base atom for theme mode - persisted to AsyncStorage
 export const themeModeAtom = atomWithAsyncStorage<ThemeMode>(
-  STORAGE_KEYS.THEME_MODE, 
+  STORAGE_KEYS.THEME_MODE,
   "auto"
 );
 
 // Atom for system color scheme (updated by ThemeProvider)
-export const systemSchemeAtom = atom<"light" | "dark" | null | undefined>("light");
+export const systemSchemeAtom = atom<"light" | "dark" | null | undefined>(
+  "light"
+);
 
 // Derived atom that calculates if dark mode should be active
-export const isDarkAtom = atom((get) => {
+export const isDarkAtom = atom(get => {
   const themeMode = get(themeModeAtom);
   const systemScheme = get(systemSchemeAtom);
-  
-  return themeMode === "auto" 
-    ? systemScheme === "dark" 
-    : themeMode === "dark";
+
+  return themeMode === "auto" ? systemScheme === "dark" : themeMode === "dark";
 });
 
 // Derived atom that returns the current theme object
-export const currentThemeAtom = atom((get) => {
+export const currentThemeAtom = atom(get => {
   const isDark = get(isDarkAtom);
   return isDark ? appThemeDark : appThemeLight;
 });
@@ -300,17 +302,17 @@ export function ThemeToggle() {
     },
     {
       value: "dark" as const,
-      label: "Dark", 
+      label: "Dark",
       icon: "weather-night",
     },
   ];
-  
+
   return (
     <View style={{ padding: 16 }}>
-      <Text 
-        variant="bodyMedium" 
-        style={{ 
-          color: theme.colors.onBackground, 
+      <Text
+        variant="bodyMedium"
+        style={{
+          color: theme.colors.onBackground,
           marginBottom: 12,
           textAlign: 'center'
         }}
@@ -340,7 +342,7 @@ const customLightColors = {
     primary: "rgb(120, 69, 172)",
     secondary: "rgb(102, 90, 111)",
     // ... other MD3 colors
-    
+
     // Your custom colors
     success: "rgb(76, 175, 80)",
     warning: "rgb(255, 152, 0)",
@@ -353,7 +355,7 @@ Don't forget to update your type definitions in `lib/theme.ts`:
 
 ```typescript
 export type AppTheme = MD3Theme & {
-  colors: MD3Theme['colors'] & {
+  colors: MD3Theme["colors"] & {
     success: string;
     warning: string;
     info: string;
