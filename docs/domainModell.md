@@ -16,4 +16,4 @@ ChoreInstance
 -Chore
 -member[]
 -time
--done
+-doneBy
