@@ -18,3 +18,12 @@ Initierings/Planerings möte:
 # Onsdag 8 October
 
 - upskjutet beslut om Firebase.
+
+# Torsdag 9 October
+
+- bestämt och satt upp Firebase som backend.
+
+# Fredag 10 October
+
+- figma login screen.
+- börjat med lite kod.

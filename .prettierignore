@@ -10,3 +10,4 @@ package-lock.json
 yarn.lock
 .git/
 .vscode/
+domainModell.md
