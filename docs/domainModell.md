@@ -1,19 +1,41 @@
-Household
--id
--name
--code
+Collections
+Households[]
+    - householdId
+    - name
+    - code
+    - members[]
+        - userId
+        - memberId
+        - name
+        - characterId
 
-Member
--role
+    - chores[]
+        - name 
+        - desc
+        - interval ?
+        - weight
+        - completions[]
+            - completedBy (MEMBERid)
+            - completedAt
 
-Chore
--name
--desc
--interval
--weight
+Collection
+Users []
+    - userId
+    - householdsId[]
 
-ChoreInstance
--Chore
--member[]
--time
--doneBy
+households/
+  {hid}/
+    chores/
+      {cid}/
+        comps/              // completions
+          {compId} {
+            memId, userId, createdAt
+          }
+        name, desc, interval, wait
+    members/
+      {uid}/
+        m-id, profile, role?
+    name, desc, comps: [...]
+users/
+  {uid}/
+    households: ["hid1","hid2",...]
