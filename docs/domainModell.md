@@ -1,8 +1,8 @@
 Collections
 Households[]
-    - Id
-    - name
-    - code
+    - Id: string;
+    - name: string;
+    - code: string;
     - applications [member*]
     - members[]
         - Id
