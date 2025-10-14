@@ -27,3 +27,9 @@ Initierings/Planerings möte:
 
 - figma login screen.
 - börjat med lite kod.
+
+# Måndag 13 October
+
+- avstämning.
+- mera figma.
+- beslut om databas och struktur.
