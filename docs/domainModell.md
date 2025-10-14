@@ -23,6 +23,9 @@ Collection
 completions[]
 
 Collection
+completions[]
+
+Collection
 Users []
   - Id
   - householdsId[]
