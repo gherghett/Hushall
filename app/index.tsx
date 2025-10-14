@@ -1,12 +1,3 @@
-import { View } from "react-native";
-import { Button, Card, Text, useTheme } from "react-native-paper";
-import { ThemeToggle } from "../components/ThemeToggle";
-// import { readAllDocs } from "../firebaseConfig";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -14,17 +5,24 @@ import {
   getDoc,
   onSnapshot,
 } from "firebase/firestore";
-import { auth, db } from "../lib/firebase";
+import { ScrollView } from "react-native";
+import { Button, Card, Text, useTheme } from "react-native-paper";
+import { ThemeToggle } from "../components/ThemeToggle";
+import { UserProfile } from "../components/UserProfile";
+import { useAuth } from "../hooks/useAuth";
+import { db } from "../lib/firebase";
 import { AppTheme } from "../lib/theme";
 
 export default function Index() {
   const theme = useTheme() as AppTheme;
+  const { user, signOut } = useAuth();
 
   async function testFirestore() {
     // 1) Write
     const ref = await addDoc(collection(db, "test"), {
       createdAt: Date.now(),
       hello: "world",
+      userId: user?.uid,
     });
     console.log("Wrote doc id:", ref.id);
 
@@ -44,46 +42,14 @@ export default function Index() {
     }, 2000);
   }
 
-  async function testAuth() {
-    try {
-      // 1) Sign in with test credentials
-      console.log("Attempting to sign in...");
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        "test@test.test",
-        "test12345678"
-      );
-      console.log("Signed in successfully! User:", userCredential.user.email);
-      console.log("User UID:", userCredential.user.uid);
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
-      // 2) Listen for auth state changes
-      const unsubscribe = onAuthStateChanged(auth, user => {
-        if (user) {
-          console.log("Auth state changed - User is signed in:", user.email);
-        } else {
-          console.log("Auth state changed - User is signed out");
-        }
-      });
-
-      // 3) Sign out after 3 seconds
-      setTimeout(async () => {
-        console.log("Signing out...");
-        await signOut(auth);
-        console.log("Signed out successfully!");
-        unsubscribe(); // Clean up the listener
-      }, 3000);
-    } catch (error) {
-      console.error("Auth test failed:", error);
-    }
-  }
-
-  // Tema test content
   return (
-    <View
-      style={[
-        theme.styles.container,
-        { backgroundColor: theme.colors.background },
-      ]}
+    <ScrollView
+      style={{ backgroundColor: theme.colors.background }}
+      contentContainerStyle={[theme.styles.container, { paddingBottom: 40 }]}
     >
       <Text
         variant="headlineMedium"
@@ -95,7 +61,13 @@ export default function Index() {
       <Card style={{ marginBottom: 16 }}>
         <Card.Content>
           <Text variant="bodyMedium" style={{ color: theme.colors.onSurface }}>
-            Temat funkar finnemang
+            Welcome, {user?.displayName || user?.email}!
+          </Text>
+          <Text
+            variant="bodySmall"
+            style={{ color: theme.colors.onSurface, opacity: 0.7 }}
+          >
+            You are successfully authenticated.
           </Text>
         </Card.Content>
       </Card>
@@ -110,11 +82,13 @@ export default function Index() {
 
       <Button
         mode="outlined"
-        onPress={() => testAuth()}
+        onPress={handleSignOut}
         style={{ marginBottom: 32 }}
       >
-        Test Auth
+        Sign Out
       </Button>
+
+      <UserProfile />
 
       <ThemeToggle />
 
@@ -129,6 +103,6 @@ export default function Index() {
       >
         Använd knapparna för att byta tema
       </Text>
-    </View>
+    </ScrollView>
   );
 }
