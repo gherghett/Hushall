@@ -1,11 +1,12 @@
 Collections
 Households[]
-    - householdId
-    - name
-    - code
+    - Id: string;
+    - name: string;
+    - code: string;
+    - applications [member*]
     - members[]
-        - userId
-        - memberId
+        - Id
+        - userId ?
         - name
         - characterId
 
@@ -19,8 +20,11 @@ Households[]
             - completedAt
 
 Collection
+completions[]
+
+Collection
 Users []
-    - userId
+    - Id
     - householdsId[]
 
 households/
