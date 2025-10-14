@@ -1,27 +1,26 @@
 Collections
 Households[]
-    - householdId
+  - Id
+  - name
+  - code
+  - members[]
+    - userId
+    - memberId
     - name
-    - code
-    - members[]
-        - userId
-        - memberId
-        - name
-        - characterId
-
-    - chores[]
-        - name 
-        - desc
-        - interval ?
-        - weight
-        - completions[]
-            - completedBy (MEMBERid)
-            - completedAt
+    - characterId
+  - chores[]
+      - name 
+      - desc
+      - interval ?
+      - weight
+      - completions[]
+        - completedBy (MEMBERid)
+        - completedAt
 
 Collection
 Users []
-    - userId
-    - householdsId[]
+  - userId
+  - householdsId[]
 
 households/
   {hid}/
