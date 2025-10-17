@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import {
   addDoc,
   collection,
@@ -71,6 +72,12 @@ export default function Index() {
           </Text>
         </Card.Content>
       </Card>
+
+      <Button 
+      onPress={() =>router.navigate("/household")}
+      >
+        home Test
+      </Button>
 
       <Button
         mode="contained"

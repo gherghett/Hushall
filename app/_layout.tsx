@@ -13,7 +13,10 @@ function StackLayout() {
   }
 
   return (
-    <Stack>
+    <Stack
+     screenOptions={{
+        headerBackVisible: false
+    }}>
       {/* Auth screen - only available when NOT authenticated */}
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen
