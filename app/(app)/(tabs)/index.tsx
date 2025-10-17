@@ -7,11 +7,11 @@ import {
 } from "firebase/firestore";
 import { ScrollView } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
-import { ThemeToggle } from "../components/ThemeToggle";
-import { UserProfile } from "../components/UserProfile";
-import { useAuth } from "../hooks/useAuth";
-import { db } from "../lib/firebase";
-import { AppTheme } from "../lib/theme";
+import { ThemeToggle } from "../../../components/ThemeToggle";
+import { UserProfile } from "../../../components/UserProfile";
+import { useAuth } from "../../../hooks/useAuth";
+import { db } from "../../../lib/firebase";
+import { AppTheme } from "../../../lib/theme";
 
 export default function Index() {
   const theme = useTheme() as AppTheme;
@@ -49,15 +49,8 @@ export default function Index() {
   return (
     <ScrollView
       style={{ backgroundColor: theme.colors.background }}
-      contentContainerStyle={[theme.styles.container, { paddingBottom: 40 }]}
+      contentContainerStyle={[{ padding: 16 }, { paddingBottom: 40 }]}
     >
-      <Text
-        variant="headlineMedium"
-        style={[theme.styles.title, { color: theme.colors.onBackground }]}
-      >
-        Hushåll
-      </Text>
-
       <Card style={{ marginBottom: 16 }}>
         <Card.Content>
           <Text variant="bodyMedium" style={{ color: theme.colors.onSurface }}>
