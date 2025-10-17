@@ -30,13 +30,7 @@ function StackLayout() {
 
       {/* Protected screens - only available when authenticated */}
       <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: "Hushåll",
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="protected" />
       </Stack.Protected>
     </Stack>
   );
