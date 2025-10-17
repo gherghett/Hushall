@@ -12,10 +12,8 @@ export default function CreateHoushold() {
   const user = useAtomValue(userAtom);
 
   const handleCreateHouseholdSubmit = async () => {
-    console.log(householdName);
-
     try {
-      const ref = await addDoc(collection(db, "household"), {
+      const ref = await addDoc(collection(db, "households"), {
         name: { householdName },
         code: 123,
         application: [],
@@ -29,16 +27,18 @@ export default function CreateHoushold() {
 
   return (
     <Card>
-      <Text variant="titleLarge">Skapa Hushåll</Text>
-      <Text variant="labelMedium">Hushållsnamn</Text>
-      <TextInput
-        label={"namn"}
-        onChangeText={setHouseholdName}
-        mode="outlined"
-      />
-      <Button mode="contained" onPress={handleCreateHouseholdSubmit}>
-        Create
-      </Button>
+      <Card.Content>
+        <Text variant="titleLarge">Skapa Hushåll</Text>
+        <Text variant="labelMedium">Hushållsnamn</Text>
+        <TextInput
+          label={"namn"}
+          onChangeText={setHouseholdName}
+          mode="outlined"
+        />
+        <Button mode="contained" onPress={handleCreateHouseholdSubmit}>
+          Create
+        </Button>
+      </Card.Content>
     </Card>
   );
 }
