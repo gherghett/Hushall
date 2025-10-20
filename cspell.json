@@ -1,0 +1,76 @@
+{
+  "version": "0.2",
+  "language": "sv,en",
+  "import": ["@cspell/dict-sv/cspell-ext.json"],
+  "dictionaries": [
+    "sv",
+    "typescript",
+    "node",
+    "javascript",
+    "html",
+    "css",
+    "npm"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    ".git/**",
+    "*.min.js",
+    "*.map",
+    "dist/**",
+    "build/**",
+    ".expo/**",
+    "expo-env.d.ts"
+  ],
+  "ignoreRegExpList": [
+    "/^import\\s+.*from\\s+['\"].*['\"];?$/gm",
+    "/^\\s*\\*\\s*@\\w+.*$/gm",
+    "/@\\w+/g",
+    "/\\b[A-Z]{2,}\\b/g"
+  ],
+  "words": [
+    "expo",
+    "firebase",
+    "jotai",
+    "reanimated",
+    "async",
+    "hushall",
+    "auth",
+    "useState",
+    "useEffect",
+    "jsx",
+    "tsx",
+    "typeof",
+    "readonly",
+    "keyof",
+    "instanceof",
+    "satisfies",
+    "unsub",
+    "inhousehold",
+    "setinhousehold",
+    "Houshald",
+    "Houshold",
+    "Emox",
+    "WZUMLPB",
+    "estation",
+    "KPWW",
+    "dagsvy",
+    "statistikvy",
+    "Arbetsätt",
+    "upskjutet"
+  ],
+  "allowCompoundWords": true,
+  "caseSensitive": false,
+  "files": ["**/*.{ts,tsx,js,jsx,json,md,yml,yaml}"],
+  "flagWords": [],
+  "overrides": [
+    {
+      "filename": "**/*.md",
+      "language": "sv,en"
+    },
+    {
+      "filename": "**/*.{ts,tsx,js,jsx}",
+      "language": "en",
+      "dictionaries": ["typescript", "node", "javascript", "npm"]
+    }
+  ]
+}

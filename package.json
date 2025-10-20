@@ -11,7 +11,9 @@
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "spellcheck": "cspell \"**/*.{ts,tsx,js,jsx,md,json}\"",
+    "spellcheck:fix": "cspell \"**/*.{ts,tsx,js,jsx,md,json}\" --show-suggestions"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -49,7 +51,9 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cspell/dict-sv": "^2.3.2",
     "@types/react": "~19.1.0",
+    "cspell": "^9.2.1",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "husky": "^9.1.7",
@@ -60,10 +64,12 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "cspell"
     ],
     "*.{json,md,yml,yaml}": [
-      "prettier --write"
+      "prettier --write",
+      "cspell"
     ]
   },
   "private": true
