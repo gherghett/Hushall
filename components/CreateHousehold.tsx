@@ -44,7 +44,7 @@ export default function CreateHoushold() {
     <Modal visible={modalVisible}>
       <Card>
         <Card.Content>
-          <Text variant="titleLarge">Skapa Hushåll</Text>
+          <Text variant="titleLarge">Skapa hushåll</Text>
           <Text variant="labelMedium">Hushållsnamn</Text>
           <TextInput
             label={"namn"}
