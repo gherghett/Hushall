@@ -1,5 +1,4 @@
-import { inHoushold } from "@/atoms/auth-atoms";
-import HouseholdHeader from "@/components/HouseholdHeader";
+import { inHousehold } from "@/atoms/household-atoms";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Stack } from "expo-router";
 import { useAtom } from "jotai";
@@ -7,18 +6,17 @@ import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function StackLayout() {
-  const [inhousehold] = useAtom(inHoushold);
+  const [inhousehold] = useAtom(inHousehold);
   
   return (
     <Stack
     screenOptions={{
-        headerBackVisible: false
+        headerBackVisible: false,
+
     }}>
       <Stack.Protected guard={inhousehold}>
-        <Stack.Screen name="index"
-        options={{ headerTitle: () => ( <HouseholdHeader/>),
-        headerTitleAlign: 'center'
-        }}/>
+        <Stack.Screen name="index" options={{headerShown: false,}}/>  
+
       </Stack.Protected>
 
       <Stack.Protected guard={!inhousehold}>
