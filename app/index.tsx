@@ -1,5 +1,4 @@
 import { router } from "expo-router";
-import CreateHoushold from "@/components/CreateHousehold";
 import {
   addDoc,
   collection,
@@ -75,7 +74,7 @@ export default function Index() {
       </Card>
 
       <Button 
-      onPress={() =>router.navigate("/household")}
+      onPress={() =>router.navigate("/protected")}
       >
         home Test
       </Button>

@@ -1,3 +1,4 @@
+import ChoreView from "@/components/ChoreView";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import PagerView from "react-native-pager-view";
@@ -6,7 +7,7 @@ export default function Index() {
   return (
     <PagerView style={styles.pagerView} initialPage={0}>
       <View key="1" style={[styles.page, { backgroundColor: "#903939ff" }] }>
-        <Text style={styles.title}> Syslor</Text>
+        <ChoreView/>
       </View>
       <View key="2" style={[styles.page, { backgroundColor: "#87CEEB" }]}>
         <Text style={styles.title}>Igår</Text>
