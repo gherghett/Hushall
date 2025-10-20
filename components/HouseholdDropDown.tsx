@@ -4,6 +4,7 @@ import {
   useHouseholdsList,
 } from "@/atoms/household-atoms";
 import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -67,7 +68,9 @@ export default function HouseholdDropDown() {
         renderListItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              if (item.value !== "add") {
+              if (item.value === "add") {
+                router.push("/protected/createHousehold");
+              } else {
                 setSelectedHousehold(item.value!);
               }
               setOpen(false);

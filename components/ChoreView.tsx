@@ -1,7 +1,6 @@
 import { useCurrentHousehold } from "@/atoms/household-atoms";
 import { ScrollView } from "react-native";
 import { Card, Text } from "react-native-paper";
-import CreateHoushold from "./CreateHousehold";
 interface Member {
   id: number;
   name: string;
@@ -81,7 +80,6 @@ export default function ChoreView() {
     <ScrollView style={{ width: "100%" }}>
       <Text>{household.name}</Text>
       {choreView}
-      <CreateHoushold />
     </ScrollView>
   );
 }
