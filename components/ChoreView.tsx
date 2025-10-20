@@ -14,7 +14,7 @@ interface choreData{
     interval: number,
 }
 
-export default function HomeScreen() {
+export default function ChoreView() {
     const members: Member[] = [
         {id: 1, name: "Erick", icon: "🦊"},
         {id: 2, name: "Arvid", icon: "🐙"},
@@ -30,23 +30,23 @@ export default function HomeScreen() {
     ]; 
 
     const choreView = data.map((c) =>(
-        <Card style={{margin: 10}} key={c.id}>
-            <Card.Content style={{flexDirection: "row", justifyContent: "space-between"}}>
-                <Text variant="titleLarge"> {c.name}</Text>
-                {c.doneBy.length? 
-                    <Text variant="titleLarge"> {c.doneBy.map(d => (d.icon))}</Text>
-                    :
-                    <Text variant="titleLarge" style={
-                        {backgroundColor: c.daysSenceDone < c.interval? "#535353ff": "#930000ff"
-                        , borderRadius: 15, height: 30, width: 30}}> {c.daysSenceDone}</Text>
-                }
-            </Card.Content>
-        </Card>
+      <Card style={{margin: 10}} key={c.id}>
+        <Card.Content style={{flexDirection: "row", justifyContent: "space-between"}}>
+          <Text variant="titleLarge"> {c.name}</Text>
+          {c.doneBy.length? 
+            <Text variant="titleLarge"> {c.doneBy.map(d => (d.icon))}</Text>
+            :
+            <Text variant="titleLarge" style={
+              {backgroundColor: c.daysSenceDone < c.interval? "#535353ff": "#930000ff"
+              , borderRadius: 15, height: 30, width: 30}}> {c.daysSenceDone}</Text>
+          }
+        </Card.Content>
+      </Card>
     ));
 
     return (
-        <ScrollView>
-            {choreView}
-        </ScrollView>
+      <ScrollView style={{width: "100%"}}>
+        {choreView}
+      </ScrollView>
     )
 }

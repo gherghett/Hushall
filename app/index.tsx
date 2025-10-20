@@ -74,7 +74,7 @@ export default function Index() {
       </Card>
 
       <Button 
-      onPress={() =>router.navigate("/household")}
+      onPress={() =>router.navigate("/protected")}
       >
         home Test
       </Button>
