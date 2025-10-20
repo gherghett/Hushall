@@ -15,7 +15,8 @@ function StackLayout() {
   return (
     <Stack
      screenOptions={{
-        headerBackVisible: false
+        headerBackVisible: false,
+        headerShown: false
     }}>
       {/* Auth screen - only available when NOT authenticated */}
       <Stack.Protected guard={!isAuthenticated}>
@@ -30,13 +31,7 @@ function StackLayout() {
 
       {/* Protected screens - only available when authenticated */}
       <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: "Hushåll",
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="protected"  />
       </Stack.Protected>
     </Stack>
   );
