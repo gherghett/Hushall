@@ -1,10 +1,9 @@
 import { inHoushold } from "@/atoms/auth-atoms";
+import HouseholdHeader from "@/components/HouseholdHeader";
 import { ThemeProvider } from "@/context/theme-provider";
-import { Ionicons } from "@expo/vector-icons";
-import { router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useAtom } from "jotai";
 import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function StackLayout() {
@@ -17,11 +16,9 @@ function StackLayout() {
     }}>
       <Stack.Protected guard={inhousehold}>
         <Stack.Screen name="index"
-        options={{ headerRight: () => (
-            <Button onPress={() => router.navigate("/Protected/Settings")}>
-              <Ionicons name="settings-outline" size={24} color="#737373ff" />
-            </Button>
-        )}}/>
+        options={{ headerTitle: () => ( <HouseholdHeader/>),
+        headerTitleAlign: 'center'
+        }}/>
       </Stack.Protected>
 
       <Stack.Protected guard={!inhousehold}>
