@@ -1,5 +1,6 @@
 import { userAtom } from "@/atoms/auth-atoms";
 import { db } from "@/lib/firebase";
+import { generateUniqueJoinCode } from "@/lib/generateInviteCode";
 import { AppTheme } from "@/lib/theme";
 import { addDoc, collection } from "firebase/firestore";
 import { useAtomValue } from "jotai";
@@ -18,18 +19,24 @@ export default function CreateHoushold() {
   const [householdName, setHouseholdName] = useState("");
   const user = useAtomValue(userAtom);
   const [modalVisible, setModalVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateHouseholdSubmit = async () => {
+    setIsLoading(true);
+    const code = await generateUniqueJoinCode();
+
     try {
       const ref = await addDoc(collection(db, "households"), {
         name: { householdName },
-        code: 123,
+        code: code,
         application: [],
         members: [],
         chores: [],
       });
     } catch (error) {
       console.error("Error creating household:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +44,7 @@ export default function CreateHoushold() {
     <Modal visible={modalVisible}>
       <Card>
         <Card.Content>
-          <Text variant="titleLarge">Skapa Hushåll</Text>
+          <Text variant="titleLarge">Skapa hushåll</Text>
           <Text variant="labelMedium">Hushållsnamn</Text>
           <TextInput
             label={"namn"}
@@ -46,6 +53,8 @@ export default function CreateHoushold() {
           />
           <Button
             mode="contained"
+            loading={isLoading}
+            disabled={isLoading}
             onPress={() => {
               setModalVisible(!modalVisible);
               handleCreateHouseholdSubmit();
