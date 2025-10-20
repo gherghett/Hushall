@@ -1,5 +1,6 @@
 import { userAtom } from "@/atoms/auth-atoms";
 import { db } from "@/lib/firebase";
+import { generateUniqueJoinCode } from "@/lib/generateInviteCode";
 import { AppTheme } from "@/lib/theme";
 import { addDoc, collection } from "firebase/firestore";
 import { useAtomValue } from "jotai";
@@ -23,7 +24,7 @@ export default function CreateHoushold() {
     try {
       const ref = await addDoc(collection(db, "households"), {
         name: { householdName },
-        code: 123,
+        code: generateUniqueJoinCode(),
         application: [],
         members: [],
         chores: [],
