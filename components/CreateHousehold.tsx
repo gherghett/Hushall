@@ -19,18 +19,24 @@ export default function CreateHoushold() {
   const [householdName, setHouseholdName] = useState("");
   const user = useAtomValue(userAtom);
   const [modalVisible, setModalVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateHouseholdSubmit = async () => {
+    setIsLoading(true);
+    const code = await generateUniqueJoinCode();
+
     try {
       const ref = await addDoc(collection(db, "households"), {
         name: { householdName },
-        code: generateUniqueJoinCode(),
+        code: code,
         application: [],
         members: [],
         chores: [],
       });
     } catch (error) {
       console.error("Error creating household:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,6 +53,8 @@ export default function CreateHoushold() {
           />
           <Button
             mode="contained"
+            loading={isLoading}
+            disabled={isLoading}
             onPress={() => {
               setModalVisible(!modalVisible);
               handleCreateHouseholdSubmit();

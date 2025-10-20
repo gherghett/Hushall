@@ -11,8 +11,8 @@ const generateRandomCode = (lenght = 6) => {
   return code;
 };
 
-export async function generateUniqueJoinCode() {
-  let code;
+export const generateUniqueJoinCode = async (): Promise<string> => {
+  let code: string = "";
   let exists = true;
 
   while (exists) {
@@ -25,4 +25,4 @@ export async function generateUniqueJoinCode() {
   }
 
   return code;
-}
+};
