@@ -1,8 +1,6 @@
 import { userAtom } from "@/atoms/auth-atoms";
-import { db } from "@/lib/firebase";
-import { generateUniqueJoinCode } from "@/lib/generateInviteCode";
+import { useCreateHouseholdMutation } from "@/atoms/household-atoms";
 import { AppTheme } from "@/lib/theme";
-import { addDoc, collection } from "firebase/firestore";
 import { useAtomValue } from "jotai";
 import React, { useState } from "react";
 import {
@@ -19,26 +17,26 @@ export default function CreateHoushold() {
   const [householdName, setHouseholdName] = useState("");
   const user = useAtomValue(userAtom);
   const [modalVisible, setModalVisible] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCreateHouseholdSubmit = async () => {
-    setIsLoading(true);
-    const code = await generateUniqueJoinCode();
+  // Use the centralized mutation hook from atoms
+  const createHouseholdMutation = useCreateHouseholdMutation();
 
-    try {
-      const ref = await addDoc(collection(db, "households"), {
-        name: { householdName },
-        code: code,
-        application: [],
-        members: [],
-        chores: [],
-      });
-    } catch (error) {
-      console.error("Error creating household:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleCreateHouseholdSubmit = () => {
+    if (!user || !householdName.trim()) return;
+
+    createHouseholdMutation.mutate({
+      name: householdName,
+      ownerId: user.uid,
+      ownerName: user.displayName || user.email || "Unknown User",
+    });
   };
+
+  // Close modal when mutation succeeds
+  React.useEffect(() => {
+    if (createHouseholdMutation.isSuccess) {
+      setModalVisible(false);
+    }
+  }, [createHouseholdMutation.isSuccess]);
 
   return (
     <Modal visible={modalVisible}>
@@ -53,12 +51,11 @@ export default function CreateHoushold() {
           />
           <Button
             mode="contained"
-            loading={isLoading}
-            disabled={isLoading}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              handleCreateHouseholdSubmit();
-            }}
+            loading={createHouseholdMutation.isPending}
+            disabled={
+              createHouseholdMutation.isPending || !householdName.trim()
+            }
+            onPress={handleCreateHouseholdSubmit}
           >
             Create
           </Button>
