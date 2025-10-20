@@ -30,7 +30,5 @@ export const atomWithAsyncStorage = <T>(key: string, initialValue: T) => {
  */
 export const STORAGE_KEYS = {
   THEME_MODE: "themeMode",
-  // Add more keys as needed:
-  // USER_PREFERENCES: 'userPreferences',
-  // APP_SETTINGS: 'appSettings',
+  // Add more keys as needed when you actually need them
 } as const;
