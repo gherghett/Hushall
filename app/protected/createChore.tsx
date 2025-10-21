@@ -1,3 +1,5 @@
+import IntervalPicker from "@/components/IntervalPicker";
+import WeightPicker from "@/components/WeightPicker";
 import { AppTheme } from "@/lib/theme";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -8,6 +10,8 @@ export default function CreateChore() {
 
   const [choreTitle, setChoreTitle] = useState("");
   const [choreDescription, setChoreDescription] = useState("");
+  const [choreInterval, setChoreInterval] = useState(7);
+  const [choreWeight, setChoreWeight] = useState(5);
 
   return (
     <View style={[theme.styles.container]}>
@@ -27,6 +31,14 @@ export default function CreateChore() {
           multiline={true}
           numberOfLines={3}
           style={{ marginBottom: 20 }}
+        />
+        <IntervalPicker
+          selectedInterval={choreInterval}
+          onIntervalChange={setChoreInterval}
+        />
+        <WeightPicker
+          selectedWeight={choreWeight}
+          onWeightChange={setChoreWeight}
         />
       </Surface>
     </View>
