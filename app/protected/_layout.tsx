@@ -5,7 +5,6 @@ import {
 } from "@/atoms/household-atoms";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Stack } from "expo-router";
-import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function StackLayout() {
@@ -59,8 +58,8 @@ export default function RootLayout() {
     </SafeAreaProvider>
   );
 }
-const styles = StyleSheet.create({
-  pagerView: { flex: 1 },
-  page: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-});
+// const styles = StyleSheet.create({
+//   pagerView: { flex: 1 },
+//   page: { flex: 1, padding: 20 },
+//   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+// });

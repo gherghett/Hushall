@@ -30,4 +30,3 @@ export const userAtom = atom(get => get(authStateAtom).user);
 export const isAuthenticatedAtom = atom(get => !!get(authStateAtom).user);
 export const isLoadingAtom = atom(get => get(authStateAtom).isLoading);
 export const isInitializedAtom = atom(get => get(authStateAtom).isInitialized);
-

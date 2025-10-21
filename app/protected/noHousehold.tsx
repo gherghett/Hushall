@@ -1,11 +1,9 @@
-import { useHasHousehold } from "@/atoms/household-atoms";
 import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { Button, Surface, Text, useTheme } from "react-native-paper";
 
 export default function NoHousehold() {
-  const hasHousehold = useHasHousehold();
   const theme = useTheme() as AppTheme;
 
   return (

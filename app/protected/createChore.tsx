@@ -1,7 +1,6 @@
 import {
   useCreateChoreMutation,
   useCurrentHousehold,
-  useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
 import IntervalPicker from "@/components/IntervalPicker";
 import WeightPicker from "@/components/WeightPicker";
@@ -28,7 +27,6 @@ export default function CreateChore() {
   // Hooks for household and chore creation
   const createChoreMutation = useCreateChoreMutation();
   const currentHousehold = useCurrentHousehold();
-  const isOwner = useIsOwnerOfCurrentHousehold();
 
   const [choreTitle, setChoreTitle] = useState("");
   const [choreDescription, setChoreDescription] = useState("");
