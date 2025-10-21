@@ -46,3 +46,4 @@ serviceAccountKey.json
 
 # FirestoreKey
 /d4estation*
+/serviceAccountKey.json
