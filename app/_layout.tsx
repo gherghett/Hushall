@@ -1,8 +1,12 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { ThemeProvider } from "../context/theme-provider";
 import { useAuth } from "../hooks/useAuth";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function StackLayout() {
   const { isAuthenticated, isLoading, isInitialized } = useAuth();
@@ -14,10 +18,11 @@ function StackLayout() {
 
   return (
     <Stack
-     screenOptions={{
+      screenOptions={{
         headerBackVisible: false,
-        headerShown: false
-    }}>
+        headerShown: false,
+      }}
+    >
       {/* Auth screen - only available when NOT authenticated */}
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen
@@ -31,7 +36,7 @@ function StackLayout() {
 
       {/* Protected screens - only available when authenticated */}
       <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen name="protected"  />
+        <Stack.Screen name="protected" />
       </Stack.Protected>
     </Stack>
   );
@@ -40,9 +45,11 @@ function StackLayout() {
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
-        <StackLayout />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <StackLayout />
+        </ThemeProvider>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }
