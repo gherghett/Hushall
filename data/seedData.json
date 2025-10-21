@@ -1,181 +1,100 @@
 {
-  "users": {
-    "user_1": {
-      "id": "user_1",
-      "households": [
-        {
-          "id": "household_1",
-          "name": "The Johnson Family",
-          "code": "JOHN123",
-          "applications": [
-            {
-              "id": "applicant_1",
-              "userId": "user_3",
-              "name": "Charlie Johnson",
-              "characterId": "char_fox"
-            }
-          ],
-          "members": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            },
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
-    },
-    "user_2": {
-      "id": "user_2",
-      "households": [
-        {
-          "id": "household_1",
-          "name": "The Johnson Family",
-          "code": "JOHN123",
-          "applications": [],
-          "members": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            },
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
-    },
-    "user_3": {
-      "id": "user_3",
-      "households": [
-        {
-          "id": "household_2",
-          "name": "Roommates at Elm Street",
-          "code": "ELM456",
-          "applications": [],
-          "members": [
-            {
-              "id": "member_3",
-              "userId": "user_3",
-              "name": "Charlie Johnson",
-              "characterId": "char_fox"
-            },
-            {
-              "id": "member_4",
-              "userId": "user_4",
-              "name": "Dana Smith",
-              "characterId": "char_owl"
-            }
-          ]
-        }
-      ]
-    }
-  },
   "households": {
-    "household_1": {
-      "id": "household_1",
-      "name": "The Johnson Family",
-      "code": "JOHN123",
-      "applications": [
-        {
-          "id": "applicant_1",
-          "userId": "user_3",
-          "name": "Charlie Johnson",
-          "characterId": "char_fox"
-        }
-      ],
-      "members": [
-        {
-          "id": "member_1",
-          "userId": "user_1",
-          "name": "Alice Johnson",
-          "characterId": "char_bear"
-        },
-        {
-          "id": "member_2",
-          "userId": "user_2",
-          "name": "Bob Johnson",
-          "characterId": "char_cat"
-        }
-      ]
-    },
-    "household_2": {
-      "id": "household_2",
-      "name": "Roommates at Elm Street",
-      "code": "ELM456",
+    "h1": {
+      "id": "h1",
+      "name": "theTestGarage",
+      "code": "A4G9KX",
       "applications": [],
       "members": [
         {
-          "id": "member_3",
-          "userId": "user_3",
-          "name": "Charlie Johnson",
-          "characterId": "char_fox"
+          "id": "m1",
+          "userId": "u1",
+          "name": "Alex Testman",
+          "characterId": "char_01"
         },
         {
-          "id": "member_4",
-          "userId": "user_4",
-          "name": "Dana Smith",
-          "characterId": "char_owl"
+          "id": "m2",
+          "userId": "u2",
+          "name": "Jamie Wrench",
+          "characterId": "char_02"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c1",
+          "description": "Take out the trash",
+          "interval": "weekly",
+          "weight": "2",
+          "completions": [
+            {
+              "completedBy": ["m1"],
+              "completedAt": "2025-10-20T08:30:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "description": "Clean the car",
+          "interval": "monthly",
+          "weight": "3",
+          "completions": []
+        }
+      ]
+    },
+    "h2": {
+      "id": "h2",
+      "name": "TestingRoomies",
+      "code": "Z9M7BQ",
+      "applications": [],
+      "members": [
+        {
+          "id": "m3",
+          "userId": "u1",
+          "name": "Alex Testman",
+          "characterId": "char_01"
+        },
+        {
+          "id": "m4",
+          "userId": "u3",
+          "name": "Taylor Debug",
+          "characterId": "char_03"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c3",
+          "description": "Vacuum the living room",
+          "interval": "weekly",
+          "weight": "1",
+          "completions": []
+        },
+        {
+          "id": "c4",
+          "description": "Buy groceries",
+          "interval": "weekly",
+          "weight": "2",
+          "completions": [
+            {
+              "completedBy": ["m3"],
+              "completedAt": "2025-10-19T15:00:00Z"
+            }
+          ]
         }
       ]
     }
   },
-  "chores": {
-    "chore_1": {
-      "id": "chore_1",
-      "description": "Wash the dishes",
-      "interval": "daily",
-      "weight": "2",
-      "completions": [
-        {
-          "completedAt": "2025-10-15T18:30:00Z",
-          "completedBy": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            }
-          ]
-        }
-      ]
+  "membership": {
+    "u1": {
+      "id": "u1",
+      "households": ["h1", "h2"]
     },
-    "chore_2": {
-      "id": "chore_2",
-      "description": "Take out the trash",
-      "interval": "weekly",
-      "weight": "3",
-      "completions": []
+    "u2": {
+      "id": "u2",
+      "households": ["h1"]
     },
-    "chore_3": {
-      "id": "chore_3",
-      "description": "Water the plants",
-      "weight": "1",
-      "completions": [
-        {
-          "completedAt": "2025-10-10T09:00:00Z",
-          "completedBy": [
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
+    "u3": {
+      "id": "u3",
+      "households": ["h2"]
     }
   }
 }
