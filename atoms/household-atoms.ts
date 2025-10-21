@@ -1,6 +1,7 @@
 import getHouseholds from "@/api/getHouseholds";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
+import joinHousehold from "@/api/updateHousehold";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtomValue } from "jotai";
 import { userAtom } from "./auth-atoms";
@@ -32,6 +33,26 @@ export const useCreateHouseholdMutation = () => {
     },
     onError: error => {
       console.error("Error creating household:", error);
+    },
+  });
+};
+
+// Mutation for joining a new household
+export const useJoinHouseholdMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: joinHousehold,
+    onSuccess: (data, variables) => {
+      console.log("Household joined successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error joining household:", error);
     },
   });
 };

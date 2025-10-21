@@ -28,7 +28,7 @@ export default function NoHousehold() {
         </Text>
         <Button
           mode="contained"
-          onPress={() => router.push("/protected/createHousehold")}
+          onPress={() => router.push("./protected/createHousehold")}
         >
           Skapa nytt hushåll
         </Button>
@@ -42,7 +42,12 @@ export default function NoHousehold() {
         >
           eller
         </Text>
-        <Button mode="outlined">Gå med i någon annans hushåll</Button>
+        <Button
+          mode="outlined"
+          onPress={() => router.push("./protected/joinHousehold")}
+        >
+          Gå med i någon annans hushåll
+        </Button>
       </Surface>
     </View>
   );
