@@ -43,3 +43,6 @@ app-example
 /android
 
 serviceAccountKey.json
+
+# FirestoreKey
+/d4estation*
