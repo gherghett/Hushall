@@ -17,11 +17,14 @@ export const completionSchema = z.object({
 
 export const choreSchema = z.object({
   id: z.string(),
-  description: z.string(),
-  interval: z.string().optional(),
-  weight: z.string(),
+  title: z.string().min(4).max(20),
+  description: z.string().min(0).max(200),
+  interval: z.number().int().min(1).max(31),
+  weight: z.number().int().min(1).max(10),
   completions: z.array(completionSchema).default([]),
 });
+
+export type Chore = z.infer<typeof choreSchema>;
 
 export const householdSchema = z.object({
   id: z.string(),
