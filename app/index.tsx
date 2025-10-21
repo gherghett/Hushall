@@ -73,11 +73,7 @@ export default function Index() {
         </Card.Content>
       </Card>
 
-      <Button 
-      onPress={() =>router.navigate("/protected")}
-      >
-        home Test
-      </Button>
+      <Button onPress={() => router.navigate("/protected")}>home Test</Button>
 
       <Button
         mode="contained"
