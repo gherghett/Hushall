@@ -26,12 +26,30 @@ export const choreSchema = z.object({
 
 export type Chore = z.infer<typeof choreSchema>;
 
+export const createChoreFormSchema = choreSchema.omit({
+  id: true,
+  completions: true,
+});
+
+export type CreateChore = z.infer<typeof createChoreFormSchema>;
+
 export const householdSchema = z.object({
   id: z.string(),
   name: z.string(),
   code: z.string(),
   applications: z.array(z.string()).default([]),
   members: z.array(memberSchema).default([]),
+  chores: z.array(choreSchema).default([]),
 });
 
 export type Household = z.infer<typeof householdSchema>;
+
+export const createHouseholdFormSchema = householdSchema.omit({
+  id: true,
+  code: true,
+  applications: true,
+  members: true,
+  chores: true,
+});
+
+export type CreateHousehold = z.infer<typeof createHouseholdFormSchema>;

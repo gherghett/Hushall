@@ -1,4 +1,5 @@
 import getHouseholds from "@/api/getHouseholds";
+import postChore from "@/api/postChore";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -32,6 +33,32 @@ export const useCreateHouseholdMutation = () => {
     },
     onError: error => {
       console.error("Error creating household:", error);
+    },
+  });
+};
+
+// Mutation for creating a new chore
+export const useCreateChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      newChore,
+      householdId,
+    }: {
+      newChore: any;
+      householdId: string;
+    }) => postChore(newChore, householdId),
+    onSuccess: (data, variables) => {
+      console.log("Chore created successfully:", data);
+
+      // Invalidate and refetch the households query since chores are part of household data
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error creating chore:", error);
     },
   });
 };

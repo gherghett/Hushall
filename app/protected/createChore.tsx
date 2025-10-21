@@ -1,7 +1,13 @@
+import {
+  useCreateChoreMutation,
+  useCurrentHousehold,
+  useIsOwnerOfCurrentHousehold,
+} from "@/atoms/household-atoms";
 import IntervalPicker from "@/components/IntervalPicker";
 import WeightPicker from "@/components/WeightPicker";
 import { AppTheme } from "@/lib/theme";
-import { choreSchema } from "@/models/household";
+import { createChoreFormSchema } from "@/models/household";
+import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import {
@@ -15,10 +21,14 @@ import {
 import { z } from "zod";
 
 // Create a schema for the form data (without id and completions which are generated)
-const createChoreFormSchema = choreSchema.omit({ id: true, completions: true });
 
 export default function CreateChore() {
   const theme = useTheme() as AppTheme;
+
+  // Hooks for household and chore creation
+  const createChoreMutation = useCreateChoreMutation();
+  const currentHousehold = useCurrentHousehold();
+  const isOwner = useIsOwnerOfCurrentHousehold();
 
   const [choreTitle, setChoreTitle] = useState("");
   const [choreDescription, setChoreDescription] = useState("");
@@ -29,8 +39,11 @@ export default function CreateChore() {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const handleCreateChore = () => {
+  const handleCreateChore = async () => {
     try {
+      // Dont check if user is owner before proceeding,
+      // this should be impossible since the path is protected
+
       // Validate the form data
       const formData = {
         title: choreTitle,
@@ -44,11 +57,15 @@ export default function CreateChore() {
       // Clear any previous errors
       setErrors({});
 
-      // TODO: Here you would actually create the chore
-      // For now, just show success message
-      console.log("Valid chore data:", validatedData);
+      // Create the chore using the mutation
+      await createChoreMutation.mutateAsync({
+        newChore: validatedData,
+        householdId: currentHousehold.id,
+      });
+
       setSnackbarMessage("Syssla skapad!");
       setSnackbarVisible(true);
+      router.dismissTo("/protected");
 
       // Reset form
       setChoreTitle("");
@@ -66,6 +83,10 @@ export default function CreateChore() {
         });
         setErrors(errorMap);
         setSnackbarMessage("Kontrollera att alla fält är korrekt ifyllda");
+        setSnackbarVisible(true);
+      } else {
+        console.error("Error creating chore:", error);
+        setSnackbarMessage("Något gick fel när sysslan skulle skapas");
         setSnackbarVisible(true);
       }
     }
