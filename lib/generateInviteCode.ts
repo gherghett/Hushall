@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 
-const CHAR_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const CHAR_SET = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
 
 const generateRandomCode = (lenght = 6) => {
   let code = "";
@@ -11,7 +11,7 @@ const generateRandomCode = (lenght = 6) => {
   return code;
 };
 
-export const generateUniqueJoinCode = async (): Promise<string> => {
+export default async (): Promise<string> => {
   let code: string = "";
   let exists = true;
 
