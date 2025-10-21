@@ -10,10 +10,10 @@ export const memberSchema = z.object({
 
 export type Member = z.infer<typeof memberSchema>;
 
-export const completionSchema = z.object({
-  completedBy: z.array(memberSchema).default([]),
-  completedAt: z.string(),
-});
+export const completionSchema = z.object ({
+    completedBy: z.array(z.string()).default ([]), //memberId
+    completedAt: z.string(),
+})
 
 export const choreSchema = z.object({
   id: z.string(),
@@ -24,32 +24,11 @@ export const choreSchema = z.object({
   completions: z.array(completionSchema).default([]),
 });
 
-export type Chore = z.infer<typeof choreSchema>;
-
-export const createChoreFormSchema = choreSchema.omit({
-  id: true,
-  completions: true,
-});
-
-export type CreateChore = z.infer<typeof createChoreFormSchema>;
-
-export const householdSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  code: z.string(),
-  applications: z.array(z.string()).default([]),
-  members: z.array(memberSchema).default([]),
-  chores: z.array(choreSchema).default([]),
-});
-
-export type Household = z.infer<typeof householdSchema>;
-
-export const createHouseholdFormSchema = householdSchema.omit({
-  id: true,
-  code: true,
-  applications: true,
-  members: true,
-  chores: true,
-});
-
-export type CreateHousehold = z.infer<typeof createHouseholdFormSchema>;
+export const householdSchema = z.object ({
+    id: z.string(),
+    name: z.string(),
+    code: z.string(),
+    chores: z.array(choreSchema),
+    applications: z.array(memberSchema).default([]),
+    members: z.array(memberSchema).default([]),
+})
