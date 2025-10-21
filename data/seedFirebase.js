@@ -1,5 +1,5 @@
-import admin from "firebase-admin";
-import mockData from "./seedData.json" assert { type: "json" };
+const admin = require("firebase-admin");
+const mockData = require("./seedData.json");
 
 // Initialize Firebase Admin
 admin.initializeApp({
