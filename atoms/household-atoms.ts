@@ -83,3 +83,13 @@ export const useCurrentHousehold = () => {
   // Default to first household if no selection or selected not found
   return households[0] || null;
 };
+
+export const useIsOwnerOfCurrentHousehold = () => {
+  const currentHousehold = useCurrentHousehold();
+  const user = useAtomValue(userAtom);
+  if (user === null || currentHousehold === null) {
+    return false;
+  }
+  const member = currentHousehold.members.find(m => m.userId === user.uid);
+  return member?.role === "owner";
+};

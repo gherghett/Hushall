@@ -1,6 +1,10 @@
-import { useCurrentHousehold } from "@/atoms/household-atoms";
-import { ScrollView } from "react-native";
-import { Card, Text } from "react-native-paper";
+import {
+  useCurrentHousehold,
+  useIsOwnerOfCurrentHousehold,
+} from "@/atoms/household-atoms";
+import { router } from "expo-router";
+import { ScrollView, View } from "react-native";
+import { Card, FAB, Text } from "react-native-paper";
 interface Member {
   id: number;
   name: string;
@@ -17,6 +21,8 @@ interface choreData {
 
 export default function ChoreView() {
   const household = useCurrentHousehold();
+  const isOwner = useIsOwnerOfCurrentHousehold();
+
   const members: Member[] = [
     { id: 1, name: "Erick", icon: "🦊" },
     { id: 2, name: "Arvid", icon: "🐙" },
@@ -77,9 +83,39 @@ export default function ChoreView() {
   ));
 
   return (
-    <ScrollView style={{ width: "100%" }}>
-      <Text>{household.name}</Text>
-      {choreView}
-    </ScrollView>
+    <View style={{ flex: 1, position: "relative" }}>
+      <ScrollView style={{ width: "100%" }}>
+        <Text>{household.name}</Text>
+        {choreView}
+      </ScrollView>
+
+      {/* Bottom left button */}
+      {isOwner && (
+        <FAB
+          icon="plus"
+          style={{
+            position: "absolute",
+            margin: 16,
+            left: 0,
+            bottom: 0,
+          }}
+          onPress={() => router.push("/protected/createChore")}
+        />
+      )}
+
+      {/* Bottom right button - you can uncomment this when needed */}
+      {/*
+      <FAB
+        icon="cog"
+        style={{
+          position: 'absolute',
+          margin: 16,
+          right: 0,
+          bottom: 0,
+        }}
+        onPress={() => console.log('Bottom right button pressed')}
+      />
+      */}
+    </View>
   );
 }
