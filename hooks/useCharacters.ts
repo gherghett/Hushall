@@ -3,7 +3,17 @@ import { isDarkAtom } from "@/atoms/theme-atoms";
 import { useAtomValue } from "jotai";
 // import { useTheme } from "react-native-paper";
 
-export const useCharacters = () => {
+export type Character = {
+  id: number;
+  emoji: string;
+  colors: {
+    primary: string;
+    onPrimary: string;
+    secondary: string;
+  };
+};
+
+export const useCharacters = (): Character[] => {
   // const theme = useTheme() as AppTheme;
   const isDark = useAtomValue(isDarkAtom);
   if (isDark) {

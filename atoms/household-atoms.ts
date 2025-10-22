@@ -1,5 +1,6 @@
 import getHouseholds from "@/api/getHouseholds";
 import postChore from "@/api/postChore";
+import postCompletion from "@/api/postCompletion";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
 import { Household } from "@/models/household";
@@ -165,5 +166,32 @@ export const useChoresWithLastDone = () => {
       daysSinceDone: daysSinceDone,
       doneBy: lastCompletion?.completedBy || null,
     };
+  });
+};
+export const useCompleteChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      choreId,
+      householdId,
+      completedBy,
+    }: {
+      choreId: string;
+      householdId: string;
+      completedBy: any;
+    }) => postCompletion(choreId, householdId, completedBy),
+    onSuccess: (data, variables) => {
+      console.log("Chore completed successfully:", data);
+      console.log("Completed by:", variables.completedBy.name);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error completing chore:", error);
+    },
   });
 };
