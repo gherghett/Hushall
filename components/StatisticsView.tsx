@@ -89,7 +89,7 @@ export default function StatisticsView(props: props) {
       },
     };
   });
-  const serisfinal = series.filter(s => s.value != 0);
+  const serisfinal = series.filter(s => s.value !== 0);
   console.log(series);
   return (
     <View>

@@ -1,11 +1,16 @@
-import { useHasHousehold } from "@/atoms/household-atoms";
+import {
+  useCurrentHousehold,
+  useHasHousehold,
+  useIsOwnerOfCurrentHousehold,
+} from "@/atoms/household-atoms";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Stack } from "expo-router";
-import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function StackLayout() {
   const hasHousehold = useHasHousehold();
+  const currentHousehold = useCurrentHousehold();
+  const isOwner = useIsOwnerOfCurrentHousehold();
 
   return (
     <Stack
@@ -15,6 +20,16 @@ function StackLayout() {
     >
       <Stack.Protected guard={hasHousehold}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Protected guard={isOwner}>
+          <Stack.Screen
+            name="createChore"
+            options={{
+              headerShown: true,
+              headerBackVisible: true,
+              title: `Skapa ny syssla i ${currentHousehold?.name}`,
+            }}
+          />
+        </Stack.Protected>
       </Stack.Protected>
 
       <Stack.Protected guard={!hasHousehold}>
@@ -29,7 +44,7 @@ function StackLayout() {
           headerBackVisible: true,
         }}
       />
-      <Stack.Screen name="Settings" />
+      <Stack.Screen name="settings" />
     </Stack>
   );
 }
@@ -43,8 +58,8 @@ export default function RootLayout() {
     </SafeAreaProvider>
   );
 }
-const styles = StyleSheet.create({
-  pagerView: { flex: 1 },
-  page: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-});
+// const styles = StyleSheet.create({
+//   pagerView: { flex: 1 },
+//   page: { flex: 1, padding: 20 },
+//   title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
+// });
