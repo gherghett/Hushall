@@ -1,7 +1,9 @@
 import {
+  useChoresWithLastDone,
   useCurrentHousehold,
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
+import { useCharacters } from "@/hooks/useCharacters";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { Card, FAB, Text } from "react-native-paper";
@@ -21,62 +23,74 @@ interface choreData {
 
 export default function ChoreView() {
   const household = useCurrentHousehold();
+
   const isOwner = useIsOwnerOfCurrentHousehold();
+
+  const characters = useCharacters();
 
   const members: Member[] = [
     { id: 1, name: "Erick", icon: "🦊" },
     { id: 2, name: "Arvid", icon: "🐙" },
     { id: 3, name: "Josef", icon: "🐬" },
   ];
-
-  const data: choreData[] = [
-    {
-      id: 1,
-      name: "laga mat",
-      doneBy: [members[0]],
-      daysSenceDone: 0,
-      interval: 5,
-    },
-    {
-      id: 2,
-      name: "Damsuga",
-      doneBy: [members[2]],
-      daysSenceDone: 0,
-      interval: 5,
-    },
-    {
-      id: 3,
-      name: "Tvätta",
-      doneBy: [members[0], members[1]],
-      daysSenceDone: 0,
-      interval: 7,
-    },
-    { id: 4, name: "Damma", doneBy: [], daysSenceDone: 2, interval: 3 },
-    { id: 5, name: "diska", doneBy: [], daysSenceDone: 5, interval: 2 },
-  ];
+  const data = useChoresWithLastDone();
+  if (household == null || data === null) {
+    router.dismissAll();
+    return null;
+  }
+  // const data: choreData[] = [
+  //   {
+  //     id: 1,
+  //     name: "laga mat",
+  //     doneBy: [members[0]],
+  //     daysSenceDone: 0,
+  //     interval: 5,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Damsuga",
+  //     doneBy: [members[2]],
+  //     daysSenceDone: 0,
+  //     interval: 5,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Tvätta",
+  //     doneBy: [members[0], members[1]],
+  //     daysSenceDone: 0,
+  //     interval: 7,
+  //   },
+  //   { id: 4, name: "Damma", doneBy: [], daysSenceDone: 2, interval: 3 },
+  //   { id: 5, name: "diska", doneBy: [], daysSenceDone: 5, interval: 2 },
+  // ];
 
   const choreView = data.map(c => (
     <Card style={{ margin: 10 }} key={c.id}>
       <Card.Content
         style={{ flexDirection: "row", justifyContent: "space-between" }}
       >
-        <Text variant="titleLarge"> {c.name}</Text>
-        {c.doneBy.length ? (
-          <Text variant="titleLarge"> {c.doneBy.map(d => d.icon)}</Text>
-        ) : (
-          <Text
-            variant="titleLarge"
-            style={{
-              backgroundColor:
-                c.daysSenceDone < c.interval ? "#535353ff" : "#930000ff",
-              borderRadius: 15,
-              height: 30,
-              width: 30,
-            }}
-          >
+        <Text variant="titleLarge"> {c.title}</Text>
+        {c.doneBy?.length ? (
+          <Text variant="titleLarge">
             {" "}
-            {c.daysSenceDone}
+            {c.doneBy.map(d => characters[d.characterId].emoji)}
           </Text>
+        ) : (
+          c.daysSinceDone !== null && (
+            <Text
+              variant="titleLarge"
+              style={{
+                backgroundColor:
+                  c.daysSinceDone < c.interval ? "#535353ff" : "#930000ff",
+                borderRadius: 15,
+                height: 30,
+                width: 30,
+              }}
+            >
+              {" "}
+              {c.daysSinceDone}
+            </Text>
+          )
         )}
       </Card.Content>
     </Card>

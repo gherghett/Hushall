@@ -24,7 +24,7 @@ export default async function postHousehold(newHousehold: {
           userId: newHousehold.ownerId,
           name: newHousehold.ownerName,
           role: "owner",
-          characterId: "0",
+          characterId: 0,
         },
       ],
       chores: [],
