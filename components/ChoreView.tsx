@@ -4,9 +4,10 @@ import {
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
 import { useCharacters } from "@/hooks/useCharacters";
+import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
-import { ScrollView, View } from "react-native";
-import { Card, FAB, Text } from "react-native-paper";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Card, FAB, Text, useTheme } from "react-native-paper";
 interface Member {
   id: number;
   name: string;
@@ -22,97 +23,73 @@ interface choreData {
 }
 
 export default function ChoreView() {
+  const theme = useTheme() as AppTheme;
   const household = useCurrentHousehold();
-
   const isOwner = useIsOwnerOfCurrentHousehold();
-
   const characters = useCharacters();
 
-  const members: Member[] = [
-    { id: 1, name: "Erick", icon: "🦊" },
-    { id: 2, name: "Arvid", icon: "🐙" },
-    { id: 3, name: "Josef", icon: "🐬" },
-  ];
-  const data = useChoresWithLastDone();
-  if (household == null || data === null) {
+  const chores = useChoresWithLastDone();
+  if (household == null || chores === null) {
     router.dismissAll();
     return null;
   }
-  // const data: choreData[] = [
-  //   {
-  //     id: 1,
-  //     name: "laga mat",
-  //     doneBy: [members[0]],
-  //     daysSenceDone: 0,
-  //     interval: 5,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Damsuga",
-  //     doneBy: [members[2]],
-  //     daysSenceDone: 0,
-  //     interval: 5,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Tvätta",
-  //     doneBy: [members[0], members[1]],
-  //     daysSenceDone: 0,
-  //     interval: 7,
-  //   },
-  //   { id: 4, name: "Damma", doneBy: [], daysSenceDone: 2, interval: 3 },
-  //   { id: 5, name: "diska", doneBy: [], daysSenceDone: 5, interval: 2 },
-  // ];
 
-  const choreView = data.map(c => (
-    <Card style={{ margin: 10 }} key={c.id}>
-      <Card.Content
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
-      >
-        <Text variant="titleLarge"> {c.title}</Text>
-        {c.doneBy?.length ? (
-          <Text variant="titleLarge">
-            {" "}
-            {c.doneBy.map(d => characters[d.characterId].emoji)}
-          </Text>
-        ) : (
-          c.daysSinceDone !== null && (
-            <Text
-              variant="titleLarge"
-              style={{
-                backgroundColor:
-                  c.daysSinceDone < c.interval ? "#535353ff" : "#930000ff",
-                borderRadius: 15,
-                height: 30,
-                width: 30,
-              }}
-            >
-              {" "}
-              {c.daysSinceDone}
-            </Text>
-          )
-        )}
-      </Card.Content>
-    </Card>
-  ));
+  const choreView = chores.map(c => {
+    // console.log(`Rendering chore: ${c.title}`);
+    // console.log(`doneBy:`, c.doneBy);
+    // console.log(`doneBy?.length:`, c.doneBy?.length);
+    // console.log(`daysSinceDone:`, c.daysSinceDone);
+    // console.log(
+    //   `Should show daysSinceDone:`,
+    //   !c.doneBy?.length && c.daysSinceDone !== null
+    // );
+
+    return (
+      <Card style={styles.cardContainer} key={c.id}>
+        <Card.Content style={styles.cardContent}>
+          <Text variant="titleMedium"> {c.title}</Text>
+          <View style={styles.rightSection}>
+            {c.daysSinceDone !== null && c.daysSinceDone <= c.interval && (
+              <Text variant="titleMedium">
+                {" "}
+                {c.doneBy.map(d => characters[d.characterId].emoji)}
+              </Text>
+            )}
+            {c.daysSinceDone !== null && (
+              <Text
+                variant="titleMedium"
+                style={[
+                  styles.daysBadge,
+                  {
+                    color:
+                      c.daysSinceDone < c.interval
+                        ? theme.colors.onPrimary
+                        : theme.colors.onError,
+                    backgroundColor:
+                      c.daysSinceDone < c.interval
+                        ? theme.colors.secondary
+                        : theme.colors.error,
+                  },
+                ]}
+              >
+                {c.daysSinceDone}
+              </Text>
+            )}
+          </View>
+        </Card.Content>
+      </Card>
+    );
+  });
 
   return (
-    <View style={{ flex: 1, position: "relative" }}>
-      <ScrollView style={{ width: "100%" }}>
-        <Text>{household.name}</Text>
-        {choreView}
-      </ScrollView>
+    <View style={styles.container}>
+      <ScrollView style={{ width: "100%" }}>{choreView}</ScrollView>
 
       {/* Bottom left button */}
       {isOwner && (
         <FAB
           icon="plus"
-          style={{
-            position: "absolute",
-            margin: 16,
-            left: 0,
-            bottom: 0,
-          }}
+          style={styles.fab}
           onPress={() => router.push("/protected/createChore")}
         />
       )}
@@ -133,3 +110,37 @@ export default function ChoreView() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+  },
+  cardContainer: {
+    margin: 10,
+  },
+  cardContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rightSection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  daysBadge: {
+    marginLeft: 15,
+    borderRadius: 15,
+    height: 30,
+    width: 30,
+    textAlign: "center",
+    textAlignVertical: "center",
+    lineHeight: 30,
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    left: 0,
+    bottom: 0,
+  },
+});
