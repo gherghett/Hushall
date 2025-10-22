@@ -37,6 +37,10 @@ export default function CreateChore() {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
+  if (!currentHousehold) {
+    router.dismissAll();
+    return null;
+  }
   const handleCreateChore = async () => {
     try {
       // Dont check if user is owner before proceeding,

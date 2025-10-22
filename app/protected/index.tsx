@@ -1,9 +1,8 @@
 import ChoreView from "@/components/ChoreView";
 import HouseholdHeader from "@/components/HouseholdHeader";
-import { AppTheme } from "@/lib/theme";
-import React from "react";
-import { StyleSheet, View } from "react-native";
 import StatisticsView from "@/components/StatisticsView";
+import { AppTheme } from "@/lib/theme";
+import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
 import { useTheme } from "react-native-paper";
 
@@ -13,10 +12,7 @@ export default function Index() {
     <View style={{ flex: 1 }}>
       <HouseholdHeader />
       <PagerView style={styles.pagerView} initialPage={0}>
-        <View
-          key="1"
-          style={[theme.styles.container, { backgroundColor: "#903939ff" }]}
-        >
+        <View key="1" style={[theme.styles.container]}>
           <ChoreView />
         </View>
         <View key="2" style={[styles.page, { backgroundColor: "#87CEEB" }]}>
