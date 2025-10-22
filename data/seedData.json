@@ -83,7 +83,7 @@
       ]
     }
   },
-  "membership": {
+  "memberships": {
     "u1": {
       "id": "u1",
       "households": ["h1", "h2"]

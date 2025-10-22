@@ -3,7 +3,7 @@ const mockData = require("./seedData.json");
 
 // Initialize Firebase Admin
 admin.initializeApp({
-  credential: admin.credential.cert("../serviceAccountKey.json"), // relative path from /data
+  credential: admin.credential.cert("./serviceAccountKey.json"), // relative path from /data
 });
 
 const db = admin.firestore();
@@ -25,12 +25,12 @@ async function seed() {
   await clearCollection("membership");
 
   for (const [id, household] of Object.entries(mockData.households)) {
-    await db.collection("household").doc(id).set(household);
+    await db.collection("households").doc(id).set(household);
     console.log(`✅ Added household: ${household.name}`);
   }
 
-  for (const [id, membership] of Object.entries(mockData.membership)) {
-    await db.collection("membership").doc(id).set(membership);
+  for (const [id, membership] of Object.entries(mockData.memberships)) {
+    await db.collection("memberships").doc(id).set(membership);
     console.log(`✅ Added membership for user: ${id}`);
   }
 
