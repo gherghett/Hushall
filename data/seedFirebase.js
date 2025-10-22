@@ -21,8 +21,8 @@ async function clearCollection(collectionName) {
 async function seed() {
   console.log("🌱 Starting Firestore seeding...");
 
-  await clearCollection("household");
-  await clearCollection("membership");
+  await clearCollection("households");
+  await clearCollection("memberships");
 
   for (const [id, household] of Object.entries(mockData.households)) {
     await db.collection("households").doc(id).set(household);
