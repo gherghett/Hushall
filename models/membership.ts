@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
-    id: z.string(),
-    households: z.array(z.string())
-}
-)
+  id: z.string(),
+  households: z.array(z.string()),
+});

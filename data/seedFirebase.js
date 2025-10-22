@@ -12,7 +12,7 @@ const db = admin.firestore();
 async function clearCollection(collectionName) {
   const snapshot = await db.collection(collectionName).get();
   const batch = db.batch();
-  snapshot.forEach((doc) => batch.delete(doc.ref));
+  snapshot.forEach(doc => batch.delete(doc.ref));
   await batch.commit();
   console.log(`🧹 Cleared collection: ${collectionName}`);
 }
