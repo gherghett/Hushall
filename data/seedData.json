@@ -2,81 +2,235 @@
   "households": {
     "h1": {
       "id": "h1",
-      "name": "theTestGarage",
-      "code": "A4G9KX",
+      "name": "Centrala Lägenheten",
+      "code": "CL8K3X",
       "applications": [],
       "members": [
         {
           "id": "m1",
-          "userId": "u1",
-          "name": "Alex Testman",
-          "characterId": "char_01"
+          "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+          "name": "Daniel",
+          "characterId": 1,
+          "role": "owner"
         },
         {
           "id": "m2",
-          "userId": "u2",
-          "name": "Jamie Wrench",
-          "characterId": "char_02"
+          "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+          "name": "Arvid",
+          "characterId": 2,
+          "role": "member"
+        },
+        {
+          "id": "m3",
+          "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+          "name": "Elin",
+          "characterId": 3,
+          "role": "member"
         }
       ],
       "chores": [
         {
           "id": "c1",
-          "description": "Take out the trash",
-          "interval": "weekly",
-          "weight": "2",
+          "title": "Tömma sopor",
+          "description": "Tömma alla sopkorgar och bära ut soporna till containern",
+          "interval": 7,
+          "weight": 3,
           "completions": [
             {
-              "completedBy": ["m1"],
+              "completedBy": [
+                {
+                  "id": "m1",
+                  "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+                  "name": "Daniel",
+                  "characterId": 1,
+                  "role": "owner"
+                }
+              ],
               "completedAt": "2025-10-20T08:30:00Z"
             }
           ]
         },
         {
           "id": "c2",
-          "description": "Clean the car",
-          "interval": "monthly",
-          "weight": "3",
+          "title": "Dammsuga vardagsrum",
+          "description": "Dammsuga hela vardagsrummet inklusive under soffor och bord",
+          "interval": 7,
+          "weight": 4,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m2",
+                  "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+                  "name": "Arvid",
+                  "characterId": 2,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-18T19:15:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Städa badrummet",
+          "description": "Rengöra dusch, toalett, handfat och moppa golvet",
+          "interval": 14,
+          "weight": 6,
           "completions": []
+        },
+        {
+          "id": "c4",
+          "title": "Handla mat",
+          "description": "Veckohandling på ICA eller Coop för hushållets behov",
+          "interval": 7,
+          "weight": 5,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m3",
+                  "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+                  "name": "Elin",
+                  "characterId": 3,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-19T16:45:00Z"
+            }
+          ]
         }
       ]
     },
     "h2": {
       "id": "h2",
-      "name": "TestingRoomies",
-      "code": "Z9M7BQ",
+      "name": "Studentkorridoren",
+      "code": "SK4M9Y",
       "applications": [],
       "members": [
         {
-          "id": "m3",
-          "userId": "u1",
-          "name": "Alex Testman",
-          "characterId": "char_01"
+          "id": "m4",
+          "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+          "name": "Erik",
+          "characterId": 4,
+          "role": "owner"
         },
         {
-          "id": "m4",
-          "userId": "u3",
-          "name": "Taylor Debug",
-          "characterId": "char_03"
+          "id": "m5",
+          "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+          "name": "Daniel",
+          "characterId": 1,
+          "role": "member"
+        },
+        {
+          "id": "m6",
+          "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+          "name": "Elin",
+          "characterId": 3,
+          "role": "member"
         }
       ],
       "chores": [
         {
-          "id": "c3",
-          "description": "Vacuum the living room",
-          "interval": "weekly",
-          "weight": "1",
+          "id": "c5",
+          "title": "Diska köket",
+          "description": "Diska all tallrikar, glas, bestick och rengöra bänkar",
+          "interval": 3,
+          "weight": 4,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m4",
+                  "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+                  "name": "Erik",
+                  "characterId": 4,
+                  "role": "owner"
+                }
+              ],
+              "completedAt": "2025-10-21T20:30:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c6",
+          "title": "Tvätta kläder",
+          "description": "Köra en maskin tvätt och hänga upp kläderna",
+          "interval": 7,
+          "weight": 3,
           "completions": []
         },
         {
-          "id": "c4",
-          "description": "Buy groceries",
-          "interval": "weekly",
-          "weight": "2",
+          "id": "c7",
+          "title": "Städa gemensamma ytor",
+          "description": "Dammsuga och torka av alla gemensamma utrymmen",
+          "interval": 14,
+          "weight": 5,
           "completions": [
             {
-              "completedBy": ["m3"],
-              "completedAt": "2025-10-19T15:00:00Z"
+              "completedBy": [
+                {
+                  "id": "m5",
+                  "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+                  "name": "Daniel",
+                  "characterId": 1,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-17T14:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    "h3": {
+      "id": "h3",
+      "name": "Kollektivet",
+      "code": "KL2W8Z",
+      "applications": [],
+      "members": [
+        {
+          "id": "m7",
+          "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+          "name": "Arvid",
+          "characterId": 2,
+          "role": "owner"
+        },
+        {
+          "id": "m8",
+          "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+          "name": "Erik",
+          "characterId": 4,
+          "role": "member"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c8",
+          "title": "Klippa gräset",
+          "description": "Klippa gräsmattan framför och bakom huset",
+          "interval": 14,
+          "weight": 7,
+          "completions": []
+        },
+        {
+          "id": "c9",
+          "title": "Vattna växter",
+          "description": "Vattna alla krukväxter inne och trädgårdsväxter ute",
+          "interval": 3,
+          "weight": 2,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m8",
+                  "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+                  "name": "Erik",
+                  "characterId": 4,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-20T12:15:00Z"
             }
           ]
         }
@@ -84,17 +238,21 @@
     }
   },
   "memberships": {
-    "u1": {
-      "id": "u1",
+    "s5PU4CILczMesHJE0b6Pt6Mbpol2": {
+      "id": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
       "households": ["h1", "h2"]
     },
-    "u2": {
-      "id": "u2",
-      "households": ["h1"]
+    "uShc0oI5zVbd7KODBlE26zUoxlX2": {
+      "id": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+      "households": ["h1", "h3"]
     },
-    "u3": {
-      "id": "u3",
-      "households": ["h2"]
+    "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1": {
+      "id": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+      "households": ["h1", "h2"]
+    },
+    "MFVqTA03qAfS35iKOfUOBMqIGpj1": {
+      "id": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+      "households": ["h2", "h3"]
     }
   }
 }
