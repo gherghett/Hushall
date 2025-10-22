@@ -17,6 +17,7 @@ import {
   Button,
   Card,
   FAB,
+  Icon,
   Modal,
   Portal,
   Text,
@@ -105,6 +106,8 @@ export default function ChoreView() {
   const completeChoreMutation = useCompleteChoreMutation();
   const user = useAtomValue(userAtom);
 
+  const [editMode, setEditMode] = useState(false);
+
   const [memberPickerVisible, setMemberPickerVisible] = useState(false);
   const [selectedChoreId, setSelectedChoreId] = useState<string | null>(null);
 
@@ -148,36 +151,70 @@ export default function ChoreView() {
     // );
 
     return (
-      <TouchableOpacity key={c.id} onPress={() => handleChorePress(c.id)}>
+      <TouchableOpacity
+        key={c.id}
+        disabled={editMode}
+        onPress={() => handleChorePress(c.id)}
+      >
         <Card style={styles.cardContainer}>
           <Card.Content style={styles.cardContent}>
             <Text variant="titleMedium"> {c.title}</Text>
             <View style={styles.rightSection}>
-              {c.daysSinceDone !== null && c.daysSinceDone <= c.interval && (
-                <Text variant="titleMedium">
-                  {" "}
-                  {c.doneBy.map(d => characters[d.characterId].emoji)}
-                </Text>
+              {!editMode && (
+                <>
+                  {c.daysSinceDone !== null &&
+                    c.daysSinceDone <= c.interval && (
+                      <Text variant="titleMedium">
+                        {" "}
+                        {c.doneBy.map(d => characters[d.characterId].emoji)}
+                      </Text>
+                    )}
+                  {c.daysSinceDone !== null && (
+                    <Text
+                      variant="titleMedium"
+                      style={[
+                        styles.daysBadge,
+                        {
+                          color:
+                            c.daysSinceDone < c.interval
+                              ? theme.colors.onSecondaryContainer
+                              : theme.colors.onError,
+                          backgroundColor:
+                            c.daysSinceDone < c.interval
+                              ? theme.colors.secondaryContainer
+                              : theme.colors.error,
+                        },
+                      ]}
+                    >
+                      {c.daysSinceDone}
+                    </Text>
+                  )}
+                </>
               )}
-              {c.daysSinceDone !== null && (
-                <Text
-                  variant="titleMedium"
-                  style={[
-                    styles.daysBadge,
-                    {
-                      color:
-                        c.daysSinceDone < c.interval
-                          ? theme.colors.onSecondaryContainer
-                          : theme.colors.onError,
-                      backgroundColor:
-                        c.daysSinceDone < c.interval
-                          ? theme.colors.secondaryContainer
-                          : theme.colors.error,
-                    },
-                  ]}
-                >
-                  {c.daysSinceDone}
-                </Text>
+              {editMode && (
+                <>
+                  <TouchableOpacity
+                    style={{ padding: 0, margin: 0 }}
+                    onPress={() => console.log("asdas")}
+                  >
+                    <Text style={{ marginRight: 16 }}>
+                      <Icon
+                        size={25}
+                        color={theme.colors.secondary}
+                        source="pencil"
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ padding: 0, margin: 0 }}>
+                    <Text style={{}}>
+                      <Icon
+                        size={25}
+                        color={theme.colors.secondary}
+                        source="trash-can"
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
           </Card.Content>
@@ -206,24 +243,23 @@ export default function ChoreView() {
       {isOwner && (
         <FAB
           icon="plus"
-          style={styles.fab}
+          style={[styles.fab, { left: 0 }]}
           onPress={() => router.push("/protected/createChore")}
         />
       )}
 
-      {/* Bottom right button - you can uncomment this when needed */}
-      {/*
-      <FAB
-        icon="cog"
-        style={{
-          position: 'absolute',
-          margin: 16,
-          right: 0,
-          bottom: 0,
-        }}
-        onPress={() => console.log('Bottom right button pressed')}
-      />
-      */}
+      {isOwner && (
+        <FAB
+          icon={!editMode ? "pencil" : "close"}
+          style={[
+            styles.fab,
+            {
+              right: 0,
+            },
+          ]}
+          onPress={() => setEditMode(!editMode)}
+        />
+      )}
     </View>
   );
 }
@@ -240,6 +276,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 64,
   },
   rightSection: {
     flexDirection: "row",
@@ -257,7 +294,6 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     margin: 16,
-    left: 0,
     bottom: 0,
   },
   modalContainer: {
