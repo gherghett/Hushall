@@ -1,8 +1,7 @@
 import { userAtom } from "@/atoms/auth-atoms";
 import { useCreateHouseholdMutation } from "@/atoms/household-atoms";
-import { AppTheme } from "@/lib/theme";
 import { useAtomValue } from "jotai";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -16,13 +15,12 @@ interface CreateHouseholdProps {
   onDismiss: () => void;
 }
 
-export default function CreateHousehold({
+export default function CreateHouseholdPopup({
   visible,
   onDismiss,
 }: CreateHouseholdProps) {
   const [householdName, setHouseholdName] = useState("");
   const user = useAtomValue(userAtom);
-  const theme = useTheme() as AppTheme;
 
   const createHouseholdMutation = useCreateHouseholdMutation();
 
@@ -59,7 +57,11 @@ export default function CreateHousehold({
         <Dialog.Actions
           style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
-          <Button onPress={onDismiss} style={{ flex: 1, marginRight: 8 }}>
+          <Button
+            onPress={onDismiss}
+            style={{ flex: 1, marginRight: 8 }}
+            mode="outlined"
+          >
             Avbryt
           </Button>
           <Button
