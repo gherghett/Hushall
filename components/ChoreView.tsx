@@ -128,57 +128,46 @@ export default function ChoreView() {
         householdId: household.id,
         completedBy: member,
       });
-
-      console.log(
-        `Chore ${selectedChoreId} completed by member ${member.name}`
-      );
     } catch (error) {
       console.error("Failed to complete chore:", error);
     }
   };
 
   const choreView = chores.map(c => {
-    // console.log(`Rendering chore: ${c.title}`);
-    // console.log(`doneBy:`, c.doneBy);
-    // console.log(`doneBy?.length:`, c.doneBy?.length);
-    // console.log(`daysSinceDone:`, c.daysSinceDone);
-    // console.log(
-    //   `Should show daysSinceDone:`,
-    //   !c.doneBy?.length && c.daysSinceDone !== null
-    // );
-
     return (
       <TouchableOpacity key={c.id} onPress={() => handleChorePress(c.id)}>
         <Card style={styles.cardContainer}>
           <Card.Content style={styles.cardContent}>
             <Text variant="titleMedium"> {c.title}</Text>
             <View style={styles.rightSection}>
-              {c.daysSinceDone !== null && c.daysSinceDone <= c.interval && (
-                <Text variant="titleMedium">
-                  {" "}
-                  {c.doneBy.map(d => characters[d.characterId].emoji)}
-                </Text>
-              )}
-              {c.daysSinceDone !== null && (
-                <Text
-                  variant="titleMedium"
-                  style={[
-                    styles.daysBadge,
-                    {
-                      color:
-                        c.daysSinceDone < c.interval
-                          ? theme.colors.onSecondaryContainer
-                          : theme.colors.onError,
-                      backgroundColor:
-                        c.daysSinceDone < c.interval
-                          ? theme.colors.secondaryContainer
-                          : theme.colors.error,
-                    },
-                  ]}
-                >
-                  {c.daysSinceDone}
-                </Text>
-              )}
+              {c.daysSinceDone !== null && c.daysSinceDone === 0
+                ? c.daysSinceDone !== null &&
+                  c.daysSinceDone <= c.interval && (
+                    <Text variant="titleMedium">
+                      {" "}
+                      {c.doneBy.map(d => characters[d.characterId].emoji)}
+                    </Text>
+                  )
+                : c.daysSinceDone !== null && (
+                    <Text
+                      variant="titleMedium"
+                      style={[
+                        styles.daysBadge,
+                        {
+                          color:
+                            c.daysSinceDone < c.interval
+                              ? theme.colors.onSecondaryContainer
+                              : theme.colors.onError,
+                          backgroundColor:
+                            c.daysSinceDone < c.interval
+                              ? theme.colors.secondaryContainer
+                              : theme.colors.error,
+                        },
+                      ]}
+                    >
+                      {c.daysSinceDone}
+                    </Text>
+                  )}
             </View>
           </Card.Content>
         </Card>
