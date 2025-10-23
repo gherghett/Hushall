@@ -1,66 +1,80 @@
-// import { userAtom } from "@/atoms/auth-atoms";
-// import { useCreateHouseholdMutation } from "@/atoms/household-atoms";
-// import { AppTheme } from "@/lib/theme";
-// import { useAtomValue } from "jotai";
-// import React, { useState } from "react";
-// import {
-//   Button,
-//   Card,
-//   Modal,
-//   Text,
-//   TextInput,
-//   useTheme,
-// } from "react-native-paper";
+import { userAtom } from "@/atoms/auth-atoms";
+import { useCreateHouseholdMutation } from "@/atoms/household-atoms";
+import { AppTheme } from "@/lib/theme";
+import { useAtomValue } from "jotai";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Dialog,
+  Portal,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 
-// export default function CreateHoushold() {
-//   const theme = useTheme() as AppTheme;
-//   const [householdName, setHouseholdName] = useState("");
-//   const user = useAtomValue(userAtom);
-//   const [modalVisible, setModalVisible] = useState(true);
+interface CreateHouseholdProps {
+  visible: boolean;
+  onDismiss: () => void;
+}
 
-//   // Use the centralized mutation hook from atoms
-//   const createHouseholdMutation = useCreateHouseholdMutation();
+export default function CreateHousehold({
+  visible,
+  onDismiss,
+}: CreateHouseholdProps) {
+  const [householdName, setHouseholdName] = useState("");
+  const user = useAtomValue(userAtom);
+  const theme = useTheme() as AppTheme;
 
-//   const handleCreateHouseholdSubmit = () => {
-//     if (!user || !householdName.trim()) return;
+  const createHouseholdMutation = useCreateHouseholdMutation();
 
-//     createHouseholdMutation.mutate({
-//       name: householdName,
-//       ownerId: user.uid,
-//       ownerName: user.displayName || user.email || "Unknown User",
-//     });
-//   };
+  const handleSubmit = () => {
+    if (!user || !householdName.trim()) return;
 
-//   // Close modal when mutation succeeds
-//   React.useEffect(() => {
-//     if (createHouseholdMutation.isSuccess) {
-//       setModalVisible(false);
-//     }
-//   }, [createHouseholdMutation.isSuccess]);
+    createHouseholdMutation.mutate({
+      name: householdName,
+      ownerId: user.uid,
+      ownerName: user.displayName || user.email || "Unknown User",
+    });
+  };
 
-//   return (
-//     <Modal visible={modalVisible}>
-//       <Card>
-//         <Card.Content>
-//           <Text variant="titleLarge">Skapa hushåll</Text>
-//           <Text variant="labelMedium">Hushållsnamn</Text>
-//           <TextInput
-//             label={"namn"}
-//             onChangeText={setHouseholdName}
-//             mode="outlined"
-//           />
-//           <Button
-//             mode="contained"
-//             loading={createHouseholdMutation.isPending}
-//             disabled={
-//               createHouseholdMutation.isPending || !householdName.trim()
-//             }
-//             onPress={handleCreateHouseholdSubmit}
-//           >
-//             Create
-//           </Button>
-//         </Card.Content>
-//       </Card>
-//     </Modal>
-//   );
-// }
+  useEffect(() => {
+    if (createHouseholdMutation.isSuccess) {
+      setHouseholdName("");
+      onDismiss();
+    }
+  }, [createHouseholdMutation.isSuccess]);
+
+  return (
+    <Portal>
+      <Dialog visible={visible} onDismiss={onDismiss}>
+        <Dialog.Title>Skapa hushåll</Dialog.Title>
+        <Dialog.Content>
+          <TextInput
+            label="Namn på hushåll"
+            value={householdName}
+            onChangeText={setHouseholdName}
+            mode="outlined"
+            style={{ marginBottom: 10 }}
+          />
+        </Dialog.Content>
+        <Dialog.Actions
+          style={{ flexDirection: "row", justifyContent: "space-between" }}
+        >
+          <Button onPress={onDismiss} style={{ flex: 1, marginRight: 8 }}>
+            Avbryt
+          </Button>
+          <Button
+            mode="contained"
+            loading={createHouseholdMutation.isPending}
+            disabled={
+              createHouseholdMutation.isPending || !householdName.trim()
+            }
+            onPress={handleSubmit}
+            style={{ flex: 1 }}
+          >
+            Skapa
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
+  );
+}

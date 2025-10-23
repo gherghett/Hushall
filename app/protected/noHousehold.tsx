@@ -1,10 +1,12 @@
 import { AppTheme } from "@/lib/theme";
-import { router } from "expo-router";
 import { View } from "react-native";
 import { Button, Surface, Text, useTheme } from "react-native-paper";
+import React, { useState } from "react";
+import CreateHousehold from "@/components/CreateHousehold";
 
 export default function NoHousehold() {
   const theme = useTheme() as AppTheme;
+  const [popupVisible, setPopupVisible] = useState(false);
 
   return (
     <View
@@ -24,10 +26,7 @@ export default function NoHousehold() {
         >
           Dags att ha full koll på tvätten!
         </Text>
-        <Button
-          mode="contained"
-          onPress={() => router.push("/protected/createHousehold")}
-        >
+        <Button mode="contained" onPress={() => setPopupVisible(true)}>
           Skapa nytt hushåll
         </Button>
         <Text
@@ -42,6 +41,11 @@ export default function NoHousehold() {
         </Text>
         <Button mode="outlined">Gå med i någon annans hushåll</Button>
       </Surface>
+
+      <CreateHousehold
+        visible={popupVisible}
+        onDismiss={() => setPopupVisible(false)}
+      />
     </View>
   );
 }
