@@ -2,82 +2,127 @@ import {
   useCurrentHousehold,
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
+import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
-import { Card, FAB, Text } from "react-native-paper";
+import { Card, FAB, Text, useTheme } from "react-native-paper";
 interface Member {
-  id: number;
+  id: string;
   name: string;
+  characterId: string;
+  role: "owner" | "member";
+  userId?: string | undefined;
+}
+
+interface characterIcon{
+  id: number;
+  color: string;
   icon: string;
 }
 
-interface choreData {
-  id: number;
-  name: string;
-  doneBy: Member[];
-  daysSenceDone: number;
+interface ChoreData {
+  id: string;
+  title: string;
+  description: string;
   interval: number;
+  weight: number;
+  LastCompletion: Completion | null;
 }
 
+interface Completion {
+  completedAt: Date;
+  completedBy: string[];
+}
+
+function CheckToday(completion: Completion): boolean{
+  return true; // TODO
+}
+function ChoreIcon(completion: Completion | null, members: Member[]){
+const characterIcons: characterIcon[] = [
+    { id: 1, icon: "🦊", color: "#e07e08ff" },
+    { id: 2, icon: "🐙", color: "#db0808ff" },
+    { id: 3, icon: "🐬", color: "#05e0efff" },
+  ];
+
+  if( completion == null)
+    return
+
+  if(CheckToday(completion))
+  {
+
+    const icon = completion.completedBy
+      .map((m_id) => {
+        const c_id = members.find((m) => m.id === m_id)?.characterId;
+        return characterIcons.find((ci) => ci.id.toString() == c_id )?.icon
+      });
+    console.log(icon)
+    return(
+      <Text variant="titleLarge"> {icon} </Text>
+    );
+  }
+
+} 
+
 export default function ChoreView() {
+
+
+  const theme = useTheme() as AppTheme
   const household = useCurrentHousehold();
   const isOwner = useIsOwnerOfCurrentHousehold();
+  const members: Member[] = household.members;
+  const data: ChoreData[] = household.chores.map((c) => {
+  // if no completions
+  if (!c.completions?.length) {
+    return { ...c, LastCompletion: null };
+  }
 
-  const members: Member[] = [
-    { id: 1, name: "Erick", icon: "🦊" },
-    { id: 2, name: "Arvid", icon: "🐙" },
-    { id: 3, name: "Josef", icon: "🐬" },
-  ];
+  // find the latest completion
+  const latest = c.completions.reduce((a, b) =>
+    new Date(a.completedAt) > new Date(b.completedAt) ? a : b
+  );
 
-  const data: choreData[] = [
-    {
-      id: 1,
-      name: "laga mat",
-      doneBy: [members[0]],
-      daysSenceDone: 0,
-      interval: 5,
-    },
-    {
-      id: 2,
-      name: "Damsuga",
-      doneBy: [members[2]],
-      daysSenceDone: 0,
-      interval: 5,
-    },
-    {
-      id: 3,
-      name: "Tvätta",
-      doneBy: [members[0], members[1]],
-      daysSenceDone: 0,
-      interval: 7,
-    },
-    { id: 4, name: "Damma", doneBy: [], daysSenceDone: 2, interval: 3 },
-    { id: 5, name: "diska", doneBy: [], daysSenceDone: 5, interval: 2 },
-  ];
+  // convert to your simplified Completion format
+  const latestCompletion: Completion = {
+    completedAt: new Date(latest.completedAt),
+    completedBy: latest.completedBy.map((cb) => cb.id),
+  };
 
+  return {
+    id: c.id,
+    title: c.title,
+    description: c.description,
+    interval: c.interval,
+    weight: c.weight,
+    LastCompletion: latestCompletion,
+  };
+});
   const choreView = data.map(c => (
     <Card style={{ margin: 10 }} key={c.id}>
       <Card.Content
         style={{ flexDirection: "row", justifyContent: "space-between" }}
       >
-        <Text variant="titleLarge"> {c.name}</Text>
-        {c.doneBy.length ? (
-          <Text variant="titleLarge"> {c.doneBy.map(d => d.icon)}</Text>
-        ) : (
-          <Text
+        <Text variant="titleLarge"> {c.title}</Text>
+        {ChoreIcon(c.LastCompletion, members) /*c.LastCompletion ? 
+        (
+          CheckToday(c.LastCompletion) ?
+          ( 
+            <Text variant="titleLarge"> {choreIcon(c.LastCompletion, members)}</Text>
+          ) : (
+            <Text
             variant="titleLarge"
             style={{
               backgroundColor:
-                c.daysSenceDone < c.interval ? "#535353ff" : "#930000ff",
+              c.LastCompletion.completedAt.getDay() < c.interval ? theme.colors.primaryContainer : theme.colors.errorContainer,
               borderRadius: 15,
               height: 30,
               width: 30,
             }}
-          >
+            >
             {" "}
-            {c.daysSenceDone}
+            {c.LastCompletion.completedAt.getDate()}
           </Text>
-        )}
+          )) : (  <Text> todo</Text>)*/}
+      
       </Card.Content>
     </Card>
   ));
