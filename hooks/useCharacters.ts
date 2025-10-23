@@ -98,7 +98,7 @@ export const useCharacters = (): Character[] => {
           onPrimary: "#FFFFFF",
           secondary: "#b167b5ff",
         },
-      }
+      },
     ];
   } else {
     return [
