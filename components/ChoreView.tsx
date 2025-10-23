@@ -4,6 +4,7 @@ import {
   useCompleteChoreMutation,
   useCurrentHousehold,
   useCurrentMembers,
+  useDeleteChoreMutation,
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
 import { Character, useCharacters } from "@/hooks/useCharacters";
@@ -104,6 +105,7 @@ export default function ChoreView() {
   const characters = useCharacters();
   const members = useCurrentMembers();
   const completeChoreMutation = useCompleteChoreMutation();
+  const deleteChoreMutation = useDeleteChoreMutation();
   const user = useAtomValue(userAtom);
 
   const [editMode, setEditMode] = useState(false);
@@ -137,6 +139,25 @@ export default function ChoreView() {
       );
     } catch (error) {
       console.error("Failed to complete chore:", error);
+    }
+  };
+
+  const handleEditChore = (choreId: string) => {
+    router.push(`/protected/createChore?choreId=${choreId}`);
+  };
+
+  const handleDeleteChore = async (choreId: string) => {
+    if (!household) return;
+
+    try {
+      await deleteChoreMutation.mutateAsync({
+        choreId,
+        householdId: household.id,
+      });
+
+      console.log(`Chore ${choreId} deleted`);
+    } catch (error) {
+      console.error("Failed to delete chore:", error);
     }
   };
 
@@ -195,7 +216,7 @@ export default function ChoreView() {
                 <>
                   <TouchableOpacity
                     style={{ padding: 0, margin: 0 }}
-                    onPress={() => console.log("asdas")}
+                    onPress={() => handleEditChore(c.id)}
                   >
                     <Text style={{ marginRight: 16 }}>
                       <Icon
@@ -205,7 +226,10 @@ export default function ChoreView() {
                       />
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ padding: 0, margin: 0 }}>
+                  <TouchableOpacity
+                    style={{ padding: 0, margin: 0 }}
+                    onPress={() => handleDeleteChore(c.id)}
+                  >
                     <Text style={{}}>
                       <Icon
                         size={25}

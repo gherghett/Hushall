@@ -26,7 +26,7 @@ function StackLayout() {
             options={{
               headerShown: true,
               headerBackVisible: true,
-              title: `Skapa ny syssla i ${currentHousehold?.name}`,
+              title: `Syssla i ${currentHousehold?.name}`,
             }}
           />
         </Stack.Protected>

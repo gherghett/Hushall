@@ -1,8 +1,10 @@
+import { deleteChore } from "@/api/deleteChore";
 import getHouseholds from "@/api/getHouseholds";
 import postChore from "@/api/postChore";
 import postCompletion from "@/api/postCompletion";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
+import { updateChore } from "@/api/updateChore";
 import { Household } from "@/models/household";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtomValue } from "jotai";
@@ -192,6 +194,60 @@ export const useCompleteChoreMutation = () => {
     },
     onError: error => {
       console.error("Error completing chore:", error);
+    },
+  });
+};
+
+// Mutation for deleting a chore
+export const useDeleteChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      choreId,
+      householdId,
+    }: {
+      choreId: string;
+      householdId: string;
+    }) => deleteChore({ choreId, householdId }),
+    onSuccess: (data, variables) => {
+      console.log("Chore deleted successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error deleting chore:", error);
+    },
+  });
+};
+
+// Mutation for updating a chore
+export const useUpdateChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      choreId,
+      householdId,
+      updates,
+    }: {
+      choreId: string;
+      householdId: string;
+      updates: any;
+    }) => updateChore({ choreId, householdId, updates }),
+    onSuccess: (data, variables) => {
+      console.log("Chore updated successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error updating chore:", error);
     },
   });
 };
