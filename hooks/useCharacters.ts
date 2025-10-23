@@ -29,7 +29,7 @@ export const useCharacters = (): Character[] => {
       },
       {
         id: 1,
-        emoji: "🐋",
+        emoji: "🐬",
         colors: {
           primary: "#1976D2",
           onPrimary: "#FFFFFF",
@@ -40,14 +40,14 @@ export const useCharacters = (): Character[] => {
         id: 2,
         emoji: "🐙",
         colors: {
-          primary: "#6A1B9A",
+          primary: "#ba2525ff",
           onPrimary: "#FFFFFF",
-          secondary: "#4A148C",
+          secondary: "#b85858ff",
         },
       },
       {
         id: 3,
-        emoji: "🐣",
+        emoji: "🐥",
         colors: {
           primary: "#F57F17",
           onPrimary: "#FFFFFF",
@@ -82,32 +82,23 @@ export const useCharacters = (): Character[] => {
         },
       },
       {
+        id: 6,
+        emoji: "🦉",
+        colors: {
+          primary: "#795548",
+          onPrimary: "#FFFFFF",
+          secondary: "#BCAAA4",
+        },
+      },
+      {
         id: 7,
-        emoji: "🦁",
+        emoji: "🦄",
         colors: {
-          primary: "#FF8F00",
+          primary: "#b40bbcff",
           onPrimary: "#FFFFFF",
-          secondary: "#E65100",
+          secondary: "#b167b5ff",
         },
-      },
-      {
-        id: 8,
-        emoji: "🐺",
-        colors: {
-          primary: "#424242",
-          onPrimary: "#FFFFFF",
-          secondary: "#212121",
-        },
-      },
-      {
-        id: 9,
-        emoji: "🐰",
-        colors: {
-          primary: "#00ACC1",
-          onPrimary: "#FFFFFF",
-          secondary: "#00838F",
-        },
-      },
+      }
     ];
   } else {
     return [
@@ -122,7 +113,7 @@ export const useCharacters = (): Character[] => {
       },
       {
         id: 1,
-        emoji: "🐋",
+        emoji: "🐬",
         colors: {
           primary: "#2196F3",
           onPrimary: "#FFFFFF",
@@ -133,14 +124,14 @@ export const useCharacters = (): Character[] => {
         id: 2,
         emoji: "🐙",
         colors: {
-          primary: "#7B1FA2",
+          primary: "#ba2525ff",
           onPrimary: "#FFFFFF",
-          secondary: "#BA68C8",
+          secondary: "#b85858ff",
         },
       },
       {
         id: 3,
-        emoji: "🐣",
+        emoji: "🐥",
         colors: {
           primary: "#FFC107",
           onPrimary: "#FFFFFF",
@@ -167,7 +158,7 @@ export const useCharacters = (): Character[] => {
       },
       {
         id: 6,
-        emoji: "🐨",
+        emoji: "🦉",
         colors: {
           primary: "#795548",
           onPrimary: "#FFFFFF",
@@ -176,29 +167,11 @@ export const useCharacters = (): Character[] => {
       },
       {
         id: 7,
-        emoji: "🦁",
+        emoji: "🦄",
         colors: {
-          primary: "#FF9800",
+          primary: "#b40bbcff",
           onPrimary: "#FFFFFF",
-          secondary: "#FFCC02",
-        },
-      },
-      {
-        id: 8,
-        emoji: "🐺",
-        colors: {
-          primary: "#607D8B",
-          onPrimary: "#FFFFFF",
-          secondary: "#B0BEC5",
-        },
-      },
-      {
-        id: 9,
-        emoji: "🐰",
-        colors: {
-          primary: "#00BCD4",
-          onPrimary: "#FFFFFF",
-          secondary: "#80DEEA",
+          secondary: "#b167b5ff",
         },
       },
     ];
