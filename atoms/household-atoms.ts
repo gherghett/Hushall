@@ -126,6 +126,25 @@ export const useCurrentMembers = () => {
   const currentHousehold = useCurrentHousehold();
   return currentHousehold?.members ?? null;
 };
+export const useMemberCompletionValue = (startDate: Date , endDate: Date) => {
+  const currentHousehold = useCurrentHousehold();
+  if (!currentHousehold) return null;
+
+  const weightByMember: Record<string, number> = {};
+
+  currentHousehold.chores.forEach((chore) => {
+    chore.completions.forEach((completion) => {
+      const date: Date = new Date(completion.completedAt)
+      completion.completedBy.forEach((member) => {
+        if( date >= startDate && date <= endDate)
+        weightByMember[member.id] =
+          (weightByMember[member.id] || 0) + chore.weight;
+      });
+    });
+  });
+  return weightByMember; 
+};
+
 export const useChoresWithLastDone = () => {
   const currentHousehold = useCurrentHousehold();
   if (!currentHousehold) return null;
