@@ -1,149 +1,212 @@
+import { userAtom } from "@/atoms/auth-atoms";
 import {
+  useChoresWithLastDone,
+  useCompleteChoreMutation,
   useCurrentHousehold,
+  useCurrentMembers,
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
+import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
+import { Member } from "@/models/household";
 import { router } from "expo-router";
-import { ScrollView, View } from "react-native";
-import { Card, FAB, Text, useTheme } from "react-native-paper";
-interface Member {
-  id: string;
-  name: string;
-  characterId: string;
-  role: "owner" | "member";
-  userId?: string | undefined;
+import { useAtomValue } from "jotai";
+import { useState } from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  Card,
+  FAB,
+  Modal,
+  Portal,
+  Text,
+  useTheme,
+} from "react-native-paper";
+
+interface MemberPickerProps {
+  visible: boolean;
+  onDismiss: () => void;
+  onMemberSelect: (member: Member) => void;
+  members: Member[];
+  currentUserId: string | null;
+  characters: Character[];
 }
 
-interface characterIcon{
-  id: number;
-  color: string;
-  icon: string;
-}
+const MemberPicker = ({
+  visible,
+  onDismiss,
+  onMemberSelect,
+  members,
+  currentUserId,
+  characters,
+}: MemberPickerProps) => {
+  const theme = useTheme() as AppTheme;
 
-interface ChoreData {
-  id: string;
-  title: string;
-  description: string;
-  interval: number;
-  weight: number;
-  LastCompletion: Completion | null;
-}
-
-interface Completion {
-  completedAt: Date;
-  completedBy: string[];
-}
-
-function CheckToday(completion: Completion): boolean{
-  return true; // TODO
-}
-function ChoreIcon(completion: Completion | null, members: Member[]){
-const characterIcons: characterIcon[] = [
-    { id: 1, icon: "🦊", color: "#e07e08ff" },
-    { id: 2, icon: "🐙", color: "#db0808ff" },
-    { id: 3, icon: "🐬", color: "#05e0efff" },
-  ];
-
-  if( completion == null)
-    return
-
-  if(CheckToday(completion))
-  {
-
-    const icon = completion.completedBy
-      .map((m_id) => {
-        const c_id = members.find((m) => m.id === m_id)?.characterId;
-        return characterIcons.find((ci) => ci.id.toString() == c_id )?.icon
-      });
-    console.log(icon)
-    return(
-      <Text variant="titleLarge"> {icon} </Text>
-    );
-  }
-
-} 
-
-export default function ChoreView() {
-
-
-  const theme = useTheme() as AppTheme
-  const household = useCurrentHousehold();
-  const isOwner = useIsOwnerOfCurrentHousehold();
-  const members: Member[] = household.members;
-  const data: ChoreData[] = household.chores.map((c) => {
-  // if no completions
-  if (!c.completions?.length) {
-    return { ...c, LastCompletion: null };
-  }
-
-  // find the latest completion
-  const latest = c.completions.reduce((a, b) =>
-    new Date(a.completedAt) > new Date(b.completedAt) ? a : b
-  );
-
-  // convert to your simplified Completion format
-  const latestCompletion: Completion = {
-    completedAt: new Date(latest.completedAt),
-    completedBy: latest.completedBy.map((cb) => cb.id),
-  };
-
-  return {
-    id: c.id,
-    title: c.title,
-    description: c.description,
-    interval: c.interval,
-    weight: c.weight,
-    LastCompletion: latestCompletion,
-  };
-});
-  const choreView = data.map(c => (
-    <Card style={{ margin: 10 }} key={c.id}>
-      <Card.Content
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
-      >
-        <Text variant="titleLarge"> {c.title}</Text>
-        {ChoreIcon(c.LastCompletion, members) /*c.LastCompletion ? 
-        (
-          CheckToday(c.LastCompletion) ?
-          ( 
-            <Text variant="titleLarge"> {choreIcon(c.LastCompletion, members)}</Text>
-          ) : (
-            <Text
-            variant="titleLarge"
-            style={{
-              backgroundColor:
-              c.LastCompletion.completedAt.getDay() < c.interval ? theme.colors.primaryContainer : theme.colors.errorContainer,
-              borderRadius: 15,
-              height: 30,
-              width: 30,
-            }}
-            >
-            {" "}
-            {c.LastCompletion.completedAt.getDate()}
-          </Text>
-          )) : (  <Text> todo</Text>)*/}
-      
-      </Card.Content>
-    </Card>
-  ));
+  const currentUserMember = members.find(m => m.userId === currentUserId);
+  const otherMembers = members.filter(m => m.userId !== currentUserId);
 
   return (
-    <View style={{ flex: 1, position: "relative" }}>
-      <ScrollView style={{ width: "100%" }}>
-        <Text>{household.name}</Text>
-        {choreView}
-      </ScrollView>
+    <Portal>
+      <Modal
+        visible={visible}
+        onDismiss={onDismiss}
+        contentContainerStyle={[
+          styles.modalContainer,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <Text variant="titleLarge" style={styles.modalTitle}>
+          Vem har gjort sysslan?
+        </Text>
+
+        {/* Primary button for current user */}
+        {currentUserMember && (
+          <Button
+            mode="contained"
+            style={[styles.memberButton, styles.primaryButton]}
+            onPress={() => {
+              onMemberSelect(currentUserMember);
+              onDismiss();
+            }}
+          >
+            {`Jag (${characters[currentUserMember.characterId]?.emoji || ""} ${currentUserMember.name})`}
+          </Button>
+        )}
+
+        {/* Secondary/tertiary buttons for other members */}
+        {otherMembers.map(member => (
+          <Button
+            key={member.id}
+            mode="outlined"
+            style={[styles.memberButton, styles.secondaryButton]}
+            onPress={() => {
+              onMemberSelect(member);
+              onDismiss();
+            }}
+          >
+            {`${characters[member.characterId]?.emoji || ""} ${member.name}`}
+          </Button>
+        ))}
+
+        <Button mode="text" onPress={onDismiss} style={styles.cancelButton}>
+          Avbryt
+        </Button>
+      </Modal>
+    </Portal>
+  );
+};
+
+export default function ChoreView() {
+  const theme = useTheme() as AppTheme;
+  const household = useCurrentHousehold();
+  const isOwner = useIsOwnerOfCurrentHousehold();
+  const characters = useCharacters();
+  const members = useCurrentMembers();
+  const completeChoreMutation = useCompleteChoreMutation();
+  const user = useAtomValue(userAtom);
+
+  const [memberPickerVisible, setMemberPickerVisible] = useState(false);
+  const [selectedChoreId, setSelectedChoreId] = useState<string | null>(null);
+
+  const chores = useChoresWithLastDone();
+  if (household == null || chores === null) {
+    router.dismissAll();
+    return null;
+  }
+
+  const handleChorePress = (choreId: string) => {
+    setSelectedChoreId(choreId);
+    setMemberPickerVisible(true);
+  };
+
+  const handleMemberSelect = async (member: Member) => {
+    if (!household || !selectedChoreId) return;
+
+    try {
+      await completeChoreMutation.mutateAsync({
+        choreId: selectedChoreId,
+        householdId: household.id,
+        completedBy: member,
+      });
+
+      console.log(
+        `Chore ${selectedChoreId} completed by member ${member.name}`
+      );
+    } catch (error) {
+      console.error("Failed to complete chore:", error);
+    }
+  };
+
+  const choreView = chores.map(c => {
+    // console.log(`Rendering chore: ${c.title}`);
+    // console.log(`doneBy:`, c.doneBy);
+    // console.log(`doneBy?.length:`, c.doneBy?.length);
+    // console.log(`daysSinceDone:`, c.daysSinceDone);
+    // console.log(
+    //   `Should show daysSinceDone:`,
+    //   !c.doneBy?.length && c.daysSinceDone !== null
+    // );
+
+    return (
+      <TouchableOpacity key={c.id} onPress={() => handleChorePress(c.id)}>
+        <Card style={styles.cardContainer}>
+          <Card.Content style={styles.cardContent}>
+            <Text variant="titleMedium"> {c.title}</Text>
+            <View style={styles.rightSection}>
+              {c.daysSinceDone !== null && c.daysSinceDone <= c.interval && (
+                <Text variant="titleMedium">
+                  {" "}
+                  {c.doneBy.map(d => characters[d.characterId].emoji)}
+                </Text>
+              )}
+              {c.daysSinceDone !== null && (
+                <Text
+                  variant="titleMedium"
+                  style={[
+                    styles.daysBadge,
+                    {
+                      color:
+                        c.daysSinceDone < c.interval
+                          ? theme.colors.onSecondaryContainer
+                          : theme.colors.onError,
+                      backgroundColor:
+                        c.daysSinceDone < c.interval
+                          ? theme.colors.secondaryContainer
+                          : theme.colors.error,
+                    },
+                  ]}
+                >
+                  {c.daysSinceDone}
+                </Text>
+              )}
+            </View>
+          </Card.Content>
+        </Card>
+      </TouchableOpacity>
+    );
+  });
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={{ width: "100%" }}>{choreView}</ScrollView>
+
+      {/* Member Picker Modal */}
+      {members && (
+        <MemberPicker
+          visible={memberPickerVisible}
+          onDismiss={() => setMemberPickerVisible(false)}
+          onMemberSelect={handleMemberSelect}
+          members={members}
+          currentUserId={user?.uid || null}
+          characters={characters}
+        />
+      )}
 
       {/* Bottom left button */}
       {isOwner && (
         <FAB
           icon="plus"
-          style={{
-            position: "absolute",
-            margin: 16,
-            left: 0,
-            bottom: 0,
-          }}
+          style={styles.fab}
           onPress={() => router.push("/protected/createChore")}
         />
       )}
@@ -164,3 +227,58 @@ export default function ChoreView() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+  },
+  cardContainer: {
+    margin: 10,
+  },
+  cardContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rightSection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  daysBadge: {
+    marginLeft: 15,
+    borderRadius: 15,
+    height: 30,
+    width: 30,
+    textAlign: "center",
+    textAlignVertical: "center",
+    lineHeight: 30,
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    left: 0,
+    bottom: 0,
+  },
+  modalContainer: {
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
+  },
+  modalTitle: {
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  memberButton: {
+    marginVertical: 8,
+  },
+  primaryButton: {
+    marginBottom: 16,
+  },
+  secondaryButton: {
+    // Additional styling for secondary buttons if needed
+  },
+  cancelButton: {
+    marginTop: 16,
+  },
+});

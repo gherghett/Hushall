@@ -4,7 +4,7 @@ export const memberSchema = z.object({
   id: z.string(),
   userId: z.string().optional(), //potentiellProblem
   name: z.string().min(1, "Name is required"), //potentiellProblem
-  characterId: z.enum(["0", "1", "2", "3", "4", "5", "6", "7", "8"]),
+  characterId: z.number().int().min(1).max(9),
   role: z.enum(["owner", "member"]),
 });
 
