@@ -133,10 +133,6 @@ export default function ChoreView() {
         householdId: household.id,
         completedBy: member,
       });
-
-      console.log(
-        `Chore ${selectedChoreId} completed by member ${member.name}`
-      );
     } catch (error) {
       console.error("Failed to complete chore:", error);
     }
@@ -162,15 +158,6 @@ export default function ChoreView() {
   };
 
   const choreView = chores.map(c => {
-    // console.log(`Rendering chore: ${c.title}`);
-    // console.log(`doneBy:`, c.doneBy);
-    // console.log(`doneBy?.length:`, c.doneBy?.length);
-    // console.log(`daysSinceDone:`, c.daysSinceDone);
-    // console.log(
-    //   `Should show daysSinceDone:`,
-    //   !c.doneBy?.length && c.daysSinceDone !== null
-    // );
-
     return (
       <TouchableOpacity
         key={c.id}
