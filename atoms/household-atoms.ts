@@ -133,16 +133,16 @@ export const useChoresWithLastDone = () => {
   if (!currentHousehold) return null;
 
   return currentHousehold.chores.map(c => {
-    console.log(`Processing chore: ${c.title}`);
+    // console.log(`Processing chore: ${c.title}`);
     const { completions, ...rest } = c;
-    console.log(`Completions count: ${completions.length}`);
+    // console.log(`Completions count: ${completions.length}`);
 
     const lastCompletion = [...completions].sort(
       (a, b) =>
         new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
     )[0];
 
-    console.log(`Last completion:`, lastCompletion);
+    // console.log(`Last completion:`, lastCompletion);
 
     const daysSinceDone = lastCompletion
       ? Math.floor(
@@ -155,12 +155,12 @@ export const useChoresWithLastDone = () => {
       const now = Date.now();
       const completedTime = new Date(lastCompletion.completedAt).getTime();
       const timeDiff = now - completedTime;
-      console.log(
-        `Now: ${now}, Completed: ${completedTime}, Diff: ${timeDiff}ms`
-      );
-      console.log(`Days since done: ${daysSinceDone}`);
+      // console.log(
+      //   `Now: ${now}, Completed: ${completedTime}, Diff: ${timeDiff}ms`
+      // );
+      // console.log(`Days since done: ${daysSinceDone}`);
     } else {
-      console.log(`No completions found, daysSinceDone: null`);
+      // console.log(`No completions found, daysSinceDone: null`);
     }
 
     return {
