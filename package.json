@@ -15,6 +15,7 @@
     "seed": "node data/seedFirebase.js"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
@@ -23,6 +24,7 @@
     "@tanstack/react-query": "^5.90.5",
     "deepmerge": "^4.3.1",
     "expo": "~54.0.12",
+    "expo-cli": "^6.3.12",
     "expo-constants": "~18.0.9",
     "expo-font": "~14.0.8",
     "expo-haptics": "~15.0.7",
