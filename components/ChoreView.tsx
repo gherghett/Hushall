@@ -4,6 +4,7 @@ import {
   useCompleteChoreMutation,
   useCurrentHousehold,
   useCurrentMembers,
+  useDeleteChoreMutation,
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
 import { Character, useCharacters } from "@/hooks/useCharacters";
@@ -17,6 +18,7 @@ import {
   Button,
   Card,
   FAB,
+  Icon,
   Modal,
   Portal,
   Text,
@@ -103,7 +105,10 @@ export default function ChoreView() {
   const characters = useCharacters();
   const members = useCurrentMembers();
   const completeChoreMutation = useCompleteChoreMutation();
+  const deleteChoreMutation = useDeleteChoreMutation();
   const user = useAtomValue(userAtom);
+
+  const [editMode, setEditMode] = useState(false);
 
   const [memberPickerVisible, setMemberPickerVisible] = useState(false);
   const [selectedChoreId, setSelectedChoreId] = useState<string | null>(null);
@@ -133,22 +138,46 @@ export default function ChoreView() {
     }
   };
 
+  const handleEditChore = (choreId: string) => {
+    router.push(`/(protected)/createChore?choreId=${choreId}`);
+  };
+
+  const handleDeleteChore = async (choreId: string) => {
+    if (!household) return;
+
+    try {
+      await deleteChoreMutation.mutateAsync({
+        choreId,
+        householdId: household.id,
+      });
+
+      console.log(`Chore ${choreId} deleted`);
+    } catch (error) {
+      console.error("Failed to delete chore:", error);
+    }
+  };
+
   const choreView = chores.map(c => {
     return (
-      <TouchableOpacity key={c.id} onPress={() => handleChorePress(c.id)}>
+      <TouchableOpacity
+        key={c.id}
+        disabled={editMode}
+        onPress={() => handleChorePress(c.id)}
+      >
         <Card style={styles.cardContainer}>
           <Card.Content style={styles.cardContent}>
             <Text variant="titleMedium"> {c.title}</Text>
             <View style={styles.rightSection}>
-              {c.daysSinceDone !== null && c.daysSinceDone === 0
-                ? c.daysSinceDone !== null &&
-                  c.daysSinceDone <= c.interval && (
-                    <Text variant="titleMedium">
-                      {" "}
-                      {c.doneBy.map(d => characters[d.characterId].emoji)}
-                    </Text>
-                  )
-                : c.daysSinceDone !== null && (
+              {!editMode && (
+                <>
+                  {c.daysSinceDone !== null &&
+                    c.daysSinceDone <= c.interval && (
+                      <Text variant="titleMedium">
+                        {" "}
+                        {c.doneBy.map(d => characters[d.characterId].emoji)}
+                      </Text>
+                    )}
+                  {c.daysSinceDone !== null && (
                     <Text
                       variant="titleMedium"
                       style={[
@@ -168,6 +197,36 @@ export default function ChoreView() {
                       {c.daysSinceDone}
                     </Text>
                   )}
+                </>
+              )}
+              {editMode && (
+                <>
+                  <TouchableOpacity
+                    style={{ padding: 0, margin: 0 }}
+                    onPress={() => handleEditChore(c.id)}
+                  >
+                    <Text style={{ marginRight: 16 }}>
+                      <Icon
+                        size={25}
+                        color={theme.colors.secondary}
+                        source="pencil"
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{ padding: 0, margin: 0 }}
+                    onPress={() => handleDeleteChore(c.id)}
+                  >
+                    <Text style={{}}>
+                      <Icon
+                        size={25}
+                        color={theme.colors.secondary}
+                        source="trash-can"
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           </Card.Content>
         </Card>
@@ -196,23 +255,22 @@ export default function ChoreView() {
         <FAB
           icon="plus"
           style={styles.fab}
-          onPress={() => router.push("//protected)/createChore")}
+          onPress={() => router.push("/(protected)/createChore")}
         />
       )}
 
-      {/* Bottom right button - you can uncomment this when needed */}
-      {/*
-      <FAB
-        icon="cog"
-        style={{
-          position: 'absolute',
-          margin: 16,
-          right: 0,
-          bottom: 0,
-        }}
-        onPress={() => console.log('Bottom right button pressed')}
-      />
-      */}
+      {isOwner && (
+        <FAB
+          icon={!editMode ? "pencil" : "close"}
+          style={[
+            styles.fab,
+            {
+              right: 0,
+            },
+          ]}
+          onPress={() => setEditMode(!editMode)}
+        />
+      )}
     </View>
   );
 }
@@ -229,6 +287,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 64,
   },
   rightSection: {
     flexDirection: "row",
@@ -246,7 +305,6 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     margin: 16,
-    left: 0,
     bottom: 0,
   },
   modalContainer: {

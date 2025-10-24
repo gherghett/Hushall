@@ -33,3 +33,8 @@ Initierings/Planerings möte:
 - avstämning.
 - mera figma.
 - beslut om databas och struktur.
+
+# Fredag 24 October
+
+- Ändrat namn på mappar och filer för att kunna utveckla på iOS
+- Ändrat i filer för att navigera rätt
