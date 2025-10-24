@@ -17,7 +17,7 @@ export default function NotFoundScreen() {
       isAuthenticated
     );
     if (isAuthenticated) {
-      router.replace("/protected" as any);
+      router.replace("/(protected)" as any);
     } else {
       router.replace("/auth" as any);
     }
