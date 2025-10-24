@@ -139,7 +139,7 @@ export default function ChoreView() {
   };
 
   const handleEditChore = (choreId: string) => {
-    router.push(`/protected/createChore?choreId=${choreId}`);
+    router.push(`/(protected)/createChore?choreId=${choreId}`);
   };
 
   const handleDeleteChore = async (choreId: string) => {
@@ -254,8 +254,8 @@ export default function ChoreView() {
       {isOwner && (
         <FAB
           icon="plus"
-          style={[styles.fab, { left: 0 }]}
-          onPress={() => router.push("/protected/createChore")}
+          style={styles.fab}
+          onPress={() => router.push("/(protected)/createChore")}
         />
       )}
 

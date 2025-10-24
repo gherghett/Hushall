@@ -95,7 +95,7 @@ export default function CreateChore() {
       }
 
       setSnackbarVisible(true);
-      router.dismissTo("/protected");
+      router.dismissTo("/(protected)");
 
       // Reset form if creating
       if (!isEditing) {
