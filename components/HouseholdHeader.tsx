@@ -12,7 +12,7 @@ export default function HouseholdHeader() {
         <HouseholdDropDown />
         <Button
           style={{}}
-          onPress={() => router.navigate("/protected/settings")}
+          onPress={() => router.navigate("/(protected)/settings")}
         >
           <Ionicons name="settings-outline" size={24} color="#737373ff" />
         </Button>
