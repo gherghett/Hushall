@@ -67,7 +67,7 @@ export default function CreateChore() {
 
       setSnackbarMessage("Syssla skapad!");
       setSnackbarVisible(true);
-      router.dismissTo("/protected");
+      router.dismissTo("/(protected)");
 
       // Reset form
       setChoreTitle("");

@@ -196,7 +196,7 @@ export default function ChoreView() {
         <FAB
           icon="plus"
           style={styles.fab}
-          onPress={() => router.push("/protected/createChore")}
+          onPress={() => router.push("/(protected)/createChore")}
         />
       )}
 
