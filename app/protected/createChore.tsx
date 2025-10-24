@@ -1,13 +1,14 @@
 import {
   useCreateChoreMutation,
   useCurrentHousehold,
+  useUpdateChoreMutation,
 } from "@/atoms/household-atoms";
 import IntervalPicker from "@/components/IntervalPicker";
 import WeightPicker from "@/components/WeightPicker";
 import { AppTheme } from "@/lib/theme";
 import { createChoreFormSchema } from "@/models/household";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import {
   Button,
@@ -19,15 +20,17 @@ import {
 } from "react-native-paper";
 import { z } from "zod";
 
-// Create a schema for the form data (without id and completions which are generated)
-
 export default function CreateChore() {
   const theme = useTheme() as AppTheme;
+  const params = useLocalSearchParams();
+  const choreId = params.choreId as string | undefined;
 
-  // Hooks for household and chore creation
+  // Hooks for household and chore creation/updating
   const createChoreMutation = useCreateChoreMutation();
+  const updateChoreMutation = useUpdateChoreMutation();
   const currentHousehold = useCurrentHousehold();
 
+  // Values for the chore
   const [choreTitle, setChoreTitle] = useState("");
   const [choreDescription, setChoreDescription] = useState("");
   const [choreInterval, setChoreInterval] = useState(7);
@@ -37,15 +40,28 @@ export default function CreateChore() {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
+  // If editing, populate form with existing chore data
+  useEffect(() => {
+    if (choreId && currentHousehold) {
+      const chore = currentHousehold.chores.find(c => c.id === choreId);
+      if (chore) {
+        setChoreTitle(chore.title);
+        setChoreDescription(chore.description);
+        setChoreInterval(chore.interval);
+        setChoreWeight(chore.weight);
+      }
+    }
+  }, [choreId, currentHousehold]);
+
   if (!currentHousehold) {
     router.dismissAll();
     return null;
   }
-  const handleCreateChore = async () => {
-    try {
-      // Dont check if user is owner before proceeding,
-      // this should be impossible since the path is protected
 
+  const isEditing = !!choreId;
+
+  const handleSubmit = async () => {
+    try {
       // Validate the form data
       const formData = {
         title: choreTitle,
@@ -59,21 +75,35 @@ export default function CreateChore() {
       // Clear any previous errors
       setErrors({});
 
-      // Create the chore using the mutation
-      await createChoreMutation.mutateAsync({
-        newChore: validatedData,
-        householdId: currentHousehold.id,
-      });
+      if (isEditing) {
+        // Update the chore
+        await updateChoreMutation.mutateAsync({
+          choreId,
+          householdId: currentHousehold.id,
+          updates: validatedData,
+        });
 
-      setSnackbarMessage("Syssla skapad!");
+        setSnackbarMessage("Syssla uppdaterad!");
+      } else {
+        // Create the chore
+        await createChoreMutation.mutateAsync({
+          newChore: validatedData,
+          householdId: currentHousehold.id,
+        });
+
+        setSnackbarMessage("Syssla skapad!");
+      }
+
       setSnackbarVisible(true);
       router.dismissTo("/protected");
 
-      // Reset form
-      setChoreTitle("");
-      setChoreDescription("");
-      setChoreInterval(7);
-      setChoreWeight(5);
+      // Reset form if creating
+      if (!isEditing) {
+        setChoreTitle("");
+        setChoreDescription("");
+        setChoreInterval(7);
+        setChoreWeight(5);
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Handle validation errors
@@ -87,8 +117,13 @@ export default function CreateChore() {
         setSnackbarMessage("Kontrollera att alla fält är korrekt ifyllda");
         setSnackbarVisible(true);
       } else {
-        console.error("Error creating chore:", error);
-        setSnackbarMessage("Något gick fel när sysslan skulle skapas");
+        console.error(
+          `Error ${isEditing ? "updating" : "creating"} chore:`,
+          error
+        );
+        setSnackbarMessage(
+          `Något gick fel när sysslan skulle ${isEditing ? "uppdateras" : "skapas"}`
+        );
         setSnackbarVisible(true);
       }
     }
@@ -136,9 +171,9 @@ export default function CreateChore() {
         <Button
           style={[{ marginTop: 20 }]}
           mode="contained"
-          onPress={handleCreateChore}
+          onPress={handleSubmit}
         >
-          Skapa
+          {isEditing ? "Uppdatera" : "Skapa"}
         </Button>
       </Surface>
 
