@@ -1,8 +1,10 @@
+import { deleteChore } from "@/api/deleteChore";
 import getHouseholds from "@/api/getHouseholds";
 import postChore from "@/api/postChore";
 import postCompletion from "@/api/postCompletion";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
+import { updateChore } from "@/api/updateChore";
 import { Household } from "@/models/household";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtomValue } from "jotai";
@@ -131,16 +133,16 @@ export const useChoresWithLastDone = () => {
   if (!currentHousehold) return null;
 
   return currentHousehold.chores.map(c => {
-    console.log(`Processing chore: ${c.title}`);
+    // console.log(`Processing chore: ${c.title}`);
     const { completions, ...rest } = c;
-    console.log(`Completions count: ${completions.length}`);
+    // console.log(`Completions count: ${completions.length}`);
 
     const lastCompletion = [...completions].sort(
       (a, b) =>
         new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
     )[0];
 
-    console.log(`Last completion:`, lastCompletion);
+    // console.log(`Last completion:`, lastCompletion);
 
     const daysSinceDone = lastCompletion
       ? Math.floor(
@@ -153,12 +155,12 @@ export const useChoresWithLastDone = () => {
       const now = Date.now();
       const completedTime = new Date(lastCompletion.completedAt).getTime();
       const timeDiff = now - completedTime;
-      console.log(
-        `Now: ${now}, Completed: ${completedTime}, Diff: ${timeDiff}ms`
-      );
-      console.log(`Days since done: ${daysSinceDone}`);
+      // console.log(
+      //   `Now: ${now}, Completed: ${completedTime}, Diff: ${timeDiff}ms`
+      // );
+      // console.log(`Days since done: ${daysSinceDone}`);
     } else {
-      console.log(`No completions found, daysSinceDone: null`);
+      // console.log(`No completions found, daysSinceDone: null`);
     }
 
     return {
@@ -192,6 +194,60 @@ export const useCompleteChoreMutation = () => {
     },
     onError: error => {
       console.error("Error completing chore:", error);
+    },
+  });
+};
+
+// Mutation for deleting a chore
+export const useDeleteChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      choreId,
+      householdId,
+    }: {
+      choreId: string;
+      householdId: string;
+    }) => deleteChore({ choreId, householdId }),
+    onSuccess: (data, variables) => {
+      console.log("Chore deleted successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error deleting chore:", error);
+    },
+  });
+};
+
+// Mutation for updating a chore
+export const useUpdateChoreMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      choreId,
+      householdId,
+      updates,
+    }: {
+      choreId: string;
+      householdId: string;
+      updates: any;
+    }) => updateChore({ choreId, householdId, updates }),
+    onSuccess: (data, variables) => {
+      console.log("Chore updated successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error updating chore:", error);
     },
   });
 };
