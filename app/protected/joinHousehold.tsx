@@ -8,7 +8,7 @@ import { View } from "react-native";
 import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function JoinHouseholdScreen() {
-  const [householdName, setHouseholdName] = useState("");
+  const [householdCode, setHouseholdCode] = useState("");
   const user = useAtomValue(userAtom);
   const theme = useTheme() as AppTheme;
 
@@ -16,10 +16,10 @@ export default function JoinHouseholdScreen() {
   const joinHouseholdMutation = useJoinHouseholdMutation();
 
   const handleJoinHouseholdSubmit = () => {
-    if (!user || !householdName.trim()) return;
+    if (!user || !householdCode) return;
 
     joinHouseholdMutation.mutate({
-      code: householdName.trim().toUpperCase(),
+      code: householdCode,
       userId: user.uid,
       userName: user.displayName || user.email || "Unknown User",
     });
@@ -36,13 +36,13 @@ export default function JoinHouseholdScreen() {
     <View style={theme.styles.container}>
       <Surface style={{ padding: 20 }}>
         <Text variant="labelMedium" style={{ marginBottom: 8 }}>
-          Hushållsnamn
+          Kod
         </Text>
 
         <TextInput
-          label="Namn på hushåll"
-          value={householdName}
-          onChangeText={setHouseholdName}
+          label="Kod"
+          value={householdCode}
+          onChangeText={setHouseholdCode}
           mode="outlined"
           style={{ marginBottom: 20 }}
         />
@@ -50,7 +50,7 @@ export default function JoinHouseholdScreen() {
         <Button
           mode="contained"
           loading={joinHouseholdMutation.isPending}
-          disabled={joinHouseholdMutation.isPending || !householdName.trim()}
+          disabled={joinHouseholdMutation.isPending || !householdCode.trim()}
           onPress={handleJoinHouseholdSubmit}
           style={{ marginBottom: 10 }}
         >
