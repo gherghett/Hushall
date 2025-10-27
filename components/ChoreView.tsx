@@ -29,6 +29,7 @@ interface MemberPickerProps {
   visible: boolean;
   onDismiss: () => void;
   onMemberSelect: (member: Member) => void;
+  chore: any | undefined;
   members: Member[];
   currentUserId: string | null;
   characters: Character[];
@@ -39,6 +40,7 @@ const MemberPicker = ({
   onDismiss,
   onMemberSelect,
   members,
+  chore,
   currentUserId,
   characters,
 }: MemberPickerProps) => {
@@ -60,6 +62,8 @@ const MemberPicker = ({
         <Text variant="titleLarge" style={styles.modalTitle}>
           Vem har gjort sysslan?
         </Text>
+
+        {chore && <Text>{chore.description}</Text>}
 
         {/* Primary button for current user */}
         {currentUserMember && (
@@ -246,6 +250,7 @@ export default function ChoreView() {
           onDismiss={() => setMemberPickerVisible(false)}
           onMemberSelect={handleMemberSelect}
           members={members}
+          chore={chores.find(c => c.id == selectedChoreId)}
           currentUserId={user?.uid || null}
           characters={characters}
         />
