@@ -1,4 +1,5 @@
 import { db } from "@/lib/firebase";
+import { getAvailableCharacterId } from "@/lib/getAvailableCharacterId";
 import {
   arrayUnion,
   collection,
@@ -47,7 +48,7 @@ export default async function joinHousehold({
 
     await updateDoc(householdDoc.ref, {
       members: arrayUnion({
-        CharacterId: 2,
+        CharacterId: getAvailableCharacterId,
         userId: userId,
         name: userName,
         role: "member",
