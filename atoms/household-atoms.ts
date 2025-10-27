@@ -4,12 +4,9 @@ import postChore from "@/api/postChore";
 import postCompletion from "@/api/postCompletion";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
-<<<<<<< HEAD
+import updateChore from "@/api/updateChore";
 import joinHousehold from "@/api/updateHousehold";
-=======
-import { updateChore } from "@/api/updateChore";
 import { Household } from "@/models/household";
->>>>>>> main
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtomValue } from "jotai";
 import { userAtom } from "./auth-atoms";
@@ -45,7 +42,6 @@ export const useCreateHouseholdMutation = () => {
   });
 };
 
-<<<<<<< HEAD
 // Mutation for joining a new household
 export const useJoinHouseholdMutation = () => {
   const queryClient = useQueryClient();
@@ -56,7 +52,16 @@ export const useJoinHouseholdMutation = () => {
       console.log("Household joined successfully:", data);
 
       // Invalidate and refetch the households query
-=======
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
+    },
+    onError: error => {
+      console.error("Error joining household:", error);
+    },
+  });
+};
+
 // Mutation for creating a new chore
 export const useCreateChoreMutation = () => {
   const queryClient = useQueryClient();
@@ -73,17 +78,12 @@ export const useCreateChoreMutation = () => {
       console.log("Chore created successfully:", data);
 
       // Invalidate and refetch the households query since chores are part of household data
->>>>>>> main
       queryClient.invalidateQueries({
         queryKey: [queryKeys.households],
       });
     },
     onError: error => {
-<<<<<<< HEAD
-      console.error("Error joining household:", error);
-=======
       console.error("Error creating chore:", error);
->>>>>>> main
     },
   });
 };
