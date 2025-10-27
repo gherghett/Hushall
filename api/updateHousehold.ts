@@ -2,8 +2,10 @@ import { db } from "@/lib/firebase";
 import {
   arrayUnion,
   collection,
+  doc,
   getDocs,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -45,10 +47,21 @@ export default async function joinHousehold({
 
     await updateDoc(householdDoc.ref, {
       members: arrayUnion({
-        uid: userId,
+        CharacterId: 2,
+        userId: userId,
         name: userName,
+        role: "member",
       }),
     });
+
+    await setDoc(
+      doc(db, "memberships", userId),
+      {
+        userId: userId,
+        households: arrayUnion(householdDoc.ref.id),
+      },
+      { merge: true } // This enables upsert behavior
+    );
 
     return { success: true, message: "Du har gått med i hushållet!" };
   } catch (error) {

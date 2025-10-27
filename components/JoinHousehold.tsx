@@ -1,83 +1,66 @@
-// import { userAtom } from "@/atoms/auth-atoms";
-// import { db } from "@/lib/firebase";
-// import { AppTheme } from "@/lib/theme";
-// import {
-//   arrayUnion,
-//   collection,
-//   getDocs,
-//   query,
-//   updateDoc,
-//   where,
-// } from "firebase/firestore";
-// import { useAtomValue } from "jotai";
-// import React, { useState } from "react";
-// import { Alert } from "react-native";
-// import {
-//   Button,
-//   Card,
-//   Modal,
-//   Text,
-//   TextInput,
-//   useTheme,
-// } from "react-native-paper";
+import { userAtom } from "@/atoms/auth-atoms";
+import { useJoinHouseholdMutation } from "@/atoms/household-atoms";
+import { AppTheme } from "@/lib/theme";
+import { router } from "expo-router";
+import { useAtomValue } from "jotai";
+import React, { useState } from "react";
+import { View } from "react-native";
+import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
-// export default function JoinHoushold() {
-//   const theme = useTheme() as AppTheme;
-//   const user = useAtomValue(userAtom);
-//   const [householdCode, setHouseholdCode] = useState("");
-//   const [modalVisible, setModalVisible] = useState(true);
-//   const [isLoading, setIsLoading] = useState(false);
+export default function JoinHouseholdScreen() {
+  const [householdCode, setHouseholdCode] = useState("");
+  const user = useAtomValue(userAtom);
+  const theme = useTheme() as AppTheme;
 
-//   const handleJoinHouseholdSubmit = async (code: string) => {
-//     setIsLoading(true);
-//     try {
-//       const q = query(collection(db, "Households"), where("code", "==", code));
-//       const querySnap = await getDocs(q);
+  // Use the centralized mutation hook from atoms
+  const joinHouseholdMutation = useJoinHouseholdMutation();
 
-//       if (querySnap.empty) {
-//         Alert.alert("Fel", "Ingen hushåll hittades med den koden.");
-//         setIsLoading(false);
-//         return;
-//       }
+  const handleJoinHouseholdSubmit = () => {
+    if (!user || !householdCode) return;
 
-//       const householdDoc = querySnap.docs[0];
+    joinHouseholdMutation.mutate({
+      code: householdCode,
+      userId: user.uid,
+      userName: user.displayName || user.email || "Unknown User",
+    });
+  };
 
-//       await updateDoc(householdDoc.ref, {
-//         members: arrayUnion({
-//           id: user!.uid,
-//           name: user!.displayName,
-//         }),
-//       });
-//     } catch (error) {
-//       console.error("Error joining household:", error);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
+  // Navigate back when mutation succeeds
+  React.useEffect(() => {
+    if (joinHouseholdMutation.isSuccess) {
+      router.back();
+    }
+  }, [joinHouseholdMutation.isSuccess]);
 
-//   return (
-//     <Modal visible={modalVisible}>
-//       <Card>
-//         <Card.Content>
-//           <Text variant="titleLarge">Gå med hushåll</Text>
-//           <TextInput
-//             label={"kod"}
-//             onChangeText={setHouseholdCode}
-//             mode="outlined"
-//           />
-//           <Button
-//             mode="contained"
-//             loading={isLoading}
-//             disabled={isLoading}
-//             onPress={() => {
-//               setModalVisible(!modalVisible);
-//               handleJoinHouseholdSubmit(householdCode);
-//             }}
-//           >
-//             Join
-//           </Button>
-//         </Card.Content>
-//       </Card>
-//     </Modal>
-//   );
-// }
+  return (
+    <View style={theme.styles.container}>
+      <Surface style={{ padding: 20 }}>
+        <Text variant="labelMedium" style={{ marginBottom: 8 }}>
+          Kod
+        </Text>
+
+        <TextInput
+          label="Kod"
+          value={householdCode}
+          onChangeText={setHouseholdCode}
+          mode="outlined"
+          style={{ marginBottom: 20 }}
+        />
+
+        <Button
+          mode="contained"
+          loading={joinHouseholdMutation.isPending}
+          disabled={joinHouseholdMutation.isPending || !householdCode.trim()}
+          onPress={handleJoinHouseholdSubmit}
+          style={{ marginBottom: 10 }}
+        >
+          Gå med hushåll
+        </Button>
+
+        <Button mode="text" onPress={() => router.back()}>
+          Avbryt
+        </Button>
+      </Surface>
+    </View>
+  );
+}
