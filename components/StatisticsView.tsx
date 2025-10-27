@@ -38,17 +38,17 @@ export default function StatisticsView(props: props) {
   const household = useCurrentHousehold();
   const characters: Character[] = useCharacters();
   const members = useCurrentMembers();
-  const compleationsValue = useMemberCompletionValue(
+  const completionsValue = useMemberCompletionValue(
     props.DateRange.start,
     props.DateRange.end
   );
-  if (!members || !compleationsValue) return;
+  if (!members || !completionsValue) return;
 
   const mainSeries = members
     .map(m => {
       const character = characters[m.characterId];
       return {
-        value: compleationsValue[m.id],
+        value: completionsValue[m.id],
         color: character?.colors.primary ?? "#999", // fallback color
         label: {
           text: character?.emoji ?? "❓", // fallback icon
