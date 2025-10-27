@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
-export default function CreateHouseholdScreen() {
+export default function CreateHousehold() {
   const [householdName, setHouseholdName] = useState("");
   const user = useAtomValue(userAtom);
   const theme = useTheme() as AppTheme;
