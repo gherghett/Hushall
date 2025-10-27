@@ -26,7 +26,7 @@ function StackLayout() {
       {/* Auth screen - only available when NOT authenticated */}
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen
-          name="auth"
+          name="index"
           options={{
             title: "Sign In",
             headerShown: false,
