@@ -1,4 +1,8 @@
-import { useCurrentHousehold, useCurrentMembers, useMemberCompletionValue } from "@/atoms/household-atoms";
+import {
+  useCurrentHousehold,
+  useCurrentMembers,
+  useMemberCompletionValue,
+} from "@/atoms/household-atoms";
 import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
 import { View } from "react-native";
@@ -34,21 +38,25 @@ export default function StatisticsView(props: props) {
   const household = useCurrentHousehold();
   const characters: Character[] = useCharacters();
   const members = useCurrentMembers();
-  const compleationsValue = useMemberCompletionValue(props.DateRange.start, props.DateRange.end)
-  if(!members || !compleationsValue)
-    return;
+  const compleationsValue = useMemberCompletionValue(
+    props.DateRange.start,
+    props.DateRange.end
+  );
+  if (!members || !compleationsValue) return;
 
-  const mainSeries = members.map(m => {
-    const character = characters[m.characterId]
-    return {
-      value: compleationsValue[m.id],
-      color: character?.colors.primary ?? "#999", // fallback color
-      label: {
-        text: character?.emoji ?? "❓", // fallback icon
-        fontSize: 24,
-      },
-    };
-  }).filter(s => (s.value !== 0 && s.value !== undefined));
+  const mainSeries = members
+    .map(m => {
+      const character = characters[m.characterId];
+      return {
+        value: compleationsValue[m.id],
+        color: character?.colors.primary ?? "#999", // fallback color
+        label: {
+          text: character?.emoji ?? "❓", // fallback icon
+          fontSize: 24,
+        },
+      };
+    })
+    .filter(s => s.value !== 0 && s.value !== undefined);
 
   return (
     <View>
