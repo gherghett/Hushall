@@ -15,13 +15,13 @@ export default function Index() {
         <View key="1" style={[theme.styles.container]}>
           <ChoreView />
         </View>
-        <View key="2" style={[styles.page, { backgroundColor: "#87CEEB" }]}>
+        <View key="2" style={[styles.page]}>
           <StatisticsView DateRange={getCurentWeekRange()} />
         </View>
-        <View key="3" style={[styles.page, { backgroundColor: "#90EE90" }]}>
+        <View key="3" style={[styles.page]}>
           <StatisticsView DateRange={getLastWeekRange()} />
         </View>
-        <View key="4" style={[styles.page, { backgroundColor: "#FFD700" }]}>
+        <View key="4" style={[styles.page]}>
           <StatisticsView DateRange={getLastMonthRange()} />
         </View>
       </PagerView>

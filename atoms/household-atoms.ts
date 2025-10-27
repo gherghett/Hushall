@@ -132,15 +132,25 @@ export const useMemberCompletionValue = (startDate: Date, endDate: Date) => {
   const currentHousehold = useCurrentHousehold();
   if (!currentHousehold) return null;
 
-  const weightByMember: Record<string, number> = {};
+  const weightByMember: Record<
+    string,
+    {
+      total: number;
+      byChore: Record<string, number>;
+    }
+  > = {};
 
   currentHousehold.chores.forEach(chore => {
     chore.completions.forEach(completion => {
       const date: Date = new Date(completion.completedAt);
       completion.completedBy.forEach(member => {
+        if (!weightByMember[member.name])
+          weightByMember[member.name] = { total: 0, byChore: {} };
         if (date >= startDate && date <= endDate)
-          weightByMember[member.id] =
-            (weightByMember[member.id] || 0) + chore.weight;
+          weightByMember[member.name].total += chore.weight;
+        if (!weightByMember[member.name].byChore[chore.title])
+          weightByMember[member.name].byChore[chore.title] = 0;
+        weightByMember[member.name].byChore[chore.title] += chore.weight;
       });
     });
   });

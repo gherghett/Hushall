@@ -15,23 +15,6 @@ interface props {
     end: Date;
   };
 }
-interface Member {
-  id: number;
-  name: string;
-  characterId: number;
-}
-
-interface ChoreInstance {
-  memberId: number;
-  weight: number;
-  date: Date;
-}
-
-interface characterIcon {
-  id: number;
-  icon: string;
-  color: string;
-}
 
 export default function StatisticsView(props: props) {
   const theme = useTheme() as AppTheme;
@@ -42,13 +25,15 @@ export default function StatisticsView(props: props) {
     props.DateRange.start,
     props.DateRange.end
   );
+  console.log(completionsValue);
   if (!members || !completionsValue) return;
 
   const mainSeries = members
     .map(m => {
       const character = characters[m.characterId];
+      const memberData = completionsValue[m.name] ?? { total: 0 };
       return {
-        value: completionsValue[m.id],
+        value: memberData.total,
         color: character?.colors.primary ?? "#999", // fallback color
         label: {
           text: character?.emoji ?? "❓", // fallback icon
@@ -58,8 +43,27 @@ export default function StatisticsView(props: props) {
     })
     .filter(s => s.value !== 0 && s.value !== undefined);
 
+  const choreSeries = household?.chores.map(chore => {
+    return {
+      name: chore.title,
+      data: members.map(m => {
+        const character = characters[m.characterId];
+        const memberData = completionsValue[m.name];
+        const choreValue = memberData?.byChore?.[chore.title] ?? 0;
+
+        return {
+          value: choreValue,
+          color: character?.colors.primary ?? "#999",
+          label: {
+            text: character?.emoji ?? "❓",
+            fontSize: 24,
+          },
+        };
+      }),
+    };
+  });
   return (
-    <View>
+    <View style={{ width: "100%", alignItems: "center" }}>
       <Text>
         {" "}
         {props.DateRange.start.toDateString()} -{" "}
@@ -70,6 +74,41 @@ export default function StatisticsView(props: props) {
       ) : (
         <Text> No Data</Text>
       )}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        {choreSeries?.map(cs =>
+          mainSeries.length > 0 ? (
+            <View
+              key={cs.name}
+              style={{
+                flexBasis: "48%",
+                marginBottom: 16,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ textAlign: "center" }}>{cs.name}</Text>
+              <PieChart series={cs.data} widthAndHeight={100} />
+            </View>
+          ) : (
+            <View
+              key={cs.name}
+              style={{
+                flexBasis: "48%",
+                marginBottom: 16,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ textAlign: "center" }}>{cs.name}</Text>
+              <Text> No Data</Text>
+            </View>
+          )
+        )}
+      </View>
     </View>
   );
 }
