@@ -46,9 +46,18 @@ export default async function joinHousehold({
       };
     }
 
+    const assignedCharacterId = getAvailableCharacterId(data.members);
+
+    if (!assignedCharacterId) {
+      return {
+        success: false,
+        message: "Inga fler ikoner är tillgängliga i det här hushållet.",
+      };
+    }
+
     await updateDoc(householdDoc.ref, {
       members: arrayUnion({
-        CharacterId: getAvailableCharacterId,
+        CharacterId: assignedCharacterId,
         userId: userId,
         name: userName,
         role: "member",
