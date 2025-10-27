@@ -1,7 +1,10 @@
 import { db } from "@/lib/firebase";
+import { Household } from "@/models/household";
 import { doc, getDoc } from "@firebase/firestore";
 
-export default async function getHouseholds(userId: string) {
+export default async function getHouseholds(
+  userId: string
+): Promise<Household[]> {
   try {
     // First, get the user's membership document
     const membershipDoc = await getDoc(doc(db, "memberships", userId));

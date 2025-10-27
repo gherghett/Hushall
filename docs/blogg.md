@@ -33,3 +33,12 @@ Initierings/Planerings möte:
 - avstämning.
 - mera figma.
 - beslut om databas och struktur.
+
+# Måndag 20 October
+
+- Möte , avstämmning. kodVecka.
+
+# Fredag 24 October
+
+- Ändrat namn på mappar och filer för att kunna utveckla på iOS
+- Ändrat i filer för att navigera rätt

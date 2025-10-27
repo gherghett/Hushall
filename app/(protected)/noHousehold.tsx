@@ -1,12 +1,14 @@
-import { useHasHousehold } from "@/atoms/household-atoms";
 import { AppTheme } from "@/lib/theme";
-import { router } from "expo-router";
 import { View } from "react-native";
 import { Button, Surface, Text, useTheme } from "react-native-paper";
+import React, { useState } from "react";
+import CreateHouseholdPopup from "@/components/CreateHouseholdPopup";
+import JoinHouseholdPopup from "@/components/JoinHouseholdPopup";
 
 export default function NoHousehold() {
-  const hasHousehold = useHasHousehold();
   const theme = useTheme() as AppTheme;
+  const [createPopupVisible, setCreatePopupVisible] = useState(false);
+  const [joinPopupVisible, setJoinPopupVisible] = useState(false);
 
   return (
     <View
@@ -26,10 +28,14 @@ export default function NoHousehold() {
         >
           Dags att ha full koll på tvätten!
         </Text>
+<<<<<<< HEAD:app/protected/noHousehold.tsx
         <Button
           mode="contained"
           onPress={() => router.push("./protected/createHousehold")}
         >
+=======
+        <Button mode="outlined" onPress={() => setCreatePopupVisible(true)}>
+>>>>>>> main:app/(protected)/noHousehold.tsx
           Skapa nytt hushåll
         </Button>
         <Text
@@ -42,13 +48,26 @@ export default function NoHousehold() {
         >
           eller
         </Text>
+<<<<<<< HEAD:app/protected/noHousehold.tsx
         <Button
           mode="outlined"
           onPress={() => router.push("./protected/joinHousehold")}
         >
+=======
+        <Button mode="outlined" onPress={() => setJoinPopupVisible(true)}>
+>>>>>>> main:app/(protected)/noHousehold.tsx
           Gå med i någon annans hushåll
         </Button>
       </Surface>
+
+      <CreateHouseholdPopup
+        visible={createPopupVisible}
+        onDismiss={() => setCreatePopupVisible(false)}
+      />
+      <JoinHouseholdPopup
+        visible={joinPopupVisible}
+        onDismiss={() => setJoinPopupVisible(false)}
+      />
     </View>
   );
 }

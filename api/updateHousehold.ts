@@ -31,6 +31,17 @@ export default async function joinHousehold({
     }
 
     const householdDoc = querySnap.docs[0];
+    const data = householdDoc.data();
+
+    const alreadyMember = data.members?.some(
+      (member: any) => member.uid === userId
+    );
+    if (alreadyMember) {
+      return {
+        success: false,
+        message: "Du är redan medlem i det här hushållet.",
+      };
+    }
 
     await updateDoc(householdDoc.ref, {
       members: arrayUnion({

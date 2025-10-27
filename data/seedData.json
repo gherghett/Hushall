@@ -1,181 +1,258 @@
 {
-  "users": {
-    "user_1": {
-      "id": "user_1",
-      "households": [
-        {
-          "id": "household_1",
-          "name": "The Johnson Family",
-          "code": "JOHN123",
-          "applications": [
-            {
-              "id": "applicant_1",
-              "userId": "user_3",
-              "name": "Charlie Johnson",
-              "characterId": "char_fox"
-            }
-          ],
-          "members": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            },
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
-    },
-    "user_2": {
-      "id": "user_2",
-      "households": [
-        {
-          "id": "household_1",
-          "name": "The Johnson Family",
-          "code": "JOHN123",
-          "applications": [],
-          "members": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            },
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
-    },
-    "user_3": {
-      "id": "user_3",
-      "households": [
-        {
-          "id": "household_2",
-          "name": "Roommates at Elm Street",
-          "code": "ELM456",
-          "applications": [],
-          "members": [
-            {
-              "id": "member_3",
-              "userId": "user_3",
-              "name": "Charlie Johnson",
-              "characterId": "char_fox"
-            },
-            {
-              "id": "member_4",
-              "userId": "user_4",
-              "name": "Dana Smith",
-              "characterId": "char_owl"
-            }
-          ]
-        }
-      ]
-    }
-  },
   "households": {
-    "household_1": {
-      "id": "household_1",
-      "name": "The Johnson Family",
-      "code": "JOHN123",
-      "applications": [
-        {
-          "id": "applicant_1",
-          "userId": "user_3",
-          "name": "Charlie Johnson",
-          "characterId": "char_fox"
-        }
-      ],
-      "members": [
-        {
-          "id": "member_1",
-          "userId": "user_1",
-          "name": "Alice Johnson",
-          "characterId": "char_bear"
-        },
-        {
-          "id": "member_2",
-          "userId": "user_2",
-          "name": "Bob Johnson",
-          "characterId": "char_cat"
-        }
-      ]
-    },
-    "household_2": {
-      "id": "household_2",
-      "name": "Roommates at Elm Street",
-      "code": "ELM456",
+    "h1": {
+      "id": "h1",
+      "name": "Centrala Lägenheten",
+      "code": "CL8K3X",
       "applications": [],
       "members": [
         {
-          "id": "member_3",
-          "userId": "user_3",
-          "name": "Charlie Johnson",
-          "characterId": "char_fox"
+          "id": "m1",
+          "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+          "name": "Daniel",
+          "characterId": 1,
+          "role": "owner"
         },
         {
-          "id": "member_4",
-          "userId": "user_4",
-          "name": "Dana Smith",
-          "characterId": "char_owl"
+          "id": "m2",
+          "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+          "name": "Arvid",
+          "characterId": 2,
+          "role": "member"
+        },
+        {
+          "id": "m3",
+          "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+          "name": "Elin",
+          "characterId": 3,
+          "role": "member"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c1",
+          "title": "Tömma sopor",
+          "description": "Tömma alla sopkorgar och bära ut soporna till containern",
+          "interval": 7,
+          "weight": 3,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m1",
+                  "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+                  "name": "Daniel",
+                  "characterId": 1,
+                  "role": "owner"
+                }
+              ],
+              "completedAt": "2025-10-20T08:30:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Dammsuga vardagsrum",
+          "description": "Dammsuga hela vardagsrummet inklusive under soffor och bord",
+          "interval": 7,
+          "weight": 4,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m2",
+                  "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+                  "name": "Arvid",
+                  "characterId": 2,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-18T19:15:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Städa badrummet",
+          "description": "Rengöra dusch, toalett, handfat och moppa golvet",
+          "interval": 14,
+          "weight": 6,
+          "completions": []
+        },
+        {
+          "id": "c4",
+          "title": "Handla mat",
+          "description": "Veckohandling på ICA eller Coop för hushållets behov",
+          "interval": 7,
+          "weight": 5,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m3",
+                  "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+                  "name": "Elin",
+                  "characterId": 3,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-19T16:45:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    "h2": {
+      "id": "h2",
+      "name": "Studentkorridoren",
+      "code": "SK4M9Y",
+      "applications": [],
+      "members": [
+        {
+          "id": "m4",
+          "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+          "name": "Erik",
+          "characterId": 4,
+          "role": "owner"
+        },
+        {
+          "id": "m5",
+          "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+          "name": "Daniel",
+          "characterId": 1,
+          "role": "member"
+        },
+        {
+          "id": "m6",
+          "userId": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+          "name": "Elin",
+          "characterId": 3,
+          "role": "member"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c5",
+          "title": "Diska köket",
+          "description": "Diska all tallrikar, glas, bestick och rengöra bänkar",
+          "interval": 3,
+          "weight": 4,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m4",
+                  "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+                  "name": "Erik",
+                  "characterId": 4,
+                  "role": "owner"
+                }
+              ],
+              "completedAt": "2025-10-21T20:30:00Z"
+            }
+          ]
+        },
+        {
+          "id": "c6",
+          "title": "Tvätta kläder",
+          "description": "Köra en maskin tvätt och hänga upp kläderna",
+          "interval": 7,
+          "weight": 3,
+          "completions": []
+        },
+        {
+          "id": "c7",
+          "title": "Städa gemensamma ytor",
+          "description": "Dammsuga och torka av alla gemensamma utrymmen",
+          "interval": 14,
+          "weight": 5,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m5",
+                  "userId": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+                  "name": "Daniel",
+                  "characterId": 1,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-17T14:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    "h3": {
+      "id": "h3",
+      "name": "Kollektivet",
+      "code": "KL2W8Z",
+      "applications": [],
+      "members": [
+        {
+          "id": "m7",
+          "userId": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+          "name": "Arvid",
+          "characterId": 2,
+          "role": "owner"
+        },
+        {
+          "id": "m8",
+          "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+          "name": "Erik",
+          "characterId": 4,
+          "role": "member"
+        }
+      ],
+      "chores": [
+        {
+          "id": "c8",
+          "title": "Klippa gräset",
+          "description": "Klippa gräsmattan framför och bakom huset",
+          "interval": 14,
+          "weight": 7,
+          "completions": []
+        },
+        {
+          "id": "c9",
+          "title": "Vattna växter",
+          "description": "Vattna alla krukväxter inne och trädgårdsväxter ute",
+          "interval": 3,
+          "weight": 2,
+          "completions": [
+            {
+              "completedBy": [
+                {
+                  "id": "m8",
+                  "userId": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+                  "name": "Erik",
+                  "characterId": 4,
+                  "role": "member"
+                }
+              ],
+              "completedAt": "2025-10-20T12:15:00Z"
+            }
+          ]
         }
       ]
     }
   },
-  "chores": {
-    "chore_1": {
-      "id": "chore_1",
-      "description": "Wash the dishes",
-      "interval": "daily",
-      "weight": "2",
-      "completions": [
-        {
-          "completedAt": "2025-10-15T18:30:00Z",
-          "completedBy": [
-            {
-              "id": "member_1",
-              "userId": "user_1",
-              "name": "Alice Johnson",
-              "characterId": "char_bear"
-            }
-          ]
-        }
-      ]
+  "memberships": {
+    "s5PU4CILczMesHJE0b6Pt6Mbpol2": {
+      "id": "s5PU4CILczMesHJE0b6Pt6Mbpol2",
+      "households": ["h1", "h2"]
     },
-    "chore_2": {
-      "id": "chore_2",
-      "description": "Take out the trash",
-      "interval": "weekly",
-      "weight": "3",
-      "completions": []
+    "uShc0oI5zVbd7KODBlE26zUoxlX2": {
+      "id": "uShc0oI5zVbd7KODBlE26zUoxlX2",
+      "households": ["h1", "h3"]
     },
-    "chore_3": {
-      "id": "chore_3",
-      "description": "Water the plants",
-      "weight": "1",
-      "completions": [
-        {
-          "completedAt": "2025-10-10T09:00:00Z",
-          "completedBy": [
-            {
-              "id": "member_2",
-              "userId": "user_2",
-              "name": "Bob Johnson",
-              "characterId": "char_cat"
-            }
-          ]
-        }
-      ]
+    "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1": {
+      "id": "tvVGcQSu2OR9aO0ZNgrWGBMY6ot1",
+      "households": ["h1", "h2"]
+    },
+    "MFVqTA03qAfS35iKOfUOBMqIGpj1": {
+      "id": "MFVqTA03qAfS35iKOfUOBMqIGpj1",
+      "households": ["h2", "h3"]
     }
   }
 }
