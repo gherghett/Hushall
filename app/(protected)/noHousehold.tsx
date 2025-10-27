@@ -1,9 +1,9 @@
-import { AppTheme } from "@/lib/theme";
-import { View } from "react-native";
-import { Button, Surface, Text, useTheme } from "react-native-paper";
-import React, { useState } from "react";
 import CreateHouseholdPopup from "@/components/CreateHouseholdPopup";
 import JoinHouseholdPopup from "@/components/JoinHouseholdPopup";
+import { AppTheme } from "@/lib/theme";
+import { useState } from "react";
+import { View } from "react-native";
+import { Button, Surface, Text, useTheme } from "react-native-paper";
 
 export default function NoHousehold() {
   const theme = useTheme() as AppTheme;
@@ -28,14 +28,7 @@ export default function NoHousehold() {
         >
           Dags att ha full koll på tvätten!
         </Text>
-<<<<<<< HEAD:app/protected/noHousehold.tsx
-        <Button
-          mode="contained"
-          onPress={() => router.push("./protected/createHousehold")}
-        >
-=======
         <Button mode="outlined" onPress={() => setCreatePopupVisible(true)}>
->>>>>>> main:app/(protected)/noHousehold.tsx
           Skapa nytt hushåll
         </Button>
         <Text
@@ -48,14 +41,7 @@ export default function NoHousehold() {
         >
           eller
         </Text>
-<<<<<<< HEAD:app/protected/noHousehold.tsx
-        <Button
-          mode="outlined"
-          onPress={() => router.push("./protected/joinHousehold")}
-        >
-=======
         <Button mode="outlined" onPress={() => setJoinPopupVisible(true)}>
->>>>>>> main:app/(protected)/noHousehold.tsx
           Gå med i någon annans hushåll
         </Button>
       </Surface>
