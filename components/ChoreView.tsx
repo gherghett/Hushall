@@ -172,32 +172,32 @@ export default function ChoreView() {
                 <>
                   {c.daysSinceDone !== null && c.daysSinceDone === 0
                     ? c.daysSinceDone !== null &&
-                    c.daysSinceDone <= c.interval && (
-                      <Text variant="titleMedium">
-                        {" "}
-                        {c.doneBy.map(d => characters[d.characterId].emoji)}
-                      </Text>
-                    )
-                  : c.daysSinceDone !== null && (
-                    <Text
-                      variant="titleMedium"
-                      style={[
-                        styles.daysBadge,
-                        {
-                          color:
-                            c.daysSinceDone < c.interval
-                              ? theme.colors.onSecondaryContainer
-                              : theme.colors.onError,
-                          backgroundColor:
-                            c.daysSinceDone < c.interval
-                              ? theme.colors.secondaryContainer
-                              : theme.colors.error,
-                        },
-                      ]}
-                    >
-                      {c.daysSinceDone}
-                    </Text>
-                  )}
+                      c.daysSinceDone <= c.interval && (
+                        <Text variant="titleMedium">
+                          {" "}
+                          {c.doneBy.map(d => characters[d.characterId].emoji)}
+                        </Text>
+                      )
+                    : c.daysSinceDone !== null && (
+                        <Text
+                          variant="titleMedium"
+                          style={[
+                            styles.daysBadge,
+                            {
+                              color:
+                                c.daysSinceDone < c.interval
+                                  ? theme.colors.onSecondaryContainer
+                                  : theme.colors.onError,
+                              backgroundColor:
+                                c.daysSinceDone < c.interval
+                                  ? theme.colors.secondaryContainer
+                                  : theme.colors.error,
+                            },
+                          ]}
+                        >
+                          {c.daysSinceDone}
+                        </Text>
+                      )}
                 </>
               )}
               {editMode && (
