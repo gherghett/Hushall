@@ -5,7 +5,7 @@ import { doc, getDoc, updateDoc } from "@firebase/firestore";
 export default async function postCompletion(
   choreId: string,
   householdId: string,
-  completedBy: Member
+  completedBy: Member[]
 ): Promise<void> {
   try {
     // Get the current household data
@@ -23,7 +23,7 @@ export default async function postCompletion(
     const updatedChores = chores.map((chore: any) => {
       if (chore.id === choreId) {
         const newCompletion = {
-          completedBy: [completedBy],
+          completedBy: completedBy,
           completedAt: new Date().toISOString(),
         };
 
@@ -40,7 +40,7 @@ export default async function postCompletion(
       chores: updatedChores,
     });
 
-    console.log(`Chore ${choreId} completed by ${completedBy.name}`);
+    // console.log(`Chore ${choreId} completed by ${completedBy.name}`);
   } catch (error) {
     console.error("Error adding completion:", error);
     throw error;

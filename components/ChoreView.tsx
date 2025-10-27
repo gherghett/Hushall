@@ -17,6 +17,7 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   Button,
   Card,
+  Checkbox,
   FAB,
   Icon,
   Modal,
@@ -28,7 +29,7 @@ import {
 interface MemberPickerProps {
   visible: boolean;
   onDismiss: () => void;
-  onMemberSelect: (member: Member) => void;
+  onMemberSelect: (members: Member[]) => void;
   chore: any | undefined;
   members: Member[];
   currentUserId: string | null;
@@ -47,7 +48,26 @@ const MemberPicker = ({
   const theme = useTheme() as AppTheme;
 
   const currentUserMember = members.find(m => m.userId === currentUserId);
-  const otherMembers = members.filter(m => m.userId !== currentUserId);
+
+  const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>(
+    currentUserMember ? [currentUserMember.id] : []
+  );
+
+  const toggleMember = (memberId: string) => {
+    setSelectedMemberIds(prev =>
+      prev.includes(memberId)
+        ? prev.filter(id => id !== memberId)
+        : [...prev, memberId]
+    );
+  };
+
+  const handleSubmit = () => {
+    const selectedMembers = members.filter(m =>
+      selectedMemberIds.includes(m.id)
+    );
+    onMemberSelect(selectedMembers);
+    onDismiss();
+  };
 
   return (
     <Portal>
@@ -65,34 +85,35 @@ const MemberPicker = ({
 
         {chore && <Text>{chore.description}</Text>}
 
-        {/* Primary button for current user */}
-        {currentUserMember && (
-          <Button
-            mode="contained"
-            style={[styles.memberButton, styles.primaryButton]}
-            onPress={() => {
-              onMemberSelect(currentUserMember);
-              onDismiss();
-            }}
-          >
-            {`Jag (${characters[currentUserMember.characterId]?.emoji || ""} ${currentUserMember.name})`}
-          </Button>
-        )}
-
-        {/* Secondary/tertiary buttons for other members */}
-        {otherMembers.map(member => (
-          <Button
+        {/* List of members with checkboxes */}
+        {members.map(member => (
+          <TouchableOpacity
             key={member.id}
-            mode="outlined"
-            style={[styles.memberButton, styles.secondaryButton]}
-            onPress={() => {
-              onMemberSelect(member);
-              onDismiss();
-            }}
+            style={styles.memberRow}
+            onPress={() => toggleMember(member.id)}
           >
-            {`${characters[member.characterId]?.emoji || ""} ${member.name}`}
-          </Button>
+            <Checkbox
+              status={
+                selectedMemberIds.includes(member.id) ? "checked" : "unchecked"
+              }
+              onPress={() => toggleMember(member.id)}
+            />
+            <Text style={styles.memberText}>
+              {member.userId === currentUserId ? "Jag (" : ""}
+              {characters[member.characterId]?.emoji || ""} {member.name}
+              {member.userId === currentUserId ? ")" : ""}
+            </Text>
+          </TouchableOpacity>
         ))}
+
+        <Button
+          mode="contained"
+          onPress={handleSubmit}
+          style={styles.submitButton}
+          disabled={selectedMemberIds.length === 0}
+        >
+          Bekräfta
+        </Button>
 
         <Button mode="text" onPress={onDismiss} style={styles.cancelButton}>
           Avbryt
@@ -128,14 +149,14 @@ export default function ChoreView() {
     setMemberPickerVisible(true);
   };
 
-  const handleMemberSelect = async (member: Member) => {
+  const handleMemberSelect = async (members: Member[]) => {
     if (!household || !selectedChoreId) return;
 
     try {
       await completeChoreMutation.mutateAsync({
         choreId: selectedChoreId,
         householdId: household.id,
-        completedBy: member,
+        completedBy: members,
       });
     } catch (error) {
       console.error("Failed to complete chore:", error);
@@ -250,7 +271,7 @@ export default function ChoreView() {
           onDismiss={() => setMemberPickerVisible(false)}
           onMemberSelect={handleMemberSelect}
           members={members}
-          chore={chores.find(c => c.id == selectedChoreId)}
+          chore={chores.find(c => c.id === selectedChoreId)}
           currentUserId={user?.uid || null}
           characters={characters}
         />
@@ -332,6 +353,17 @@ const styles = StyleSheet.create({
     // Additional styling for secondary buttons if needed
   },
   cancelButton: {
+    marginTop: 16,
+  },
+  memberRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 8,
+  },
+  memberText: {
+    marginLeft: 8,
+  },
+  submitButton: {
     marginTop: 16,
   },
 });
