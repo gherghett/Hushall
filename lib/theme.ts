@@ -42,7 +42,7 @@ const customLightColors = {
     primaryContainer: "rgb(240, 219, 255)",
     onPrimaryContainer: "rgb(44, 0, 81)",
     // Add your custom colors here
-    background: "rgb(255, 251, 255)",
+    background: "rgba(242, 242, 242, 0.95)",
     onBackground: "rgb(29, 27, 30)",
     surface: "rgb(255, 251, 255)",
     onSurface: "rgb(29, 27, 30)",

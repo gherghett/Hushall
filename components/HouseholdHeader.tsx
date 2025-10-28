@@ -5,7 +5,7 @@ import HouseholdDropDown from "./HouseholdDropDown";
 
 export default function HouseholdHeader() {
   return (
-    <View style={{ width: "100%", backgroundColor: "red", paddingTop: 64 }}>
+    <View style={{ width: "100%", backgroundColor: "#FFF", paddingTop: 64 }}>
       <View
         style={{
           flexDirection: "row",
@@ -24,7 +24,7 @@ export default function HouseholdHeader() {
           }}
           onPress={() => router.navigate("/(protected)/settings")}
         >
-          <Ionicons name="settings-outline" size={30} color="#737373ff" />
+          <Ionicons name="settings-outline" size={30} color="#000" />
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
