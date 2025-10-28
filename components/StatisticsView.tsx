@@ -46,22 +46,24 @@ export default function StatisticsView(props: props) {
   const choreSeries = household?.chores.map(chore => {
     return {
       name: chore.title,
-      data: members.map(m => {
-        const character = characters[m.characterId];
-        const memberData = completionsValue[m.name];
-        const choreValue = memberData?.byChore?.[chore.title] ?? 0;
+      data: members
+        .map(m => {
+          const character = characters[m.characterId];
+          const memberData = completionsValue[m.name];
+          const choreValue = memberData?.byChore?.[chore.title] ?? 0;
 
-        return {
-          value: choreValue,
-          color: character?.colors.primary ?? "#999",
-          label: {
-            text: character?.emoji ?? "❓",
-            fontSize: 24,
-          },
-        };
-      }).filter(s => s.value !== 0 && s.value !== undefined)
+          return {
+            value: choreValue,
+            color: character?.colors.primary ?? "#999",
+            label: {
+              text: character?.emoji ?? "❓",
+              fontSize: 24,
+            },
+          };
+        })
+        .filter(s => s.value !== 0 && s.value !== undefined),
     };
-  })
+  });
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
       <Text>

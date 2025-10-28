@@ -146,9 +146,7 @@ export const useMemberCompletionValue = (startDate: Date, endDate: Date) => {
       completion.completedBy.forEach(member => {
         if (!weightByMember[member.name])
           weightByMember[member.name] = { total: 0, byChore: {} };
-        if (date >= startDate && date <= endDate)
-        {
-
+        if (date >= startDate && date <= endDate) {
           weightByMember[member.name].total += chore.weight;
           if (!weightByMember[member.name].byChore[chore.title])
             weightByMember[member.name].byChore[chore.title] = 0;
