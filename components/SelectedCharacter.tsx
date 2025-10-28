@@ -1,0 +1,1 @@
+//Detta är komponenten där den valda ikonen syns
