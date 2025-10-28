@@ -4,7 +4,7 @@ import {
 } from "@/atoms/household-atoms";
 import ChooseCharacter from "@/components/ChooseCharacter";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useCharacters } from "@/hooks/useCharacters";
+import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
 import { useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
@@ -14,6 +14,8 @@ import { Divider, List, Surface, Text, useTheme, TouchableRipple} from "react-na
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
   const characters = useCharacters();
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [showCharacterModal, setShowCharacterModal] = useState(false);
   const household = useCurrentHousehold();
   const editNameMutation = useEditHouseholdNameMutation();
 
@@ -26,8 +28,7 @@ export default function SettingsScreen() {
     });
   };
 
-  const [showCharacterModal, setShowCharacterModal] = useState(false);
-
+  
   return (
     <View style={[styles.bodyContainer]}>
       <Surface>
@@ -46,6 +47,8 @@ export default function SettingsScreen() {
           <ChooseCharacter
             visible={showCharacterModal}
             onClose={() => setShowCharacterModal(false)}
+            characters={characters}
+            onSelectCharacter={(char) => setSelectedCharacter(char)}
           />
         </View>
 
