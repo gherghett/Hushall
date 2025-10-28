@@ -102,9 +102,10 @@ export default function SettingsScreen() {
           />
         </View>
 
-
-        <View>
-          <Text>Inbjudningskod för hushållet</Text>
+        <View style={styles.codeContainer}>
+          <Text style={ styles.codeText }>
+            {household?.code || "Ingen kod"}
+          </Text>
         </View>
 
         <View>
@@ -173,5 +174,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: "100%",
     backgroundColor: "#fff",
+  },
+  codeText: {
+    fontSize: 18, 
+    color: "#333",
+    textAlign: "center"
+  },
+  codeContainer: {
+    paddingHorizontal: 16,
+     marginVertical: 12
   },
 });
