@@ -65,7 +65,10 @@ export default function StatisticsView(props: props) {
     };
   });
   return (
-    <ScrollView style={{ width: "100%" }} contentContainerStyle={{alignItems: "center"}}>
+    <ScrollView
+      style={{ width: "100%" }}
+      contentContainerStyle={{ alignItems: "center" }}
+    >
       <Text>
         {" "}
         {props.DateRange.start.toDateString()} -{" "}
