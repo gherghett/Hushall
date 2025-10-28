@@ -5,19 +5,31 @@ import {
 import ChooseCharacter from "@/components/ChooseCharacter";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Character, useCharacters } from "@/hooks/useCharacters";
+import SelectedCharacter from "@/components/SelectedCharacter";
 import { AppTheme } from "@/lib/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Button } from "react-native";
-import { Divider, List, Surface, Text, useTheme, TouchableRipple} from "react-native-paper";
-
+import { Divider, List, Surface, Text, useTheme, TouchableRipple } from "react-native-paper";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atoms/auth-atoms";
+import { useUpdateUserCharacterMutation } from "@/atoms/userAtoms";
+import { useCurrentUserCharacterId } from "@/hooks/getCurrentCharacter";
 
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
-  const characters = useCharacters();
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [showCharacterModal, setShowCharacterModal] = useState(false);
+  const user = useAtomValue(userAtom);
   const household = useCurrentHousehold();
+  const userCharacterId = useCurrentUserCharacterId();
+  const characters = useCharacters();
+  const { mutateAsync: updateCharacter } = useUpdateUserCharacterMutation();
   const editNameMutation = useEditHouseholdNameMutation();
+  const char = characters.find(c => c.id === userCharacterId) ?? characters[0];
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(char);
+
+  const handleCharacterChange = async (char: Character) => {
+    setSelectedCharacter(char);
+    await updateCharacter(char.id)
+  };
 
   // här ser du hur man ändrar namnet---- du behöver såklart skicka in det namnet som användaren skrivit in i textruta eller vad det kan bara
   const handleTestEditName = () => {
@@ -28,34 +40,28 @@ export default function SettingsScreen() {
     });
   };
 
-  
   return (
     <View style={[styles.bodyContainer]}>
       <Surface>
 
         <View>
           <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
-          < Divider style={styles.dividerColor} />
+          <Divider style={styles.dividerColor} />
         </View>
 
         <View>
-          <TouchableRipple onPress={() => setShowCharacterModal(true)}>
-            <Text>Rund cirkel med karaktären användaren valt/blivit tilldelad</Text>
-          </TouchableRipple>
-          <Text>Input field där namnet på användaren står, ska gå att ändra</Text>
-         
-          <ChooseCharacter
-            visible={showCharacterModal}
-            onClose={() => setShowCharacterModal(false)}
+          <SelectedCharacter
             characters={characters}
-            onSelectCharacter={(char) => setSelectedCharacter(char)}
+            selectedCharacter={selectedCharacter}
+            onCharacterChange={handleCharacterChange}
           />
+          <Text>Input field där namnet på användaren står, ska gå att ändra</Text>
         </View>
 
         <View>
-          < Divider style={styles.dividerColor} />
+          <Divider style={styles.dividerColor} />
           <Text style={[theme.styles.title, styles.textTitle]}>Hushåll</Text>
-          < Divider style={styles.dividerColor} />
+          <Divider style={styles.dividerColor} />
         </View>
 
         <View>
@@ -63,9 +69,7 @@ export default function SettingsScreen() {
         </View>
 
         <View>
-          <Text>
-            Inbjudningskod för hushållet
-          </Text>
+          <Text>Inbjudningskod för hushållet</Text>
         </View>
 
         <View>
@@ -74,13 +78,13 @@ export default function SettingsScreen() {
         </View>
 
         <View>
-          < Divider style={styles.dividerColor} />
+          <Divider style={styles.dividerColor} />
           <Text style={[theme.styles.title, styles.textTitle]}>Global</Text>
-          < Divider style={styles.dividerColor} />
+          <Divider style={styles.dividerColor} />
         </View>
 
 
-        < Divider style={styles.dividerColor} />
+        <Divider style={styles.dividerColor} />
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
 
         <Divider></Divider>
