@@ -28,24 +28,36 @@ export default function SettingsScreen() {
   const char = characters.find(c => c.id === userCharacterId) ?? characters[0];
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(char);
   const [memberName, setMemberName] = useState(currentMember?.name || "");
+  const [householdName, setHouseholdName] = useState(household?.name || "");
 
   const handleCharacterChange = async (char: Character) => {
     setSelectedCharacter(char);
     await updateCharacter(char.id)
   };
 
-  // här ser du hur man ändrar namnet---- du behöver såklart skicka in det namnet som användaren skrivit in i textruta eller vad det kan bara
-  const handleTestEditName = () => {
+  const handleMemberNameChange = async (newName: string) => {
+    if (!household || !user) return;
+    await updateMemberName(newName);
+  };
+
+  const handleHouseholdNameChange = async (newName: string) => {
     if (!household) return;
-    editNameMutation.mutate({
-      name: "TestName" + Math.floor(Math.random() * 1000),
-      id: household.id,
-    });
+    await editNameMutation.mutateAsync({ name: newName, id: household.id });
   };
 
   useEffect(() => {
     setMemberName(currentMember?.name || "");
-  }, [currentMember]);
+    setHouseholdName(household?.name || "");
+  }, [currentMember, household]);
+
+  useEffect(() => {
+    if (household && user) {
+      const member = household.members.find((m) => m.userId === user.uid);
+      if (member) {
+        setMemberName(member.name || "");
+      }
+    }
+  }, [household, user]);
 
   return (
     <View style={[styles.bodyContainer]}>
@@ -67,7 +79,7 @@ export default function SettingsScreen() {
             style={styles.nameInput}
             value={memberName}
             onChangeText={setMemberName}
-            onBlur={() => updateMemberName(memberName)}
+            onBlur={() => handleMemberNameChange(memberName)}
             placeholder="Användarnamn"
             placeholderTextColor="#999"
           />
@@ -79,9 +91,17 @@ export default function SettingsScreen() {
           <Divider style={styles.dividerColor} />
         </View>
 
-        <View>
-          <Text>Input field namn på hushåll, går att ändra</Text>
+        <View style={styles.householdRow}>
+          <TextInput
+            style={styles.householdInput}
+            value={householdName}
+            onChangeText={setHouseholdName}
+            onBlur={() => handleHouseholdNameChange(householdName)}
+            placeholder="Hushållsnamn"
+            placeholderTextColor="#999"
+          />
         </View>
+
 
         <View>
           <Text>Inbjudningskod för hushållet</Text>
@@ -103,7 +123,6 @@ export default function SettingsScreen() {
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
 
         <Divider></Divider>
-        <Button title="Test Edit Household Name" onPress={handleTestEditName} />
       </Surface>
     </View>
   );
@@ -141,4 +160,18 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     backgroundColor: "#fff",
   },
-})
+  householdRow: {
+    paddingHorizontal: 16,
+    marginVertical: 12,
+  },
+  householdInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    width: "100%",
+    backgroundColor: "#fff",
+  },
+});
