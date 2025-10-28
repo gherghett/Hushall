@@ -5,7 +5,7 @@ import {
 } from "@/atoms/household-atoms";
 import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import PieChart from "react-native-pie-chart";
 
@@ -65,7 +65,7 @@ export default function StatisticsView(props: props) {
     };
   });
   return (
-    <View style={{ width: "100%", alignItems: "center" }}>
+    <ScrollView style={{ width: "100%" }} contentContainerStyle={{alignItems: "center"}}>
       <Text>
         {" "}
         {props.DateRange.start.toDateString()} -{" "}
@@ -111,6 +111,6 @@ export default function StatisticsView(props: props) {
           )
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 }
