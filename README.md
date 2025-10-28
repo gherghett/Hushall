@@ -50,7 +50,7 @@ VG: 32 (80%).
 # Profil (6)
 
 - [] En användare ska kunna ange sitt namn. \*
-- [] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. \*
+- [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. \*
 - [] Valda avatarer ska inte kunna väljas av andra användare i hushållet. \*
 - [] Avataren ska användas i appen för att visa vad användaren har gjort. \*
 - [] En användare ska kunna ställa in appens utseende (mörkt, ljust, auto).

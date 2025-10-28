@@ -36,3 +36,32 @@ export const useUpdateUserCharacterMutation = () => {
     },
   });
 };
+
+export const useUpdateMemberNameMutation = () => {
+  const user = useAtomValue(userAtom);
+  const household = useCurrentHousehold();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (newName: string) => {
+      if (!user || !household) throw new Error("Ingen användare eller hushåll");
+      console.log("Nytt membername:", newName);
+
+      const householdRef = doc(db, "households", household.id);
+      const snap = await getDoc(householdRef);
+      const data = snap.data();
+
+      if (!data) throw new Error("Household not found in Firestore");
+
+      const updatedMembers = (data.members || []).map((m: any) =>
+        m.userId === user.uid ? { ...m, name: newName } : m
+      );
+
+      await updateDoc(householdRef, { members: updatedMembers });
+      console.log("✅ Member name updated in Firestore");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["households"] });
+    },
+  });
+};

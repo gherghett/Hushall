@@ -8,23 +8,26 @@ import { Character, useCharacters } from "@/hooks/useCharacters";
 import SelectedCharacter from "@/components/SelectedCharacter";
 import { AppTheme } from "@/lib/theme";
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, TextInput } from "react-native";
 import { Divider, List, Surface, Text, useTheme, TouchableRipple } from "react-native-paper";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atoms/auth-atoms";
-import { useUpdateUserCharacterMutation } from "@/atoms/userAtoms";
+import { useUpdateUserCharacterMutation, useUpdateMemberNameMutation } from "@/atoms/userAtoms";
 import { useCurrentUserCharacterId } from "@/hooks/getCurrentCharacter";
 
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
   const user = useAtomValue(userAtom);
   const household = useCurrentHousehold();
+  const currentMember = household?.members?.find(m => m.userId === user?.uid);
   const userCharacterId = useCurrentUserCharacterId();
   const characters = useCharacters();
   const { mutateAsync: updateCharacter } = useUpdateUserCharacterMutation();
+  const { mutateAsync: updateMemberName } = useUpdateMemberNameMutation();
   const editNameMutation = useEditHouseholdNameMutation();
   const char = characters.find(c => c.id === userCharacterId) ?? characters[0];
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(char);
+  const [memberName, setMemberName] = useState(currentMember?.name || "");
 
   const handleCharacterChange = async (char: Character) => {
     setSelectedCharacter(char);
@@ -40,6 +43,10 @@ export default function SettingsScreen() {
     });
   };
 
+  useEffect(() => {
+    setMemberName(currentMember?.name || "");
+  }, [currentMember]);
+
   return (
     <View style={[styles.bodyContainer]}>
       <Surface>
@@ -49,13 +56,21 @@ export default function SettingsScreen() {
           <Divider style={styles.dividerColor} />
         </View>
 
-        <View>
+        <View style={styles.characterRow}>
           <SelectedCharacter
             characters={characters}
             selectedCharacter={selectedCharacter}
             onCharacterChange={handleCharacterChange}
           />
-          <Text>Input field där namnet på användaren står, ska gå att ändra</Text>
+
+          <TextInput
+            style={styles.nameInput}
+            value={memberName}
+            onChangeText={setMemberName}
+            onBlur={() => updateMemberName(memberName)}
+            placeholder="Användarnamn"
+            placeholderTextColor="#999"
+          />
         </View>
 
         <View>
@@ -107,5 +122,23 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 0,
     fontSize: 20,
+  },
+  characterRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingHorizontal: 16,
+    marginVertical: 12,
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 16,
+    flex: 1,
+    marginLeft: 20,
+    backgroundColor: "#fff",
   },
 })
