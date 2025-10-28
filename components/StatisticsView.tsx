@@ -59,9 +59,9 @@ export default function StatisticsView(props: props) {
             fontSize: 24,
           },
         };
-      }),
+      }).filter(s => s.value !== 0 && s.value !== undefined)
     };
-  });
+  })
   return (
     <View style={{ width: "100%", alignItems: "center" }}>
       <Text>
@@ -82,7 +82,7 @@ export default function StatisticsView(props: props) {
         }}
       >
         {choreSeries?.map(cs =>
-          mainSeries.length > 0 ? (
+          cs.data.length > 0 && cs.data != null ? (
             <View
               key={cs.name}
               style={{

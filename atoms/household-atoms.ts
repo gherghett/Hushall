@@ -147,10 +147,13 @@ export const useMemberCompletionValue = (startDate: Date, endDate: Date) => {
         if (!weightByMember[member.name])
           weightByMember[member.name] = { total: 0, byChore: {} };
         if (date >= startDate && date <= endDate)
+        {
+
           weightByMember[member.name].total += chore.weight;
-        if (!weightByMember[member.name].byChore[chore.title])
-          weightByMember[member.name].byChore[chore.title] = 0;
-        weightByMember[member.name].byChore[chore.title] += chore.weight;
+          if (!weightByMember[member.name].byChore[chore.title])
+            weightByMember[member.name].byChore[chore.title] = 0;
+          weightByMember[member.name].byChore[chore.title] += chore.weight;
+        }
       });
     });
   });
