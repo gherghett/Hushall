@@ -1,13 +1,28 @@
+import {
+  useCurrentHousehold,
+  useEditHouseholdNameMutation,
+} from "@/atoms/household-atoms";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import {  Divider, List, Surface, Text, useTheme } from "react-native-paper";
 
 
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
   const characters = useCharacters();
+  const household = useCurrentHousehold();
+  const editNameMutation = useEditHouseholdNameMutation();
+
+  // här ser du hur man ändrar namnet---- du behöver såklart skicka in det namnet som användaren skrivit in i textruta eller vad det kan bara
+  const handleTestEditName = () => {
+    if (!household) return;
+    editNameMutation.mutate({
+      name: "TestName" + Math.floor(Math.random() * 1000),
+      id: household.id,
+    });
+  };
 
   return (
     <View style={[styles.bodyContainer]}>
@@ -46,6 +61,10 @@ export default function SettingsScreen() {
         <Text>Light/dark/auto mode switch</Text>
         < Divider style={styles.dividerColor} />
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
+        <Text> Settings</Text>
+        <Divider></Divider>
+        <ThemeToggle />
+        <Button title="Test Edit Household Name" onPress={handleTestEditName} />
       </Surface>
     </View>
   );
