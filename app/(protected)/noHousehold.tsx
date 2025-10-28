@@ -1,9 +1,9 @@
-import { AppTheme } from "@/lib/theme";
-import { View } from "react-native";
-import { Button, Surface, Text, useTheme } from "react-native-paper";
-import React, { useState } from "react";
 import CreateHouseholdPopup from "@/components/CreateHouseholdPopup";
 import JoinHouseholdPopup from "@/components/JoinHouseholdPopup";
+import { AppTheme } from "@/lib/theme";
+import { useState } from "react";
+import { View } from "react-native";
+import { Button, Surface, Text, useTheme } from "react-native-paper";
 
 export default function NoHousehold() {
   const theme = useTheme() as AppTheme;

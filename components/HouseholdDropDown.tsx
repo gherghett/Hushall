@@ -69,7 +69,7 @@ export default function HouseholdDropDown() {
           <TouchableOpacity
             onPress={() => {
               if (item.value === "add") {
-                router.push("/(protected)/createHousehold");
+                router.push("/(protected)/newHousehold");
               } else {
                 setSelectedHousehold(item.value!);
               }
