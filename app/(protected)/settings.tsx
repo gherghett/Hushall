@@ -8,7 +8,7 @@ import { Character, useCharacters } from "@/hooks/useCharacters";
 import SelectedCharacter from "@/components/SelectedCharacter";
 import { AppTheme } from "@/lib/theme";
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Button, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Divider,
   Surface,
@@ -89,7 +89,7 @@ export default function SettingsScreen() {
       <Surface>
         <View>
           <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
-          <Divider style={styles.dividerColor} />
+          <Divider/>
         </View>
         <View style={styles.characterRow}>
           <SelectedCharacter
@@ -108,9 +108,9 @@ export default function SettingsScreen() {
           />
         </View>
         <View>
-          <Divider style={styles.dividerColor} />
+          <Divider/>
           <Text style={[theme.styles.title, styles.textTitle]}>Hushåll</Text>
-          <Divider style={styles.dividerColor} />
+          <Divider/>
         </View>
         <View style={styles.householdRow}>
           <TextInput
@@ -130,11 +130,11 @@ export default function SettingsScreen() {
           <Text>Plus knapp för att skapa ny medlem</Text>
         </View>
         <View>
-          <Divider style={styles.dividerColor} />
+          <Divider/>
           <Text style={[theme.styles.title, styles.textTitle]}>Global</Text>
-          <Divider style={styles.dividerColor} />
+          <Divider/>
         </View>
-        <Divider style={styles.dividerColor} />
+        <Divider/>
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
         <Divider></Divider>
       </Surface>
@@ -145,9 +145,6 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
-  },
-  dividerColor: {
-    backgroundColor: "black",
   },
   textTitle: {
     textAlign: "center",
