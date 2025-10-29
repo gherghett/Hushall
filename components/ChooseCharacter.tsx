@@ -1,6 +1,11 @@
-import * as React from 'react';
-import { Modal, Portal, Text, Button } from 'react-native-paper';
-import { StyleSheet, View, FlatList, Dimensions, Pressable } from 'react-native';
+import { Modal, Portal, Text } from "react-native-paper";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Dimensions,
+  Pressable,
+} from "react-native";
 
 export interface Character {
   id: number;
@@ -41,10 +46,14 @@ export default function ChooseCharacter({
 
   return (
     <Portal>
-      <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.modal} >
+      <Modal
+        visible={visible}
+        onDismiss={onClose}
+        contentContainerStyle={styles.modal}
+      >
         <FlatList
           data={characters}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           renderItem={renderItem}
           numColumns={NUM_COLUMNS}
           contentContainerStyle={{ paddingVertical: 10 }}
@@ -52,7 +61,7 @@ export default function ChooseCharacter({
       </Modal>
     </Portal>
   );
-};
+}
 
 const PressableCircle = ({
   character,
@@ -66,17 +75,20 @@ const PressableCircle = ({
       onPress={onPress}
       style={[
         styles.circle,
-        { backgroundColor: character.colors.primary, width: CIRCLE_SIZE, height: CIRCLE_SIZE },
+        {
+          backgroundColor: character.colors.primary,
+          width: CIRCLE_SIZE,
+          height: CIRCLE_SIZE,
+        },
       ]}
     >
       <Text style={styles.emoji}>{character.emoji}</Text>
     </Pressable>
   </View>
-)
+);
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: "#fff",
     padding: 20,
     margin: 20,
     borderRadius: 12,
@@ -89,4 +101,4 @@ const styles = StyleSheet.create({
   emoji: {
     fontSize: 36,
   },
-})
+});

@@ -8,11 +8,20 @@ import { Character, useCharacters } from "@/hooks/useCharacters";
 import SelectedCharacter from "@/components/SelectedCharacter";
 import { AppTheme } from "@/lib/theme";
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Button, TextInput } from "react-native";
-import { Divider, List, Surface, Text, useTheme, TouchableRipple } from "react-native-paper";
+import { View, StyleSheet, Button, FlatList } from "react-native";
+import {
+  Divider,
+  Surface,
+  Text,
+  useTheme,
+  TextInput,
+} from "react-native-paper";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atoms/auth-atoms";
-import { useUpdateUserCharacterMutation, useUpdateMemberNameMutation } from "@/atoms/userAtoms";
+import {
+  useUpdateUserCharacterMutation,
+  useUpdateMemberNameMutation,
+} from "@/atoms/userAtoms";
 import { useCurrentUserCharacterId } from "@/hooks/getCurrentCharacter";
 
 export default function SettingsScreen() {
@@ -26,13 +35,15 @@ export default function SettingsScreen() {
   const { mutateAsync: updateMemberName } = useUpdateMemberNameMutation();
   const editNameMutation = useEditHouseholdNameMutation();
   const char = characters.find(c => c.id === userCharacterId) ?? characters[0];
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(char);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    char
+  );
   const [memberName, setMemberName] = useState(currentMember?.name || "");
   const [householdName, setHouseholdName] = useState(household?.name || "");
 
   const handleCharacterChange = async (char: Character) => {
     setSelectedCharacter(char);
-    await updateCharacter(char.id)
+    await updateCharacter(char.id);
   };
 
   const handleMemberNameChange = async (newName: string) => {
@@ -52,25 +63,37 @@ export default function SettingsScreen() {
 
   useEffect(() => {
     if (household && user) {
-      const member = household.members.find((m) => m.userId === user.uid);
+      const member = household.members.find(m => m.userId === user.uid);
       if (member) {
         setMemberName(member.name || "");
       }
     }
   }, [household, user]);
 
+  const usedCharacterIds =
+    household?.members
+      ?.filter(m => m.userId !== user?.uid)
+      .map(m => m.characterId) || [];
+
+  const effectiveUsedCharacterIds = [
+    ...usedCharacterIds,
+    selectedCharacter?.id,
+  ].filter(Boolean);
+
+  const availableCharacters = characters.filter(
+    c => !effectiveUsedCharacterIds.includes(c.id)
+  );
+
   return (
     <View style={[styles.bodyContainer]}>
       <Surface>
-
         <View>
           <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
           <Divider style={styles.dividerColor} />
         </View>
-
         <View style={styles.characterRow}>
           <SelectedCharacter
-            characters={characters}
+            characters={availableCharacters}
             selectedCharacter={selectedCharacter}
             onCharacterChange={handleCharacterChange}
           />
@@ -84,13 +107,11 @@ export default function SettingsScreen() {
             placeholderTextColor="#999"
           />
         </View>
-
         <View>
           <Divider style={styles.dividerColor} />
           <Text style={[theme.styles.title, styles.textTitle]}>Hushåll</Text>
           <Divider style={styles.dividerColor} />
         </View>
-
         <View style={styles.householdRow}>
           <TextInput
             style={styles.householdInput}
@@ -101,28 +122,20 @@ export default function SettingsScreen() {
             placeholderTextColor="#999"
           />
         </View>
-
         <View style={styles.codeContainer}>
-          <Text style={ styles.codeText }>
-            {household?.code || "Ingen kod"}
-          </Text>
+          <Text style={styles.codeText}>{household?.code || "Ingen kod"}</Text>
         </View>
-
         <View>
-          <Text>Lista med alla hushållsmedlemmar</Text>
+          <Text>Lista med användare - VG-krav</Text>
           <Text>Plus knapp för att skapa ny medlem</Text>
         </View>
-
         <View>
           <Divider style={styles.dividerColor} />
           <Text style={[theme.styles.title, styles.textTitle]}>Global</Text>
           <Divider style={styles.dividerColor} />
         </View>
-
-
         <Divider style={styles.dividerColor} />
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
-
         <Divider></Divider>
       </Surface>
     </View>
@@ -132,7 +145,6 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
   },
   dividerColor: {
     backgroundColor: "black",
@@ -152,14 +164,12 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
     fontSize: 16,
     flex: 1,
     marginLeft: 20,
-    backgroundColor: "#fff",
   },
   householdRow: {
     paddingHorizontal: 16,
@@ -167,21 +177,18 @@ const styles = StyleSheet.create({
   },
   householdInput: {
     borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 16,
     width: "100%",
-    backgroundColor: "#fff",
   },
   codeText: {
-    fontSize: 18, 
-    color: "#333",
-    textAlign: "center"
+    fontSize: 18,
+    textAlign: "center",
   },
   codeContainer: {
     paddingHorizontal: 16,
-     marginVertical: 12
+    marginVertical: 12,
   },
 });

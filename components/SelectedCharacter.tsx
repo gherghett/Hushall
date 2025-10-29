@@ -24,7 +24,11 @@ export default function SelectedCharacter({
         <View
           style={[
             styles.circle,
-            { backgroundColor: selectedCharacter?.colors.primary || "#ccc", width: CIRCLE_SIZE, height: CIRCLE_SIZE },
+            {
+              backgroundColor: selectedCharacter?.colors.primary || "#ccc",
+              width: CIRCLE_SIZE,
+              height: CIRCLE_SIZE,
+            },
           ]}
         >
           <Text style={styles.emoji}>{selectedCharacter?.emoji || "?"}</Text>
@@ -36,7 +40,7 @@ export default function SelectedCharacter({
           visible={showModal}
           onClose={() => setShowModal(false)}
           characters={characters}
-          onSelectCharacter={(char) => {
+          onSelectCharacter={char => {
             onCharacterChange(char);
             setShowModal(false);
           }}
