@@ -200,7 +200,13 @@ export default function ChoreView() {
                       c.daysSinceDone <= c.interval && (
                         <Text variant="titleMedium">
                           {" "}
-                          {c.doneBy.map(d => characters[d.characterId].emoji)}
+                          {c.doneBy.map(d => {
+                            const member = members?.find(m => m.id === d.id);
+                            const character = member
+                              ? characters[member.characterId]
+                              : null;
+                            return character?.emoji || "❓";
+                          })}
                         </Text>
                       )
                     : c.daysSinceDone !== null && (
