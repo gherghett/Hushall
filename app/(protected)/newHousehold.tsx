@@ -24,7 +24,7 @@ export default function NewHouseholdScreen() {
             color: theme.colors.onSurfaceVariant,
           }}
         >
-          Eller
+          eller
         </Text>
         <JoinHousehold />
       </ScrollView>

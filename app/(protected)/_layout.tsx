@@ -25,6 +25,7 @@ function StackLayout() {
     >
       <Stack.Protected guard={hasHousehold}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+
         <Stack.Protected guard={isOwner}>
           <Stack.Screen
             name="createChore"
@@ -39,21 +40,21 @@ function StackLayout() {
 
       <Stack.Protected guard={!hasHousehold}>
         <Stack.Screen
-          name="newHousehold"
+          name="noHousehold"
           options={{
             headerShown: true,
             headerBackVisible: true,
-            title: "Gå med i ett hushåll",
+            title: "Välkommen!",
           }}
         />
       </Stack.Protected>
 
       <Stack.Screen
-        name="createHousehold"
+        name="newHousehold"
         options={{
           headerShown: true,
-          title: "Skapa nytt hushåll",
           headerBackVisible: true,
+          title: "Gå med i ett hushåll",
         }}
       />
       <Stack.Screen

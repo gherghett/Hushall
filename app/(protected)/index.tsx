@@ -2,16 +2,40 @@ import ChoreView from "@/components/ChoreView";
 import HouseholdHeader from "@/components/HouseholdHeader";
 import StatisticsView from "@/components/StatisticsView";
 import { AppTheme } from "@/lib/theme";
+import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
 import { useTheme } from "react-native-paper";
 
 export default function Index() {
   const theme = useTheme() as AppTheme;
+  const pagerRef = useRef<PagerView>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const navigateLeft = () => {
+    const newPage = currentPage > 0 ? currentPage - 1 : 3; // Cycle to last page if at first
+    pagerRef.current?.setPage(newPage);
+    setCurrentPage(newPage);
+  };
+
+  const navigateRight = () => {
+    const newPage = currentPage < 3 ? currentPage + 1 : 0; // Cycle to first page if at last
+    pagerRef.current?.setPage(newPage);
+    setCurrentPage(newPage);
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <HouseholdHeader />
-      <PagerView style={styles.pagerView} initialPage={0}>
+      <HouseholdHeader
+        onNavigateLeft={navigateLeft}
+        onNavigateRight={navigateRight}
+      />
+      <PagerView
+        ref={pagerRef}
+        style={styles.pagerView}
+        initialPage={0}
+        onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
+      >
         <View key="1" style={[theme.styles.container]}>
           <ChoreView />
         </View>

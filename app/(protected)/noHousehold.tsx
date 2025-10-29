@@ -1,14 +1,10 @@
-import CreateHouseholdPopup from "@/components/CreateHouseholdPopup";
-import JoinHouseholdPopup from "@/components/JoinHouseholdPopup";
 import { AppTheme } from "@/lib/theme";
-import { useState } from "react";
+import { router } from "expo-router";
 import { View } from "react-native";
 import { Button, Surface, Text, useTheme } from "react-native-paper";
 
 export default function NoHousehold() {
   const theme = useTheme() as AppTheme;
-  const [createPopupVisible, setCreatePopupVisible] = useState(false);
-  const [joinPopupVisible, setJoinPopupVisible] = useState(false);
 
   return (
     <View
@@ -28,32 +24,21 @@ export default function NoHousehold() {
         >
           Dags att ha full koll på tvätten!
         </Text>
-        <Button mode="outlined" onPress={() => setCreatePopupVisible(true)}>
-          Skapa nytt hushåll
-        </Button>
         <Text
           style={{
             textAlign: "center",
-            marginVertical: 16,
+            marginBottom: 24,
             fontSize: 16,
             color: theme.colors.onSurfaceVariant,
           }}
         >
-          eller
+          För att komma igång behöver du gå med i ett hushåll eller skapa ett
+          nytt.
         </Text>
-        <Button mode="outlined" onPress={() => setJoinPopupVisible(true)}>
-          Gå med i någon annans hushåll
+        <Button mode="contained" onPress={() => router.push("/newHousehold")}>
+          Kom igång
         </Button>
       </Surface>
-
-      <CreateHouseholdPopup
-        visible={createPopupVisible}
-        onDismiss={() => setCreatePopupVisible(false)}
-      />
-      <JoinHouseholdPopup
-        visible={joinPopupVisible}
-        onDismiss={() => setJoinPopupVisible(false)}
-      />
     </View>
   );
 }
