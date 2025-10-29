@@ -308,7 +308,7 @@ export default function ChoreView() {
         >
           <Dialog.Title>Bekräfta borttagning</Dialog.Title>
           <Dialog.Content>
-            <Text>Är du säker på att du vill ta bort denna syssla?</Text>
+            <Text>{`Är du säker på att du vill ta bort "${chores.find(c => c.id === choreToDelete)?.title}"?`}</Text>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setDeleteDialogVisible(false)}>
