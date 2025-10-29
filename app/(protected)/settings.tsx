@@ -1,28 +1,27 @@
+import { userAtom } from "@/atoms/auth-atoms";
 import {
   useCurrentHousehold,
   useEditHouseholdNameMutation,
 } from "@/atoms/household-atoms";
-import ChooseCharacter from "@/components/ChooseCharacter";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { Character, useCharacters } from "@/hooks/useCharacters";
+import {
+  useUpdateMemberNameMutation,
+  useUpdateUserCharacterMutation,
+} from "@/atoms/userAtoms";
 import SelectedCharacter from "@/components/SelectedCharacter";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useCurrentUserCharacterId } from "@/hooks/getCurrentCharacter";
+import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Divider,
   Surface,
   Text,
-  useTheme,
   TextInput,
+  useTheme,
 } from "react-native-paper";
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/atoms/auth-atoms";
-import {
-  useUpdateUserCharacterMutation,
-  useUpdateMemberNameMutation,
-} from "@/atoms/userAtoms";
-import { useCurrentUserCharacterId } from "@/hooks/getCurrentCharacter";
 
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
@@ -97,14 +96,13 @@ export default function SettingsScreen() {
             selectedCharacter={selectedCharacter}
             onCharacterChange={handleCharacterChange}
           />
-
           <TextInput
             style={styles.nameInput}
             value={memberName}
             onChangeText={setMemberName}
             onBlur={() => handleMemberNameChange(memberName)}
             placeholder="Användarnamn"
-            placeholderTextColor="#999"
+            // placeholderTextColor="#999"
           />
         </View>
         <View>
@@ -119,7 +117,7 @@ export default function SettingsScreen() {
             onChangeText={setHouseholdName}
             onBlur={() => handleHouseholdNameChange(householdName)}
             placeholder="Hushållsnamn"
-            placeholderTextColor="#999"
+            // placeholderTextColor="#999"
           />
         </View>
         <View style={styles.codeContainer}>
@@ -135,7 +133,7 @@ export default function SettingsScreen() {
           <Divider />
         </View>
         <Divider />
-        <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
+        <ThemeToggle />
         <Divider></Divider>
       </Surface>
     </View>
