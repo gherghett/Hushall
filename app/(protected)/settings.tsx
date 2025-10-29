@@ -1,6 +1,7 @@
 import { userAtom } from "@/atoms/auth-atoms";
 import {
   useCurrentHousehold,
+  useCurrentMembers,
   useEditHouseholdNameMutation,
 } from "@/atoms/household-atoms";
 import {
@@ -14,7 +15,7 @@ import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import {
   Divider,
   Surface,
@@ -39,6 +40,7 @@ export default function SettingsScreen() {
   );
   const [memberName, setMemberName] = useState(currentMember?.name || "");
   const [householdName, setHouseholdName] = useState(household?.name || "");
+  const members = useCurrentMembers();
 
   const handleCharacterChange = async (char: Character) => {
     setSelectedCharacter(char);
@@ -84,7 +86,7 @@ export default function SettingsScreen() {
   );
 
   return (
-    <View style={[styles.bodyContainer]}>
+    <ScrollView style={[styles.bodyContainer]}>
       <Surface>
         <View>
           <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
@@ -124,7 +126,26 @@ export default function SettingsScreen() {
           <Text style={styles.codeText}>{household?.code || "Ingen kod"}</Text>
         </View>
         <View>
-          <Text>Lista med användare - VG-krav</Text>
+          <View>
+            {members?.map(m => (
+              <View
+                style={[
+                  styles.memberListItem,
+                  { backgroundColor: characters[m.characterId].colors.primary },
+                ]}
+                key={m.id}
+              >
+                <Text
+                  variant="titleMedium"
+                  style={[
+                    { color: characters[m.characterId].colors.onPrimary },
+                  ]}
+                >
+                  {characters[m.characterId].emoji} - {m.name}
+                </Text>
+              </View>
+            ))}
+          </View>
           <Text>Plus knapp för att skapa ny medlem</Text>
         </View>
         <View>
@@ -134,9 +155,9 @@ export default function SettingsScreen() {
         </View>
         <Divider />
         <ThemeToggle />
-        <Divider></Divider>
+        <Divider style={[{ marginBottom: 132 }]}></Divider>
       </Surface>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -185,5 +206,11 @@ const styles = StyleSheet.create({
   codeContainer: {
     paddingHorizontal: 16,
     marginVertical: 12,
+  },
+  memberListItem: {
+    padding: 16,
+    margin: 16,
+    borderCurve: "circular",
+    borderRadius: 8,
   },
 });

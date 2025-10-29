@@ -33,11 +33,11 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
       med produktägare, godkännas och dokumenteras. \*
 - [x] Information ska kommuniceras till och från en server.
 
-### Hushåll (1/7)
+### Hushåll (2/7)
 
 - [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
       namnet ska gå att ändra. \*
-- [] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
+- [x] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
 - [] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
 - [] En ägare ska kunna acceptera eller neka förfrågningar.
 - [] En ägare ska kunna göra andra till ägare.
