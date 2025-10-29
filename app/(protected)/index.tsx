@@ -1,3 +1,4 @@
+import { useMemberCompletionValue } from "@/atoms/household-atoms";
 import ChoreView from "@/components/ChoreView";
 import HouseholdHeader from "@/components/HouseholdHeader";
 import StatisticsView from "@/components/StatisticsView";
@@ -12,14 +13,62 @@ export default function Index() {
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+  // Get data for each potential statistics page
+  const currentWeekRange = getCurentWeekRange();
+  const lastWeekRange = getLastWeekRange();
+  const lastMonthRange = getLastMonthRange();
+
+  const currentWeekData = useMemberCompletionValue(
+    currentWeekRange.start,
+    currentWeekRange.end
+  );
+  const lastWeekData = useMemberCompletionValue(
+    lastWeekRange.start,
+    lastWeekRange.end
+  );
+  const lastMonthData = useMemberCompletionValue(
+    lastMonthRange.start,
+    lastMonthRange.end
+  );
+
+  // Check if data exists for each range
+  const hasCurrentWeekData =
+    currentWeekData && Object.values(currentWeekData).some(d => d.total > 0);
+  const hasLastWeekData =
+    lastWeekData && Object.values(lastWeekData).some(d => d.total > 0);
+  const hasLastMonthData =
+    lastMonthData && Object.values(lastMonthData).some(d => d.total > 0);
+
+  // Define available pages
+  const availablePages = [
+    { key: "chores", component: <ChoreView />, hasData: true },
+    {
+      key: "currentWeek",
+      component: <StatisticsView DateRange={currentWeekRange} />,
+      hasData: hasCurrentWeekData,
+    },
+    {
+      key: "lastWeek",
+      component: <StatisticsView DateRange={lastWeekRange} />,
+      hasData: hasLastWeekData,
+    },
+    {
+      key: "lastMonth",
+      component: <StatisticsView DateRange={lastMonthRange} />,
+      hasData: hasLastMonthData,
+    },
+  ].filter(page => page.hasData);
+
   const navigateLeft = () => {
-    const newPage = currentPage > 0 ? currentPage - 1 : 3; // Cycle to last page if at first
+    const newPage =
+      currentPage > 0 ? currentPage - 1 : availablePages.length - 1;
     pagerRef.current?.setPage(newPage);
     setCurrentPage(newPage);
   };
 
   const navigateRight = () => {
-    const newPage = currentPage < 3 ? currentPage + 1 : 0; // Cycle to first page if at last
+    const newPage =
+      currentPage < availablePages.length - 1 ? currentPage + 1 : 0;
     pagerRef.current?.setPage(newPage);
     setCurrentPage(newPage);
   };
@@ -29,6 +78,7 @@ export default function Index() {
       <HouseholdHeader
         onNavigateLeft={navigateLeft}
         onNavigateRight={navigateRight}
+        showNavigationButtons={availablePages.length > 1}
       />
       <PagerView
         ref={pagerRef}
@@ -36,18 +86,14 @@ export default function Index() {
         initialPage={0}
         onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
       >
-        <View key="1" style={[theme.styles.container]}>
-          <ChoreView />
-        </View>
-        <View key="2" style={[styles.page]}>
-          <StatisticsView DateRange={getCurentWeekRange()} />
-        </View>
-        <View key="3" style={[styles.page]}>
-          <StatisticsView DateRange={getLastWeekRange()} />
-        </View>
-        <View key="4" style={[styles.page]}>
-          <StatisticsView DateRange={getLastMonthRange()} />
-        </View>
+        {availablePages.map((page, index) => (
+          <View
+            key={page.key}
+            style={index === 0 ? [theme.styles.container] : [styles.page]}
+          >
+            {page.component}
+          </View>
+        ))}
       </PagerView>
     </View>
   );

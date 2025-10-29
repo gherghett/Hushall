@@ -7,11 +7,13 @@ import HouseholdDropDown from "./HouseholdDropDown";
 interface HouseholdHeaderProps {
   onNavigateLeft?: () => void;
   onNavigateRight?: () => void;
+  showNavigationButtons?: boolean;
 }
 
 export default function HouseholdHeader({
   onNavigateLeft,
   onNavigateRight,
+  showNavigationButtons = false,
 }: HouseholdHeaderProps) {
   const theme = useTheme() as AppTheme;
   return (
@@ -39,18 +41,22 @@ export default function HouseholdHeader({
         />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <IconButton
-          icon="chevron-left"
-          size={30}
-          onPress={onNavigateLeft}
-          style={{ margin: 0 }}
-        />
-        <IconButton
-          icon="chevron-right"
-          size={30}
-          onPress={onNavigateRight}
-          style={{ margin: 0 }}
-        />
+        {showNavigationButtons && (
+          <IconButton
+            icon="chevron-left"
+            size={30}
+            onPress={onNavigateLeft}
+            style={{ margin: 0 }}
+          />
+        )}
+        {showNavigationButtons && (
+          <IconButton
+            icon="chevron-right"
+            size={30}
+            onPress={onNavigateRight}
+            style={{ margin: 0 }}
+          />
+        )}
       </View>
     </View>
   );

@@ -94,7 +94,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [x] Det ska finnas en statistikvy över ”nuvarande vecka”. \*
 - [x] Det ska finnas en statistikvy över ”förra vecka”.
 - [x] Det ska finnas en statistikvy över ”förra månaden”.
-- [] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
+- [x] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
 
 ### Schemaläggning (0/3)
 

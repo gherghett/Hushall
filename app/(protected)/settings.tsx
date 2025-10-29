@@ -131,17 +131,23 @@ export default function SettingsScreen() {
               <View
                 style={[
                   styles.memberListItem,
-                  { backgroundColor: characters[m.characterId].colors.primary },
+                  {
+                    backgroundColor:
+                      characters[m.characterId]?.colors.primary ?? "#444",
+                  },
                 ]}
                 key={m.id}
               >
                 <Text
                   variant="titleMedium"
                   style={[
-                    { color: characters[m.characterId].colors.onPrimary },
+                    {
+                      color:
+                        characters[m.characterId]?.colors?.onPrimary ?? "#fff",
+                    },
                   ]}
                 >
-                  {characters[m.characterId].emoji} - {m.name}
+                  {characters[m.characterId]?.emoji} - {m.name}
                 </Text>
               </View>
             ))}
