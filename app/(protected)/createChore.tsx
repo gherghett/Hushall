@@ -131,7 +131,7 @@ export default function CreateChore() {
 
   return (
     <View style={[theme.styles.container]}>
-      <Surface style={[theme.styles.surfaceCard]}>
+      <Surface style={[theme.styles.surface]}>
         <TextInput
           label="Titel"
           value={choreTitle}
