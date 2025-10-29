@@ -34,7 +34,14 @@ function StackLayout() {
       </Stack.Protected>
 
       <Stack.Protected guard={!hasHousehold}>
-        <Stack.Screen name="noHousehold" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="newHousehold"
+          options={{
+            headerShown: true,
+            headerBackVisible: true,
+            title: "Gå med i ett hushåll",
+          }}
+        />
       </Stack.Protected>
 
       <Stack.Screen

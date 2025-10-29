@@ -17,7 +17,7 @@ export default function NoHousehold() {
         { justifyContent: "center", alignItems: "center" },
       ]}
     >
-      <Surface style={{ padding: 20, borderRadius: 12, margin: 20 }}>
+      <Surface style={[theme.styles.surfaceCard]}>
         <Text
           style={{
             textAlign: "center",

@@ -34,9 +34,9 @@ export default function JoinHouseholdScreen() {
 
   return (
     <View style={theme.styles.container}>
-      <Surface style={{ padding: 20 }}>
+      <Surface style={theme.styles.surfaceCard}>
         <Text variant="labelMedium" style={{ marginBottom: 8 }}>
-          Kod
+          Använd kod för att gå med i hushåll
         </Text>
 
         <TextInput

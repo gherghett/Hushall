@@ -17,6 +17,7 @@ export interface CustomThemeProperties {
   styles: {
     container: ViewStyle;
     title: TextStyle;
+    surfaceCard: ViewStyle;
     // Add more custom styles as needed
   };
 }
@@ -75,6 +76,11 @@ const customThemeProperties: CustomThemeProperties = {
       textAlign: "center" as const,
       marginBottom: 20,
       fontWeight: "bold" as const,
+    },
+    surfaceCard: {
+      padding: 20,
+      borderRadius: 12,
+      margin: 20,
     },
   },
 };

@@ -34,9 +34,9 @@ export default function CreateHousehold() {
 
   return (
     <View style={theme.styles.container}>
-      <Surface style={{ padding: 20 }}>
+      <Surface style={theme.styles.surfaceCard}>
         <Text variant="labelMedium" style={{ marginBottom: 8 }}>
-          Hushållsnamn
+          Skapa nytt hushåll
         </Text>
 
         <TextInput
