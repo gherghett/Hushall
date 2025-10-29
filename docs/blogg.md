@@ -42,3 +42,7 @@ Initierings/Planerings möte:
 
 - Ändrat namn på mappar och filer för att kunna utveckla på iOS
 - Ändrat i filer för att navigera rätt
+
+# Tisdag 29 Oktober
+
+- updaterat README.md
