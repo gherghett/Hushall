@@ -79,3 +79,15 @@ export default async function joinHousehold({
     return { success: false, message: "Något gick fel. Försök igen." };
   }
 }
+
+export async function editHouseholdName(name: string, id: string) {
+  const q = query(collection(db, "households"), where("id", "==", id));
+  const querySnap = await getDocs(q);
+
+  const householdDoc = querySnap.docs[0];
+
+  await updateDoc(householdDoc.ref, {
+    name: name,
+  });
+  return { success: true, message: "Hushålls namn ändrat!" };
+}

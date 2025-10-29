@@ -16,6 +16,7 @@ function StackLayout() {
     <Stack
       screenOptions={{
         headerBackVisible: false,
+        headerStyle: { backgroundColor: "#fff" },
       }}
     >
       <Stack.Protected guard={hasHousehold}>
@@ -44,7 +45,13 @@ function StackLayout() {
           headerBackVisible: true,
         }}
       />
-      <Stack.Screen name="settings" />
+      <Stack.Screen
+        name="settings"
+        options={{
+          title: "Inställningar",
+          headerBackVisible: true,
+        }}
+      />
     </Stack>
   );
 }
