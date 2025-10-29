@@ -9,7 +9,7 @@ import { AppTheme } from "@/lib/theme";
 import { createChoreFormSchema } from "@/models/household";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
 import {
   Button,
   HelperText,
@@ -130,8 +130,8 @@ export default function CreateChore() {
   };
 
   return (
-    <View style={[theme.styles.container]}>
-      <Surface style={[theme.styles.surface]}>
+    <KeyboardAvoidingView style={[theme.styles.container]}>
+      <Surface style={theme.styles.surface}>
         <TextInput
           label="Titel"
           value={choreTitle}
@@ -184,6 +184,6 @@ export default function CreateChore() {
       >
         {snackbarMessage}
       </Snackbar>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
