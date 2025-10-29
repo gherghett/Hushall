@@ -17,7 +17,7 @@ interface props {
 }
 
 export default function StatisticsView(props: props) {
-  const theme = useTheme() as AppTheme;
+  // const theme = useTheme() as AppTheme;
   const household = useCurrentHousehold();
   const characters: Character[] = useCharacters();
   const members = useCurrentMembers();
