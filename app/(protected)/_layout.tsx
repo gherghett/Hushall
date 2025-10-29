@@ -4,19 +4,23 @@ import {
   useIsOwnerOfCurrentHousehold,
 } from "@/atoms/household-atoms";
 import { ThemeProvider } from "@/context/theme-provider";
+import { AppTheme } from "@/lib/theme";
 import { Stack } from "expo-router";
+import { useTheme } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function StackLayout() {
   const hasHousehold = useHasHousehold();
   const currentHousehold = useCurrentHousehold();
   const isOwner = useIsOwnerOfCurrentHousehold();
+  const theme = useTheme() as AppTheme;
 
   return (
     <Stack
       screenOptions={{
         headerBackVisible: false,
-        headerStyle: { backgroundColor: "#fff" },
+        headerStyle: { backgroundColor: theme.colors.background },
+        headerTintColor: theme.colors.onBackground,
       }}
     >
       <Stack.Protected guard={hasHousehold}>
