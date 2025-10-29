@@ -89,7 +89,7 @@ export default function SettingsScreen() {
       <Surface>
         <View>
           <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
-          <Divider/>
+          <Divider />
         </View>
         <View style={styles.characterRow}>
           <SelectedCharacter
@@ -108,9 +108,9 @@ export default function SettingsScreen() {
           />
         </View>
         <View>
-          <Divider/>
+          <Divider />
           <Text style={[theme.styles.title, styles.textTitle]}>Hushåll</Text>
-          <Divider/>
+          <Divider />
         </View>
         <View style={styles.householdRow}>
           <TextInput
@@ -130,11 +130,11 @@ export default function SettingsScreen() {
           <Text>Plus knapp för att skapa ny medlem</Text>
         </View>
         <View>
-          <Divider/>
+          <Divider />
           <Text style={[theme.styles.title, styles.textTitle]}>Global</Text>
-          <Divider/>
+          <Divider />
         </View>
-        <Divider/>
+        <Divider />
         <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
         <Divider></Divider>
       </Surface>
