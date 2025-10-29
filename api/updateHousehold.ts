@@ -23,7 +23,10 @@ export default async function joinHousehold({
   userName,
 }: JoinHouseholdProps): Promise<{ success: boolean; message: string }> {
   try {
-    const q = query(collection(db, "households"), where("code", "==", code));
+    const q = query(
+      collection(db, "households"),
+      where("code", "==", code.trim().toUpperCase())
+    );
     const querySnap = await getDocs(q);
 
     if ((await querySnap).empty) {
@@ -37,7 +40,7 @@ export default async function joinHousehold({
     const data = householdDoc.data();
 
     const alreadyMember = data.members?.some(
-      (member: any) => member.uid === userId
+      (member: any) => member.userId === userId
     );
     if (alreadyMember) {
       return {
@@ -57,7 +60,8 @@ export default async function joinHousehold({
 
     await updateDoc(householdDoc.ref, {
       members: arrayUnion({
-        CharacterId: assignedCharacterId,
+        id: userId, // detta behövs okej
+        characterId: assignedCharacterId,
         userId: userId,
         name: userName,
         role: "member",
