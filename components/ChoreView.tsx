@@ -148,6 +148,35 @@ export default function ChoreView() {
     return null;
   }
 
+  const donebyMap = (list: string[]) => {
+    const output = list.map(d => {
+      const member = members?.find(m => m.id === d);
+      const character = member ? characters[member.characterId] : null;
+      return character?.emoji || "❓";
+    });
+    return compressString(output.join(""));
+  };
+
+  const compressString = (str: string) => {
+    const counts = new Map();
+    const seen = new Set();
+    let result = "";
+
+    for (const char of str) {
+      counts.set(char, (counts.get(char) || 0) + 1);
+    }
+
+    for (const char of str) {
+      if (!seen.has(char)) {
+        seen.add(char);
+        const count = counts.get(char);
+        result += char + (count > 1 ? "," + count : "");
+      }
+    }
+    console.log(result);
+    return result;
+  };
+
   const handleChorePress = (choreId: string) => {
     setSelectedChoreId(choreId);
     setMemberPickerVisible(true);
@@ -203,22 +232,29 @@ export default function ChoreView() {
       >
         <Card style={styles.cardContainer}>
           <Card.Content style={styles.cardContent}>
-            <Text variant="titleMedium"> {c.title}</Text>
+            <Text
+              variant="titleMedium"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={{ maxWidth: "60%" }}
+            >
+              {" "}
+              {c.title}
+            </Text>
             <View style={styles.rightSection}>
               {!editMode && (
                 <>
                   {c.daysSinceDone !== null && c.daysSinceDone === 0
                     ? c.daysSinceDone !== null &&
                       c.daysSinceDone <= c.interval && (
-                        <Text variant="titleMedium">
+                        <Text
+                          variant="titleMedium"
+                          numberOfLines={1} // single line
+                          ellipsizeMode="tail" // shows "..." at the end
+                          style={{ maxWidth: 100, flexShrink: 1 }}
+                        >
                           {" "}
-                          {c.doneBy.map(d => {
-                            const member = members?.find(m => m.id === d.id);
-                            const character = member
-                              ? characters[member.characterId]
-                              : null;
-                            return character?.emoji || "❓";
-                          })}
+                          {donebyMap(c.doneBy)}
                         </Text>
                       )
                     : c.daysSinceDone !== null && (
@@ -357,6 +393,7 @@ const styles = StyleSheet.create({
   rightSection: {
     flexDirection: "row",
     alignItems: "center",
+    maxWidth: "40%",
   },
   daysBadge: {
     marginLeft: 15,
