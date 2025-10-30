@@ -121,8 +121,8 @@ export default function SettingsScreen() {
 
         <View style={styles.characterRow}>
           {members?.map(m => (
-            <View style={{ backgroundColor: "#fffff " }}>
-              <Text>
+            <View style={[theme.styles.surface, { backgroundColor: characters[m.characterId]?.colors.primary, width: "100%" }]}>
+              <Text variant="titleLarge">
                 {characters[m.characterId]?.emoji} - {m.name}
               </Text>
             </View>
@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingHorizontal: 16,
     marginVertical: 12,
   },
 });
