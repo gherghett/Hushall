@@ -1,3 +1,4 @@
+import { useHouseholdsQuery } from "@/atoms/household-atoms";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -9,10 +10,11 @@ import { useAuth } from "../hooks/useAuth";
 const queryClient = new QueryClient();
 
 function StackLayout() {
-  const { isAuthenticated, isLoading, isInitialized } = useAuth();
+  const { isAuthenticated, isLoading, isInitialized, user } = useAuth();
+  const currentHousehold = useHouseholdsQuery(user?.uid ?? null);
 
   // Show loading while auth state is being determined
-  if (!isInitialized || isLoading) {
+  if (!isInitialized || isLoading || currentHousehold.isLoading) {
     return <LoadingScreen />;
   }
 

@@ -4,7 +4,6 @@ import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { useAtomValue } from "jotai";
 import React, { useState } from "react";
-import { View } from "react-native";
 import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function CreateHousehold() {
@@ -33,34 +32,32 @@ export default function CreateHousehold() {
   }, [createHouseholdMutation.isSuccess]);
 
   return (
-    <View style={theme.styles.container}>
-      <Surface style={{ padding: 20 }}>
-        <Text variant="labelMedium" style={{ marginBottom: 8 }}>
-          Hushållsnamn
-        </Text>
+    <Surface style={theme.styles.surfaceCard}>
+      <Text variant="labelMedium" style={{ marginBottom: 8 }}>
+        Skapa nytt hushåll
+      </Text>
 
-        <TextInput
-          label="Namn på hushåll"
-          value={householdName}
-          onChangeText={setHouseholdName}
-          mode="outlined"
-          style={{ marginBottom: 20 }}
-        />
+      <TextInput
+        label="Namn på hushåll"
+        value={householdName}
+        onChangeText={setHouseholdName}
+        mode="outlined"
+        style={{ marginBottom: 20 }}
+      />
 
-        <Button
-          mode="contained"
-          loading={createHouseholdMutation.isPending}
-          disabled={createHouseholdMutation.isPending || !householdName.trim()}
-          onPress={handleCreateHouseholdSubmit}
-          style={{ marginBottom: 10 }}
-        >
-          Skapa hushåll
-        </Button>
+      <Button
+        mode="contained"
+        loading={createHouseholdMutation.isPending}
+        disabled={createHouseholdMutation.isPending || !householdName.trim()}
+        onPress={handleCreateHouseholdSubmit}
+        style={{ marginBottom: 10 }}
+      >
+        Skapa hushåll
+      </Button>
 
-        <Button mode="text" onPress={() => router.back()}>
-          Avbryt
-        </Button>
-      </Surface>
-    </View>
+      {/* <Button mode="text" onPress={() => router.back()}>
+        Avbryt
+      </Button> */}
+    </Surface>
   );
 }
