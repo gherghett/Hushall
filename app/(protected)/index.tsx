@@ -50,13 +50,13 @@ export default function Index() {
     },
     {
       key: "lastWeek",
-      title: "Förgående vecka",
+      title: "Föregående vecka",
       component: <StatisticsView DateRange={lastWeekRange} />,
       hasData: hasLastWeekData,
     },
     {
       key: "lastMonth",
-      title: "Förgående månad",
+      title: "Föregående månad",
       component: <StatisticsView DateRange={lastMonthRange} />,
       hasData: hasLastMonthData,
     },
@@ -94,7 +94,9 @@ export default function Index() {
             key={page.key}
             style={index === 0 ? [theme.styles.container] : [styles.page]}
           >
-            <Text variant="titleLarge" style={{ padding: 16 }} >{page.title}</Text>
+            <Text variant="titleLarge" style={{ padding: 16 }}>
+              {page.title}
+            </Text>
             {page.component}
           </View>
         ))}
