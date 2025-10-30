@@ -209,38 +209,38 @@ export default function ChoreView() {
                 <>
                   {c.daysSinceDone !== null && c.daysSinceDone === 0
                     ? c.daysSinceDone !== null &&
-                      c.daysSinceDone <= c.interval && (
-                        <Text variant="titleMedium">
-                          {" "}
-                          {c.doneBy.map(d => {
-                            const member = members?.find(m => m.id === d.id);
-                            const character = member
-                              ? characters[member.characterId]
-                              : null;
-                            return character?.emoji || "❓";
-                          })}
-                        </Text>
-                      )
+                    c.daysSinceDone <= c.interval && (
+                      <Text variant="titleMedium">
+                        {" "}
+                        {c.doneBy.map(d => {
+                          const member = members?.find(m => m.id === d.id);
+                          const character = member
+                            ? characters[member.characterId]
+                            : null;
+                          return character?.emoji || "❓";
+                        })}
+                      </Text>
+                    )
                     : c.daysSinceDone !== null && (
-                        <Text
-                          variant="titleMedium"
-                          style={[
-                            styles.daysBadge,
-                            {
-                              color:
-                                c.daysSinceDone < c.interval
-                                  ? theme.colors.onSecondaryContainer
-                                  : theme.colors.onError,
-                              backgroundColor:
-                                c.daysSinceDone < c.interval
-                                  ? theme.colors.secondaryContainer
-                                  : theme.colors.error,
-                            },
-                          ]}
-                        >
-                          {c.daysSinceDone}
-                        </Text>
-                      )}
+                      <Text
+                        variant="titleMedium"
+                        style={[
+                          styles.daysBadge,
+                          {
+                            color:
+                              c.daysSinceDone < c.interval
+                                ? theme.colors.onSecondaryContainer
+                                : theme.colors.onError,
+                            backgroundColor:
+                              c.daysSinceDone < c.interval
+                                ? theme.colors.secondaryContainer
+                                : theme.colors.error,
+                          },
+                        ]}
+                      >
+                        {c.daysSinceDone}
+                      </Text>
+                    )}
                 </>
               )}
               {editMode && (
@@ -375,6 +375,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     bottom: 0,
+    opacity: 0.7
   },
   modalContainer: {
     padding: 20,
