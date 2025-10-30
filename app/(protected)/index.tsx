@@ -90,13 +90,12 @@ export default function Index() {
         onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
       >
         {availablePages.map((page, index) => (
-          <View
-            key={page.key}
-            style={index === 0 ? [theme.styles.container] : [styles.page]}
-          >
-            <Text variant="titleLarge" style={{ padding: 16 }}>
-              {page.title}
-            </Text>
+          <View key={page.key} style={index === 0 ? [] : [styles.page]}>
+            {page.title && (
+              <Text variant="titleLarge" style={{ padding: 16 }}>
+                {page.title}
+              </Text>
+            )}
             {page.component}
           </View>
         ))}
