@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Button, Card, Text, TextInput, useTheme } from "react-native-paper";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 import { useAuth } from "../hooks/useAuth";
 import { AppTheme } from "../lib/theme";
 
@@ -48,8 +48,10 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
   };
 
   return (
-    <Card style={styles.card}>
-      <Card.Content>
+    <KeyboardAvoidingView
+      style={[theme.styles.container, { justifyContent: "center" }]}
+    >
+      <Surface style={theme.styles.surface}>
         <Text variant="headlineSmall" style={styles.title}>
           Create Account
         </Text>
@@ -121,8 +123,8 @@ export function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
         >
           Already have an account? Sign In
         </Button>
-      </Card.Content>
-    </Card>
+      </Surface>
+    </KeyboardAvoidingView>
   );
 }
 

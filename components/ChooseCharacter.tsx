@@ -1,11 +1,12 @@
-import { Modal, Portal, Text } from "react-native-paper";
+import { AppTheme } from "@/lib/theme";
 import {
+  Dimensions,
+  FlatList,
+  Pressable,
   StyleSheet,
   View,
-  FlatList,
-  Dimensions,
-  Pressable,
 } from "react-native";
+import { Modal, Portal, Text, useTheme } from "react-native-paper";
 
 export interface Character {
   id: number;
@@ -44,12 +45,17 @@ export default function ChooseCharacter({
     />
   );
 
+  const theme = useTheme() as AppTheme;
+
   return (
     <Portal>
       <Modal
         visible={visible}
         onDismiss={onClose}
-        contentContainerStyle={styles.modal}
+        contentContainerStyle={[
+          styles.modal,
+          { backgroundColor: theme.colors.background },
+        ]}
       >
         <FlatList
           data={characters}

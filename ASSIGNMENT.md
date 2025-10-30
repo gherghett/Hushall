@@ -1,31 +1,23 @@
 # Inlämning 2 - Hushållet
 
-> Grupp: D4estation - Josef, Arvid, Erik, Daniel, Elin
+## I den här inlämningen ska ni i grupp om 5 skapa en nativ app med med hjälp av React
 
-En todo mobil-app för SUVNET24 hösten 2025, för hushåll och grupper som vill samarbeta kring hemmasysslor. Appen gör det enkelt att skapa, registrera, och följa upp sysslor, samt ger översikt och statistik över vad som gjorts och av vem. Varje användare har en personlig profil med avatar och kan byta mellan olika hushåll.
+Native (RN), Expo och Typescript. Applikationen ni har fått i uppdrag att bygga heter
+Hushållet. Nedan följer information om applikationen inklusive en kravlista över det som
+ska göras.
+Syfte: Göra det lättare att samsas kring och bli påmind om sysslor i hemmet.
+Målgrupp: Familjer, sambos, släktingar.
+Produktägare: David Jensen.
+Avatarer: 🦊 🐷 🐸 🐥 🐙 🐬 🦉 🦄
+Läs noga igenom hela uppgiftsbeskrivningen innan ni börjar.
 
-Projektet är byggt med Expo och React Native för smidig mobilutveckling, med React Native Paper för UI-komponenter och TanStack Query för datahantering. Backend och autentisering via Firebase.
+Kravlista
+\*: Dessa krav måste göras (20st).
+Antal krav: 40.
+G: 20 (50%).
+VG: 32 (80%).
 
-Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i hemmet, med stöd för flera användare, hushåll och personlig anpassning. Appen har stöd för statistik, temaväxling, och CI ([GitHub Action](.github/workflows/code-quality.yml)) för kvalitetssäkring.
-
-## Bygga och köra projektet
-
-1. Klona repot:
-   ```bash
-   git clone https://github.com/gherghett/Hushall
-   ```
-2. Installera beroenden:
-   ```bash
-   npm install
-   ```
-3. Starta appen:
-   ```bash
-   npx expo start
-   ```
-
-## Kravlista
-
-### Kravlista (4/4)
+# Kravlista (4)
 
 - [x] En logga, splashscreen och appikon ska designas och användas. \*
 - [x] Applikationen ska byggas med RN, Expo & TS. \*
@@ -33,11 +25,11 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
       med produktägare, godkännas och dokumenteras. \*
 - [x] Information ska kommuniceras till och från en server.
 
-### Hushåll (2/7)
+# Hushåll (7)
 
 - [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
       namnet ska gå att ändra. \*
-- [x] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
+- [] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
 - [] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
 - [] En ägare ska kunna acceptera eller neka förfrågningar.
 - [] En ägare ska kunna göra andra till ägare.
@@ -46,7 +38,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [] Om en använder har pausats under en del av en period i statistiken ska graferna
   normaliseras.
 
-### Konto (3/5)
+# Konto (5)
 
 - [x] En användare ska kunna registrera och logga in sig. \*
 - [x] En användare ska kunna skapa ett nytt hushåll. \*
@@ -55,7 +47,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
   godkänna användaren.
 - [] En användare ska kunna lämna ett hushåll.
 
-### Profil (6/6)
+# Profil (6)
 
 - [x] En användare ska kunna ange sitt namn. \*
 - [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. \*
@@ -65,7 +57,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [x] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de
       olika hushållen.
 
-### Sysslor (4/6)
+# Sysslor (6)
 
 - [x] En ägare ska kunna lägga till sysslor att göra i hemmet. \*
 - [x] En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en
@@ -77,7 +69,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan
   också kommer att tas bort och få valet att arkivera sysslan istället.
 
-### Dagsvyn (3/3)
+# Dagsvyn (3)
 
 - [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. \*
 - [x] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
@@ -85,7 +77,7 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
       med ett enkelt tryck gå att markera sysslan som gjord. \*
 
-### Statistik (5/6)
+# Statistik (6)
 
 - [x] En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt
       hushåll. \*
@@ -94,11 +86,43 @@ Syftet är att underlätta vardagslogistik och skapa rättvisa kring sysslor i h
 - [x] Det ska finnas en statistikvy över ”nuvarande vecka”. \*
 - [x] Det ska finnas en statistikvy över ”förra vecka”.
 - [x] Det ska finnas en statistikvy över ”förra månaden”.
-- [x] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
+- [] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
 
-### Schemaläggning (0/3)
+# Schemaläggning (3)
 
 - [] En ägare ska kunna tilldela och ta bort sysslor från användare i hushållet.
 - [] Användare ska kunna se de tilldelade sysslorna i sitt gränssnitt.
 - [] En ägare ska kunna skapa grupper av sysslor som automatiskt tilldelas användarna i
   hushållet och roteras baserat på ett intervall i dagar.
+
+## Inlämning
+
+För att bli godkänd på den här uppgiften MÅSTE ni använda GIT och GitHub.
+Inlämningen sker som vanligt via läroplattformen. I din projektmapp ska det finnas
+(utöver all kod) en README.md fil. Den ska innehålla en titel, beskrivning av projektet,
+info om hur projektet byggs och körs samt vilka krav som är uppfyllda. Samt en .git mapp
+så jag kan hitta till erat publika repo.
+
+Presentation
+Presentationen är uppdelad i tre moment. Det första momentet är en pitch på cirka 2-3
+minuter där ni ska försöka sälja in era lösningar och designval. Den andra delen är ett
+demo av applikationen. Slutligen ska ni reflektera kring projektet. Varje grupp har ca 20
+minuter på sig.
+Opponering & Individuell reflektion
+I slutet av kursen ska ni genomföra en opponering på varandras arbeten och i samband
+med det även lämna in en individuell reflektion. Ni kommer få ut mer information om
+hur det kommer att gå till längre fram.
+
+# Krav för godkänt:
+
+- [] De nödvändiga kraven ifrån kravlistan ovan är uppfyllda
+- [x] Applikationen kommunicerar data till och från en backend tjänst (ni väljer).
+- [x] Git & GitHub har använts.
+- [x] Projektmappen innehåller en README.md fil - (läs ovan för mer info)
+- [x] Uppgiften lämnas in i tid!
+- [] Muntlig presentation är genomförd
+
+# Krav för väl godkänt:
+
+- [-] Alla punkter för godkänt är uppfyllda
+- [x] Ni har använt CI under projektet.

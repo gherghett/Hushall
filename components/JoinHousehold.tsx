@@ -4,7 +4,6 @@ import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { useAtomValue } from "jotai";
 import React, { useState } from "react";
-import { View } from "react-native";
 import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function JoinHouseholdScreen() {
@@ -33,34 +32,32 @@ export default function JoinHouseholdScreen() {
   }, [joinHouseholdMutation.isSuccess]);
 
   return (
-    <View style={theme.styles.container}>
-      <Surface style={{ padding: 20 }}>
-        <Text variant="labelMedium" style={{ marginBottom: 8 }}>
-          Kod
-        </Text>
+    <Surface style={theme.styles.surfaceCard}>
+      <Text variant="labelMedium" style={{ marginBottom: 8 }}>
+        Använd kod för att gå med i hushåll
+      </Text>
 
-        <TextInput
-          label="Kod"
-          value={householdCode}
-          onChangeText={setHouseholdCode}
-          mode="outlined"
-          style={{ marginBottom: 20 }}
-        />
+      <TextInput
+        label="Kod"
+        value={householdCode}
+        onChangeText={text => setHouseholdCode(text.toUpperCase().trim())}
+        mode="outlined"
+        style={{ marginBottom: 20 }}
+      />
 
-        <Button
-          mode="contained"
-          loading={joinHouseholdMutation.isPending}
-          disabled={joinHouseholdMutation.isPending || !householdCode.trim()}
-          onPress={handleJoinHouseholdSubmit}
-          style={{ marginBottom: 10 }}
-        >
-          Gå med hushåll
-        </Button>
+      <Button
+        mode="contained"
+        loading={joinHouseholdMutation.isPending}
+        disabled={joinHouseholdMutation.isPending || !householdCode.trim()}
+        onPress={handleJoinHouseholdSubmit}
+        style={{ marginBottom: 10 }}
+      >
+        Gå med hushåll
+      </Button>
 
-        <Button mode="text" onPress={() => router.back()}>
-          Avbryt
-        </Button>
-      </Surface>
-    </View>
+      {/* <Button mode="text" onPress={() => router.back()}>
+        Avbryt
+      </Button> */}
+    </Surface>
   );
 }

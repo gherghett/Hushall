@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Button, Card, Text, TextInput, useTheme } from "react-native-paper";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 import { useAuth } from "../hooks/useAuth";
 import { AppTheme } from "../lib/theme";
 
@@ -29,8 +29,10 @@ export function LoginForm({ onSwitchToRegister }: LoginFormProps) {
   };
 
   return (
-    <Card style={styles.card}>
-      <Card.Content>
+    <KeyboardAvoidingView
+      style={[theme.styles.container, { justifyContent: "center" }]}
+    >
+      <Surface style={theme.styles.surface}>
         <Text variant="headlineSmall" style={styles.title}>
           Welcome Back
         </Text>
@@ -83,16 +85,12 @@ export function LoginForm({ onSwitchToRegister }: LoginFormProps) {
         >
           Don&apos;t have an account? Sign Up
         </Button>
-      </Card.Content>
-    </Card>
+      </Surface>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    margin: 16,
-    padding: 8,
-  },
   title: {
     textAlign: "center",
     marginBottom: 24,
