@@ -44,16 +44,19 @@ export default function Index() {
     { key: "chores", component: <ChoreView />, hasData: true },
     {
       key: "currentWeek",
+      title: "Nuvarande vecka",
       component: <StatisticsView DateRange={currentWeekRange} />,
       hasData: hasCurrentWeekData,
     },
     {
       key: "lastWeek",
+      title: "Förgående vecka",
       component: <StatisticsView DateRange={lastWeekRange} />,
       hasData: hasLastWeekData,
     },
     {
       key: "lastMonth",
+      title: "Förgående månad",
       component: <StatisticsView DateRange={lastMonthRange} />,
       hasData: hasLastMonthData,
     },
@@ -91,6 +94,7 @@ export default function Index() {
             key={page.key}
             style={index === 0 ? [theme.styles.container] : [styles.page]}
           >
+            <Text variant="titleLarge" style={{ padding: 16 }} >{page.title}</Text>
             {page.component}
           </View>
         ))}

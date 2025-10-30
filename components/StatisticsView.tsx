@@ -68,11 +68,6 @@ export default function StatisticsView(props: props) {
       style={{ width: "100%" }}
       contentContainerStyle={{ alignItems: "center" }}
     >
-      <Text>
-        {" "}
-        {props.DateRange.start.toDateString()} -{" "}
-        {props.DateRange.end.toDateString()}
-      </Text>
       {mainSeries.length > 0 ? (
         <PieChart series={mainSeries} widthAndHeight={250} />
       ) : (
