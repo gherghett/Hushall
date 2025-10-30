@@ -15,17 +15,13 @@ import { Character, useCharacters } from "@/hooks/useCharacters";
 import { AppTheme } from "@/lib/theme";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { View } from "react-native";
-=======
 import { ScrollView, StyleSheet, View } from "react-native";
->>>>>>> main
 import {
-  Divider,
+  Button,
   Surface,
   Text,
   TextInput,
-  useTheme,
+  useTheme
 } from "react-native-paper";
 
 export default function SettingsScreen() {
@@ -90,18 +86,10 @@ export default function SettingsScreen() {
   );
 
   return (
-<<<<<<< HEAD
-    <View>
-      <Surface style={theme.styles.Surface}>
+    <ScrollView style={theme.styles.containerPadding}>
+      <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
         <View>
-          <Text variant="displaySmall"> Profil</Text>
-=======
-    <ScrollView style={[styles.bodyContainer]}>
-      <Surface>
-        <View>
-          <Text style={[theme.styles.title, styles.textTitle]}> Profil</Text>
->>>>>>> main
-          <Divider />
+          <Text variant="headlineMedium"> Profil</Text>
         </View>
         <View>
           <SelectedCharacter
@@ -110,114 +98,54 @@ export default function SettingsScreen() {
             onCharacterChange={handleCharacterChange}
           />
           <TextInput
-<<<<<<< HEAD
-            label="Byt namn på medlem."
-=======
-            style={styles.nameInput}
             value={memberName}
-            onChangeText={setMemberName}
-            onBlur={() => handleMemberNameChange(memberName)}
-            placeholder="Användarnamn"
-            // placeholderTextColor="#999"
->>>>>>> main
           />
         </View>
       </Surface>
-      <Surface>
+
+      <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
         <View>
 
-          <Divider />
-          <Text variant="displaySmall">Hushåll</Text>
-          <Divider />
+
+          <Text variant="headlineMedium">Hushåll</Text>
         </View>
         <View>
-<<<<<<< HEAD
           <TextInput
-            label="But manm på hushåll." />
-=======
-          <Divider />
-          <Text style={[theme.styles.title, styles.textTitle]}>Hushåll</Text>
-          <Divider />
-        </View>
-        <View style={styles.householdRow}>
-          <TextInput
-            style={styles.householdInput}
-            value={householdName}
-            onChangeText={setHouseholdName}
-            onBlur={() => handleHouseholdNameChange(householdName)}
-            placeholder="Hushållsnamn"
-            // placeholderTextColor="#999"
-          />
->>>>>>> main
+            value={householdName} />
         </View>
         <View>
-          <Text>{household?.code || "Ingen kod"}</Text>
+          <Text variant="headlineSmall">KOD: {household?.code || "Ingen kod"}</Text>
         </View>
-        <View>
-          <View>
-            {members?.map(m => (
-              <View
-                style={[
-                  styles.memberListItem,
-                  {
-                    backgroundColor:
-                      characters[m.characterId]?.colors.primary ?? "#444",
-                  },
-                ]}
-                key={m.id}
-              >
-                <Text
-                  variant="titleMedium"
-                  style={[
-                    {
-                      color:
-                        characters[m.characterId]?.colors?.onPrimary ?? "#fff",
-                    },
-                  ]}
-                >
-                  {characters[m.characterId]?.emoji} - {m.name}
-                </Text>
-              </View>
-            ))}
-          </View>
+      </Surface>
+      <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
+
+        <View style={styles.characterRow}>
+          {members?.map(m => (
+            <View >
+              <Text>
+                {characters[m.characterId]?.emoji} - {m.name}
+              </Text>
+            </View>
+          ))}
+        </View>
+        <Button mode="outlined">
           <Text>Plus knapp för att skapa ny medlem</Text>
-        </View>
+        </Button>
+      </Surface>
+      <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
         <View>
-          <Divider />
-<<<<<<< HEAD
-          <Text >Global</Text>
-          <Divider />
-        </View>
-      </Surface >
-      <Divider />
-      <ThemeToggle /> {/* Reminder: Dark/light/auto switch */}
-      <Divider></Divider>
 
-    </View >
-  );
-}
-=======
-          <Text style={[theme.styles.title, styles.textTitle]}>Global</Text>
-          <Divider />
+          <Text variant="headlineMedium">Global</Text>
+
         </View>
-        <Divider />
+
         <ThemeToggle />
-        <Divider style={[{ marginBottom: 132 }]}></Divider>
       </Surface>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  bodyContainer: {
-    flex: 1,
-  },
-  textTitle: {
-    textAlign: "center",
-    padding: 20,
-    paddingBottom: 0,
-    fontSize: 20,
-  },
   characterRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -225,40 +153,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginVertical: 12,
   },
-  nameInput: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    fontSize: 16,
-    flex: 1,
-    marginLeft: 20,
-  },
-  householdRow: {
-    paddingHorizontal: 16,
-    marginVertical: 12,
-  },
-  householdInput: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-    width: "100%",
-  },
-  codeText: {
-    fontSize: 18,
-    textAlign: "center",
-  },
-  codeContainer: {
-    paddingHorizontal: 16,
-    marginVertical: 12,
-  },
-  memberListItem: {
-    padding: 16,
-    margin: 16,
-    borderCurve: "circular",
-    borderRadius: 8,
-  },
 });
->>>>>>> main
+;
