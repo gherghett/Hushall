@@ -40,7 +40,7 @@ export default function JoinHouseholdScreen() {
       <TextInput
         label="Kod"
         value={householdCode}
-        onChangeText={text => setHouseholdCode(text.toUpperCase().trim())}
+        onChangeText={text => setHouseholdCode(text)}
         mode="outlined"
         style={{ marginBottom: 20 }}
       />
