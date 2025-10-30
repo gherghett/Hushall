@@ -112,6 +112,7 @@ export default function SettingsScreen() {
         <View style={styles.characterRow}>
           {members?.map(m => (
             <View
+              key={m.id}
               style={[
                 theme.styles.surface,
                 {
