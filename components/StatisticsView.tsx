@@ -4,9 +4,8 @@ import {
   useMemberCompletionValue,
 } from "@/atoms/household-atoms";
 import { Character, useCharacters } from "@/hooks/useCharacters";
-import { AppTheme } from "@/lib/theme";
 import { ScrollView, View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { Text } from "react-native-paper";
 import PieChart from "react-native-pie-chart";
 
 interface props {

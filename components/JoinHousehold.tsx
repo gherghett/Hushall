@@ -55,9 +55,9 @@ export default function JoinHouseholdScreen() {
         Gå med hushåll
       </Button>
 
-      <Button mode="text" onPress={() => router.back()}>
+      {/* <Button mode="text" onPress={() => router.back()}>
         Avbryt
-      </Button>
+      </Button> */}
     </Surface>
   );
 }

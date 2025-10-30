@@ -55,9 +55,9 @@ export default function CreateHousehold() {
         Skapa hushåll
       </Button>
 
-      <Button mode="text" onPress={() => router.back()}>
+      {/* <Button mode="text" onPress={() => router.back()}>
         Avbryt
-      </Button>
+      </Button> */}
     </Surface>
   );
 }
