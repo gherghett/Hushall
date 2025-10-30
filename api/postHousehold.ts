@@ -21,6 +21,7 @@ export default async function postHousehold(newHousehold: {
       applications: [],
       members: [
         {
+          id: newHousehold.ownerId,
           userId: newHousehold.ownerId,
           name: newHousehold.ownerName,
           role: "owner",

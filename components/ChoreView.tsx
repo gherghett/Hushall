@@ -310,7 +310,7 @@ export default function ChoreView() {
   });
 
   return (
-    <View style={styles.container}>
+    <>
       <ScrollView
         style={{ width: "100%" }}
         contentContainerStyle={{ paddingBottom: 100 }}
@@ -371,15 +371,11 @@ export default function ChoreView() {
           onPress={() => setEditMode(!editMode)}
         />
       )}
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative",
-  },
   cardContainer: {
     margin: 16,
   },
@@ -407,6 +403,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     bottom: 0,
+    opacity: 0.7,
   },
   modalContainer: {
     padding: 20,
