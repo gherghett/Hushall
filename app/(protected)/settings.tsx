@@ -95,7 +95,7 @@ export default function SettingsScreen() {
             value={memberName}
             onChangeText={value => setMemberName(value)}
             onBlur={async () => await handleMemberNameChange(memberName)}
-          />{" "}
+          />
         </View>
       </Surface>
 
@@ -144,7 +144,6 @@ export default function SettingsScreen() {
         <View>
           <Text variant="headlineMedium">Global</Text>
         </View>
-
         <ThemeToggle />
       </Surface>
     </ScrollView>
