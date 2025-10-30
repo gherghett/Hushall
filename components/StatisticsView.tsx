@@ -64,6 +64,11 @@ export default function StatisticsView(props: props) {
         .filter(s => s.value !== 0 && s.value !== undefined),
     };
   });
+
+  if (mainSeries.length === 0) {
+    return null;
+  }
+
   return (
     <ScrollView
       style={{ width: "100%" }}

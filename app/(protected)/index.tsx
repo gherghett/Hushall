@@ -29,7 +29,7 @@ export default function Index() {
   );
 }
 
-function getCurentWeekRange(): { start: Date; end: Date } {
+export function getCurentWeekRange(): { start: Date; end: Date } {
   const now = new Date();
   const dayOfWeek = now.getDay() - 1; // Sunday = 0
   const end = new Date(now);
@@ -39,7 +39,7 @@ function getCurentWeekRange(): { start: Date; end: Date } {
   return { start, end };
 }
 
-function getLastWeekRange(): { start: Date; end: Date } {
+export function getLastWeekRange(): { start: Date; end: Date } {
   const now = new Date();
   const dayOfWeek = now.getDay() - 1; // Sunday = 0
   const end = new Date(now);
@@ -49,7 +49,7 @@ function getLastWeekRange(): { start: Date; end: Date } {
   return { start, end };
 }
 
-function getLastMonthRange() {
+export function getLastMonthRange() {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const end = new Date(now.getFullYear(), now.getMonth(), 0);
