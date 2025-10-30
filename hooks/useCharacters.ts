@@ -74,15 +74,6 @@ export const useCharacters = (): Character[] => {
       },
       {
         id: 6,
-        emoji: "🐨",
-        colors: {
-          primary: "#5D4037",
-          onPrimary: "#FFFFFF",
-          secondary: "#3E2723",
-        },
-      },
-      {
-        id: 6,
         emoji: "🦉",
         colors: {
           primary: "#795548",

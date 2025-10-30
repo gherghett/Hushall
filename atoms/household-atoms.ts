@@ -5,7 +5,7 @@ import postCompletion from "@/api/postCompletion";
 import postHousehold from "@/api/postHousehold";
 import queryKeys from "@/api/queryKeys";
 import updateChore from "@/api/updateChore";
-import joinHousehold from "@/api/updateHousehold";
+import joinHousehold, { editHouseholdName } from "@/api/updateHousehold";
 import { Household } from "@/models/household";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useAtomValue } from "jotai";
@@ -58,6 +58,23 @@ export const useJoinHouseholdMutation = () => {
     },
     onError: error => {
       console.error("Error joining household:", error);
+    },
+  });
+};
+
+export const useEditHouseholdNameMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ name, id }: { name: any; id: any }) =>
+      editHouseholdName(name, id),
+    onSuccess: (data, variables) => {
+      console.log("Household name edited successfully:", data);
+
+      // Invalidate and refetch the households query
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.households],
+      });
     },
   });
 };
@@ -145,23 +162,36 @@ export const useIsOwnerOfCurrentHousehold = () => {
   const member = currentHousehold.members.find(m => m.userId === user.uid);
   return member?.role === "owner";
 };
+
 export const useCurrentMembers = () => {
   const currentHousehold = useCurrentHousehold();
   return currentHousehold?.members ?? null;
 };
+
 export const useMemberCompletionValue = (startDate: Date, endDate: Date) => {
   const currentHousehold = useCurrentHousehold();
   if (!currentHousehold) return null;
 
-  const weightByMember: Record<string, number> = {};
+  const weightByMember: Record<
+    string,
+    {
+      total: number;
+      byChore: Record<string, number>;
+    }
+  > = {};
 
   currentHousehold.chores.forEach(chore => {
     chore.completions.forEach(completion => {
       const date: Date = new Date(completion.completedAt);
       completion.completedBy.forEach(member => {
-        if (date >= startDate && date <= endDate)
-          weightByMember[member.id] =
-            (weightByMember[member.id] || 0) + chore.weight;
+        if (!weightByMember[member.name])
+          weightByMember[member.name] = { total: 0, byChore: {} };
+        if (date >= startDate && date <= endDate) {
+          weightByMember[member.name].total += chore.weight;
+          if (!weightByMember[member.name].byChore[chore.title])
+            weightByMember[member.name].byChore[chore.title] = 0;
+          weightByMember[member.name].byChore[chore.title] += chore.weight;
+        }
       });
     });
   });
@@ -210,6 +240,7 @@ export const useChoresWithLastDone = () => {
     };
   });
 };
+
 export const useCompleteChoreMutation = () => {
   const queryClient = useQueryClient();
 

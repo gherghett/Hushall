@@ -16,7 +16,10 @@ import {
 export interface CustomThemeProperties {
   styles: {
     container: ViewStyle;
+    containerPadding: ViewStyle;
     title: TextStyle;
+    surface: ViewStyle;
+    surfaceCard: ViewStyle;
     // Add more custom styles as needed
   };
 }
@@ -42,7 +45,7 @@ const customLightColors = {
     primaryContainer: "rgb(240, 219, 255)",
     onPrimaryContainer: "rgb(44, 0, 81)",
     // Add your custom colors here
-    background: "rgb(255, 251, 255)",
+    background: "rgba(242, 242, 242, 0.95)",
     onBackground: "rgb(29, 27, 30)",
     surface: "rgb(255, 251, 255)",
     onSurface: "rgb(29, 27, 30)",
@@ -71,10 +74,22 @@ const customThemeProperties: CustomThemeProperties = {
       flex: 1,
       padding: 16,
     },
+    containerPadding: {
+      padding: 16,
+    },
     title: {
       textAlign: "center" as const,
       marginBottom: 20,
       fontWeight: "bold" as const,
+    },
+    surface: {
+      padding: 20,
+      borderRadius: 12,
+    },
+    surfaceCard: {
+      padding: 20,
+      borderRadius: 12,
+      margin: 20,
     },
   },
 };

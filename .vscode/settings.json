@@ -13,5 +13,8 @@
     "activityBar.background": "#132E53",
     "titleBar.activeBackground": "#1A4074",
     "titleBar.activeForeground": "#F8FAFD"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }

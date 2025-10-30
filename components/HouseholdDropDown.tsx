@@ -3,19 +3,20 @@ import {
   useCurrentHousehold,
   useHouseholdsList,
 } from "@/atoms/household-atoms";
-import { AntDesign } from "@expo/vector-icons";
+import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Text } from "react-native-paper";
+import { Icon, Text, useTheme } from "react-native-paper";
 
 export default function HouseholdDropDown() {
   const currentHousehold = useCurrentHousehold();
   const households = useHouseholdsList();
   const setSelectedHousehold = useSetAtom(selectedHouseholdAtom);
   const [open, setOpen] = useState(false);
+  const theme = useTheme() as AppTheme;
 
   // Define callback first - cleaner approach
   const handleValueChange = (callback: any) => {
@@ -35,7 +36,7 @@ export default function HouseholdDropDown() {
   ];
 
   return (
-    <View style={{ width: 150, zIndex: 1000 }}>
+    <View style={{ width: 150, zIndex: 1000, elevation: 1000 }}>
       <DropDownPicker
         open={open}
         value={currentHousehold?.id || null}
@@ -54,17 +55,30 @@ export default function HouseholdDropDown() {
           fontSize: 16,
           fontWeight: "500",
           textAlign: "center",
+          color: theme.colors.onSurface,
         }}
         dropDownContainerStyle={{
           borderWidth: 1,
           width: "200%",
           left: "-35%",
-          borderColor: "#ccc",
+          borderColor: theme.colors.outline,
+          backgroundColor: theme.colors.surface,
           borderRadius: 8,
           marginTop: 5,
           zIndex: 1000,
+          elevation: 1000, // Android fix for proper layering
+          maxHeight: 200, // Limit height to enable scrolling
         }}
-        listMode="FLATLIST"
+        ArrowDownIconComponent={() => (
+          <Icon
+            source="chevron-down"
+            size={20}
+            color={theme.colors.onSurface}
+          />
+        )}
+        ArrowUpIconComponent={() => (
+          <Icon source="chevron-up" size={20} color={theme.colors.onSurface} />
+        )}
         renderListItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
@@ -78,12 +92,15 @@ export default function HouseholdDropDown() {
           >
             <View
               style={{
-                backgroundColor: item.value === "add" ? "#A0C4FF" : "#ffffffff",
+                backgroundColor:
+                  item.value === "add"
+                    ? theme.colors.primaryContainer
+                    : theme.colors.surface,
                 margin: 5,
                 paddingVertical: 10,
                 paddingHorizontal: 16,
                 borderWidth: 1,
-                borderColor: "#cbc9c9ff",
+                borderColor: theme.colors.outline,
                 flexDirection: "row",
                 justifyContent:
                   item.value === "add" ? "center" : "space-between",
@@ -92,9 +109,15 @@ export default function HouseholdDropDown() {
               }}
             >
               {item.value !== "add" && <View style={{ width: 16 }} />}
-              <Text style={{ fontSize: 16, color: "black" }}>{item.label}</Text>
+              <Text style={{ fontSize: 16, color: theme.colors.onSurface }}>
+                {item.label}
+              </Text>
               {item.value !== "add" && (
-                <AntDesign name="arrow-right" size={16} />
+                <Icon
+                  source="chevron-right"
+                  size={20}
+                  color={theme.colors.onSurface}
+                />
               )}
             </View>
           </TouchableOpacity>

@@ -1,11 +1,29 @@
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AppTheme } from "@/lib/theme";
 import { router } from "expo-router";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
+import { IconButton, useTheme } from "react-native-paper";
 import HouseholdDropDown from "./HouseholdDropDown";
 
-export default function HouseholdHeader() {
+interface HouseholdHeaderProps {
+  onNavigateLeft?: () => void;
+  onNavigateRight?: () => void;
+  showNavigationButtons?: boolean;
+}
+
+export default function HouseholdHeader({
+  onNavigateLeft,
+  onNavigateRight,
+  showNavigationButtons = false,
+}: HouseholdHeaderProps) {
+  const theme = useTheme() as AppTheme;
   return (
-    <View style={{ width: "100%", backgroundColor: "red", paddingTop: 64 }}>
+    <View
+      style={{
+        width: "100%",
+        backgroundColor: theme.colors.surface,
+        paddingTop: 64,
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -15,21 +33,30 @@ export default function HouseholdHeader() {
       >
         <View style={{ width: 24 }} />
         <HouseholdDropDown />
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 4, // tiny hit area padding, keeps full icon visible
-          }}
+        <IconButton
+          icon="cog"
+          size={24}
           onPress={() => router.navigate("/(protected)/settings")}
-        >
-          <Ionicons name="settings-outline" size={30} color="#737373ff" />
-        </TouchableOpacity>
+          style={{ margin: 0 }}
+        />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <AntDesign name="caret-left" size={30} />
-        <AntDesign name="caret-right" size={30} />
+        {showNavigationButtons && (
+          <IconButton
+            icon="chevron-left"
+            size={30}
+            onPress={onNavigateLeft}
+            style={{ margin: 0 }}
+          />
+        )}
+        {showNavigationButtons && (
+          <IconButton
+            icon="chevron-right"
+            size={30}
+            onPress={onNavigateRight}
+            style={{ margin: 0 }}
+          />
+        )}
       </View>
     </View>
   );

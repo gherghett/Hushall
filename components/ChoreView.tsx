@@ -18,6 +18,7 @@ import {
   Button,
   Card,
   Checkbox,
+  Dialog,
   FAB,
   Icon,
   Modal,
@@ -138,6 +139,9 @@ export default function ChoreView() {
   const [memberPickerVisible, setMemberPickerVisible] = useState(false);
   const [selectedChoreId, setSelectedChoreId] = useState<string | null>(null);
 
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  const [choreToDelete, setChoreToDelete] = useState<string | null>(null);
+
   const chores = useChoresWithLastDone();
   if (household == null || chores === null) {
     router.dismissAll();
@@ -167,19 +171,27 @@ export default function ChoreView() {
     router.push(`/(protected)/createChore?choreId=${choreId}`);
   };
 
-  const handleDeleteChore = async (choreId: string) => {
-    if (!household) return;
+  const handleDeleteChore = (choreId: string) => {
+    setChoreToDelete(choreId);
+    setDeleteDialogVisible(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!household || !choreToDelete) return;
 
     try {
       await deleteChoreMutation.mutateAsync({
-        choreId,
+        choreId: choreToDelete,
         householdId: household.id,
       });
 
-      console.log(`Chore ${choreId} deleted`);
+      console.log(`Chore ${choreToDelete} deleted`);
     } catch (error) {
       console.error("Failed to delete chore:", error);
     }
+
+    setDeleteDialogVisible(false);
+    setChoreToDelete(null);
   };
 
   const choreView = chores.map(c => {
@@ -200,7 +212,13 @@ export default function ChoreView() {
                       c.daysSinceDone <= c.interval && (
                         <Text variant="titleMedium">
                           {" "}
-                          {c.doneBy.map(d => characters[d.characterId].emoji)}
+                          {c.doneBy.map(d => {
+                            const member = members?.find(m => m.id === d.id);
+                            const character = member
+                              ? characters[member.characterId]
+                              : null;
+                            return character?.emoji || "❓";
+                          })}
                         </Text>
                       )
                     : c.daysSinceDone !== null && (
@@ -262,7 +280,12 @@ export default function ChoreView() {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{ width: "100%" }}>{choreView}</ScrollView>
+      <ScrollView
+        style={{ width: "100%" }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        {choreView}
+      </ScrollView>
 
       {/* Member Picker Modal */}
       {members && (
@@ -276,6 +299,25 @@ export default function ChoreView() {
           characters={characters}
         />
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Portal>
+        <Dialog
+          visible={deleteDialogVisible}
+          onDismiss={() => setDeleteDialogVisible(false)}
+        >
+          <Dialog.Title>Bekräfta borttagning</Dialog.Title>
+          <Dialog.Content>
+            <Text>{`Är du säker på att du vill ta bort "${chores.find(c => c.id === choreToDelete)?.title}"?`}</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setDeleteDialogVisible(false)}>
+              Avbryt
+            </Button>
+            <Button onPress={handleConfirmDelete}>Ta bort</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
 
       {/* Bottom left button */}
       {isOwner && (
@@ -308,7 +350,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   cardContainer: {
-    margin: 10,
+    margin: 16,
   },
   cardContent: {
     flexDirection: "row",
