@@ -4,7 +4,7 @@ import StatisticsView from "@/components/StatisticsView";
 import { AppTheme } from "@/lib/theme";
 import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
-import { useTheme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 
 export default function Index() {
   const theme = useTheme() as AppTheme;
@@ -15,12 +15,15 @@ export default function Index() {
         <View key="1" style={[theme.styles.container]}>
           <ChoreView />
         </View>
+        <Text variant="titleLarge">Nuvarande vecka</Text>
         <View key="2" style={[styles.page, { backgroundColor: "#87CEEB" }]}>
           <StatisticsView DateRange={getCurentWeekRange()} />
         </View>
+        <Text variant="titleLarge">Förgående vecka</Text>
         <View key="3" style={[styles.page, { backgroundColor: "#90EE90" }]}>
           <StatisticsView DateRange={getLastWeekRange()} />
         </View>
+        <Text variant="titleLarge">Förgående månad</Text>
         <View key="4" style={[styles.page, { backgroundColor: "#FFD700" }]}>
           <StatisticsView DateRange={getLastMonthRange()} />
         </View>
