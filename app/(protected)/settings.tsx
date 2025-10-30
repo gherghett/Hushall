@@ -91,7 +91,11 @@ export default function SettingsScreen() {
             selectedCharacter={selectedCharacter}
             onCharacterChange={handleCharacterChange}
           />
-          <TextInput value={memberName} />
+          <TextInput
+            value={memberName}
+            onChangeText={value => setMemberName(value)}
+            onBlur={async () => await handleMemberNameChange(memberName)}
+          />{" "}
         </View>
       </Surface>
 
@@ -100,7 +104,11 @@ export default function SettingsScreen() {
           <Text variant="headlineMedium">Hushåll</Text>
         </View>
         <View>
-          <TextInput value={householdName} />
+          <TextInput
+            value={householdName}
+            onChangeText={value => setHouseholdName(value)}
+            onBlur={async () => await handleHouseholdNameChange(householdName)}
+          />
         </View>
         <View>
           <Text variant="headlineSmall">
@@ -118,6 +126,7 @@ export default function SettingsScreen() {
                 {
                   backgroundColor: characters[m.characterId]?.colors.primary,
                   width: "100%",
+                  marginBottom: 16,
                 },
               ]}
             >
@@ -144,7 +153,7 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   characterRow: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
     marginVertical: 12,
