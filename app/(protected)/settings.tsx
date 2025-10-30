@@ -16,13 +16,7 @@ import { AppTheme } from "@/lib/theme";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import {
-  Button,
-  Surface,
-  Text,
-  TextInput,
-  useTheme,
-} from "react-native-paper";
+import { Button, Surface, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function SettingsScreen() {
   const theme = useTheme() as AppTheme;
@@ -97,31 +91,35 @@ export default function SettingsScreen() {
             selectedCharacter={selectedCharacter}
             onCharacterChange={handleCharacterChange}
           />
-          <TextInput
-            value={memberName}
-          />
+          <TextInput value={memberName} />
         </View>
       </Surface>
 
       <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
         <View>
-
-
           <Text variant="headlineMedium">Hushåll</Text>
         </View>
         <View>
-          <TextInput
-            value={householdName} />
+          <TextInput value={householdName} />
         </View>
         <View>
-          <Text variant="headlineSmall">KOD: {household?.code || "Ingen kod"}</Text>
+          <Text variant="headlineSmall">
+            KOD: {household?.code || "Ingen kod"}
+          </Text>
         </View>
       </Surface>
       <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
-
         <View style={styles.characterRow}>
           {members?.map(m => (
-            <View style={[theme.styles.surface, { backgroundColor: characters[m.characterId]?.colors.primary, width: "100%" }]}>
+            <View
+              style={[
+                theme.styles.surface,
+                {
+                  backgroundColor: characters[m.characterId]?.colors.primary,
+                  width: "100%",
+                },
+              ]}
+            >
               <Text variant="titleLarge">
                 {characters[m.characterId]?.emoji} - {m.name}
               </Text>
@@ -134,9 +132,7 @@ export default function SettingsScreen() {
       </Surface>
       <Surface style={[theme.styles.surface, { marginBottom: 32 }]}>
         <View>
-
           <Text variant="headlineMedium">Global</Text>
-
         </View>
 
         <ThemeToggle />
@@ -153,4 +149,3 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
 });
-;
