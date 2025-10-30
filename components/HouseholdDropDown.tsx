@@ -4,6 +4,7 @@ import {
   useHouseholdsList,
 } from "@/atoms/household-atoms";
 import { AppTheme } from "@/lib/theme";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
@@ -17,7 +18,6 @@ export default function HouseholdDropDown() {
   const setSelectedHousehold = useSetAtom(selectedHouseholdAtom);
   const [open, setOpen] = useState(false);
   const theme = useTheme() as AppTheme;
-
   // Define callback first - cleaner approach
   const handleValueChange = (callback: any) => {
     const newValue =
@@ -45,6 +45,34 @@ export default function HouseholdDropDown() {
         setValue={handleValueChange}
         placeholder={currentHousehold?.name || "Select Household"}
         zIndex={1000}
+        listMode="MODAL" // <-- opens the dropdown as a modal (full-screen overlay)
+        modalProps={{
+          animationType: "slide",
+          transparent: true,
+          presentationStyle: "overFullScreen",
+        }}
+        modalTitle="Select Household"
+        modalTitleStyle={{
+          fontSize: 18,
+          fontWeight: "700",
+          textAlign: "center",
+          color: theme.colors.onSurface,
+          marginBottom: 10,
+        }}
+        modalContentContainerStyle={{
+          backgroundColor: theme.colors.surface,
+          marginHorizontal: 30,
+          marginVertical: 100,
+          borderRadius: 16,
+          paddingHorizontal: 20,
+          paddingVertical: 18,
+          maxHeight: 420,
+          shadowColor: theme.colors.onBackground,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 8,
+          elevation: 10, // Android shadow
+        }}
         style={{
           backgroundColor: "transparent",
           borderWidth: 0,
@@ -57,24 +85,15 @@ export default function HouseholdDropDown() {
           textAlign: "center",
           color: theme.colors.onSurface,
         }}
-        dropDownContainerStyle={{
-          borderWidth: 1,
-          width: "200%",
-          left: "-35%",
-          borderColor: theme.colors.outline,
-          backgroundColor: theme.colors.surface,
-          borderRadius: 8,
-          marginTop: 5,
-          zIndex: 1000,
-          elevation: 1000, // Android fix for proper layering
-          maxHeight: 200, // Limit height to enable scrolling
-        }}
         ArrowDownIconComponent={() => (
           <Icon
             source="chevron-down"
             size={20}
             color={theme.colors.onSurface}
           />
+        )}
+        CloseIconComponent={() => (
+          <AntDesign name="close" size={20} color={theme.colors.onSurface} />
         )}
         ArrowUpIconComponent={() => (
           <Icon source="chevron-up" size={20} color={theme.colors.onSurface} />
