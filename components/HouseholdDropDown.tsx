@@ -4,7 +4,7 @@ import {
   useHouseholdsList,
 } from "@/atoms/household-atoms";
 import { AppTheme } from "@/lib/theme";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
@@ -45,17 +45,17 @@ export default function HouseholdDropDown() {
         setValue={handleValueChange}
         placeholder={currentHousehold?.name || "Select Household"}
         zIndex={1000}
-        listMode="MODAL"           // <-- opens the dropdown as a modal (full-screen overlay)
+        listMode="MODAL" // <-- opens the dropdown as a modal (full-screen overlay)
         modalProps={{
-          animationType: 'slide',
+          animationType: "slide",
           transparent: true,
-          presentationStyle: 'overFullScreen',
+          presentationStyle: "overFullScreen",
         }}
         modalTitle="Select Household"
         modalTitleStyle={{
           fontSize: 18,
-          fontWeight: '700',
-          textAlign: 'center',
+          fontWeight: "700",
+          textAlign: "center",
           color: theme.colors.onSurface,
           marginBottom: 10,
         }}
@@ -85,7 +85,6 @@ export default function HouseholdDropDown() {
           textAlign: "center",
           color: theme.colors.onSurface,
         }}
-
         ArrowDownIconComponent={() => (
           <Icon
             source="chevron-down"
@@ -96,7 +95,6 @@ export default function HouseholdDropDown() {
         CloseIconComponent={() => (
           <AntDesign name="close" size={20} color={theme.colors.onSurface} />
         )}
-
         ArrowUpIconComponent={() => (
           <Icon source="chevron-up" size={20} color={theme.colors.onSurface} />
         )}
