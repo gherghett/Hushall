@@ -233,11 +233,13 @@ export const useChoresWithLastDone = () => {
       // console.log(`No completions found, daysSinceDone: null`);
     }
 
-    const doneBy = c.completions.filter(co => {
-      const d = new Date(co.completedAt);
-      const t = new Date();
-      return d.toDateString() === t.toDateString();
-    }).flatMap(fco => fco.completedBy.map(u => u.id));
+    const doneBy = c.completions
+      .filter(co => {
+        const d = new Date(co.completedAt);
+        const t = new Date();
+        return d.toDateString() === t.toDateString();
+      })
+      .flatMap(fco => fco.completedBy.map(u => u.id));
 
     return {
       ...rest,
