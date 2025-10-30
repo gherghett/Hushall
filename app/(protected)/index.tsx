@@ -6,7 +6,7 @@ import { AppTheme } from "@/lib/theme";
 import { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
-import { useTheme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 
 export default function Index() {
   const theme = useTheme() as AppTheme;
@@ -44,16 +44,19 @@ export default function Index() {
     { key: "chores", component: <ChoreView />, hasData: true },
     {
       key: "currentWeek",
+      title: "Nuvarande vecka",
       component: <StatisticsView DateRange={currentWeekRange} />,
       hasData: hasCurrentWeekData,
     },
     {
       key: "lastWeek",
+      title: "Föregående vecka",
       component: <StatisticsView DateRange={lastWeekRange} />,
       hasData: hasLastWeekData,
     },
     {
       key: "lastMonth",
+      title: "Föregående månad",
       component: <StatisticsView DateRange={lastMonthRange} />,
       hasData: hasLastMonthData,
     },
@@ -91,6 +94,9 @@ export default function Index() {
             key={page.key}
             style={index === 0 ? [theme.styles.container] : [styles.page]}
           >
+            <Text variant="titleLarge" style={{ padding: 16 }}>
+              {page.title}
+            </Text>
             {page.component}
           </View>
         ))}
