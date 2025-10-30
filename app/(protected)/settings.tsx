@@ -21,7 +21,7 @@ import {
   Surface,
   Text,
   TextInput,
-  useTheme
+  useTheme,
 } from "react-native-paper";
 
 export default function SettingsScreen() {
@@ -121,7 +121,7 @@ export default function SettingsScreen() {
 
         <View style={styles.characterRow}>
           {members?.map(m => (
-            <View >
+            <View style={{ backgroundColor: "#fffff " }}>
               <Text>
                 {characters[m.characterId]?.emoji} - {m.name}
               </Text>
