@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: 16,
     bottom: 0,
+    opacity: 0.7,
   },
   modalContainer: {
     padding: 20,
