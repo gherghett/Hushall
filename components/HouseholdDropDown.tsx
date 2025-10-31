@@ -43,7 +43,7 @@ export default function HouseholdDropDown() {
         items={items}
         setOpen={setOpen}
         setValue={handleValueChange}
-        placeholder={currentHousehold?.name || "Select Household"}
+        placeholder={currentHousehold?.name || "Välj hushåll"}
         zIndex={1000}
         listMode="MODAL" // <-- opens the dropdown as a modal (full-screen overlay)
         modalProps={{
@@ -51,7 +51,7 @@ export default function HouseholdDropDown() {
           transparent: true,
           presentationStyle: "overFullScreen",
         }}
-        modalTitle="Select Household"
+        modalTitle="Välj hushåll"
         modalTitleStyle={{
           fontSize: 18,
           fontWeight: "700",

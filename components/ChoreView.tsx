@@ -84,7 +84,12 @@ const MemberPicker = ({
           Vem har gjort sysslan?
         </Text>
 
-        {chore && <Text>{chore.description}</Text>}
+        {chore && (
+          <>
+            <Text style={[{ textAlign: "center" }]}>{chore.title}</Text>
+            <Text>{chore.description}</Text>
+          </>
+        )}
 
         {/* List of members with checkboxes */}
         {members.map(member => (
@@ -383,6 +388,7 @@ export default function ChoreView() {
 const styles = StyleSheet.create({
   cardContainer: {
     margin: 16,
+    marginBottom: 0,
   },
   cardContent: {
     flexDirection: "row",

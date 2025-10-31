@@ -24,7 +24,10 @@ function StackLayout() {
       }}
     >
       <Stack.Protected guard={hasHousehold}>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="index"
+          options={{ headerShown: false, title: "Hem" }}
+        />
 
         <Stack.Protected guard={isOwner}>
           <Stack.Screen
